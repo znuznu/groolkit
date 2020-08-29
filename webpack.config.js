@@ -12,7 +12,8 @@ module.exports = {
         filename: '[name].js',
         libraryTarget: 'umd',
         library: 'Groolkit',
-        umdNamedDefine: true
+        umdNamedDefine: true,
+        globalObject: 'this'
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js']

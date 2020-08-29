@@ -1,5 +1,5 @@
 import { CallbackLight } from '../callbacks'
-import { Position } from '../position';
+import Position from '../position';
 
 export interface Options {
     radius: number;

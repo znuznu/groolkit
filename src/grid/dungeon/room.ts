@@ -1,4 +1,4 @@
-import { Position } from '../../position';
+import Position from '../../position';
 import { randInRange } from '../../rand';
 import Grid, { Cell } from '../grid';
 

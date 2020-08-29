@@ -1,13 +1,10 @@
 {
-  "name": "groolkit",
+  "name": "@znuznu/groolkit",
   "version": "0.1.0",
   "description": "A library with bunch of algorithms related to grids.",
-  "main": "dist/index.js",
+  "main": "dist/groolkit.min.js",
   "dependencies": {
     "ts-loader": "^8.0.3"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
   },
   "devDependencies": {
     "awesome-typescript-loader": "^5.2.1",

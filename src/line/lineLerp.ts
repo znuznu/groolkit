@@ -1,4 +1,4 @@
-import { Position, roundPosition } from '../position';
+import Position, { roundPosition } from '../position';
 import { CallbackBlock } from '../callbacks';
 import Line from './line';
 

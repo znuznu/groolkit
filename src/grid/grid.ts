@@ -1,4 +1,4 @@
-import { Position } from '../position';
+import Position from '../position';
 import { CallbackFill } from '../callbacks';
 
 export interface Cell {

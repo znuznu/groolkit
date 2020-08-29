@@ -1,6 +1,6 @@
 import { CallbackBlock } from '../callbacks';
-import { COLOR_RFF, COLOR_BLOCK, COLOR_PASSAGE } from '../constants';
-import { Position } from '../position';
+import { COLORS } from '../constants';
+import Position from '../position';
 
 export interface ColorCell {
     position: Position;
@@ -40,7 +40,7 @@ class FloodFill {
      */
     process(x: number = 0, y: number = 0) {
         this.createColorGrid();
-        this.fill(this.colorGrid[x][y], COLOR_PASSAGE, COLOR_RFF);
+        this.fill(this.colorGrid[x][y], COLORS.COLOR_PASSAGE, COLORS.COLOR_RFF);
     }
 
     /**
@@ -52,7 +52,7 @@ class FloodFill {
             for (let y = 0; y < this.width; y++) {
                 this.colorGrid[x][y] = {
                     position: { x: x, y: y },
-                    color: this.callbackBlock(this.grid[x][y]) ? COLOR_BLOCK : COLOR_PASSAGE
+                    color: this.callbackBlock(this.grid[x][y]) ? COLORS.COLOR_BLOCK : COLORS.COLOR_PASSAGE
                 };
             }
         }
@@ -82,7 +82,7 @@ class FloodFill {
 
                 this.checkVerticalNeighbors(n, targetColor, stack);
 
-                n.color = COLOR_RFF;
+                n.color = COLORS.COLOR_RFF;
             }
         }
     }

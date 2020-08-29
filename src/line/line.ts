@@ -1,4 +1,4 @@
-import { Position } from '../position';
+import Position from '../position';
 import { CallbackBlock } from '../callbacks';
 
 abstract class Line {

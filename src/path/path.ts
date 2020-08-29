@@ -1,6 +1,6 @@
-import { ORTHOG, DIAG, D, D2 } from '../constants';
+import { DIRECTIONS, D, D2 } from '../constants';
 import { CallbackBlock } from '../callbacks';
-import { Position } from '../position';
+import Position from '../position';
 import Cell from './cell';
 
 export interface Result {
@@ -42,7 +42,7 @@ abstract class Path {
         this.callbackBlock = callbackBlock;
         this.parents = new Map();
     }
-    
+
     /**
      * Find a path between `start` and `end`.
      * 
@@ -64,11 +64,11 @@ abstract class Path {
         for (let x = 0; x < h; x++) {
             this.gridCell.push([]);
             for (let y = 0; y < w; y++) {
-                this.gridCell[x].push(new Cell({x: x, y: y}, this.grid[x][y]));
+                this.gridCell[x].push(new Cell({ x: x, y: y }, this.grid[x][y]));
             }
         }
     }
-    
+
     /**
      * Get all neighbors from the Cell (based on the topology).
      * 
@@ -86,16 +86,16 @@ abstract class Path {
                 if (this.isValidCell(nx, ny)) {
                     neighbors.push({
                         cell: this.gridCell[nx][ny],
-                        topology: type === 4 ? { type: 4 } : {type: 8}
+                        topology: type === 4 ? { type: 4 } : { type: 8 }
                     });
                 }
             });
         };
 
-        createNeighbor(ORTHOG, 4);
+        createNeighbor(DIRECTIONS.ORTHOG, 4);
 
         if (this.topology.type === 8)
-            createNeighbor(DIAG, 8);
+            createNeighbor(DIRECTIONS.DIAG, 8);
 
         return neighbors;
     }

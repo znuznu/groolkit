@@ -1,8 +1,8 @@
 import { CallbackBlock } from '../callbacks';
 import { ColorCell } from '../paint/floodFill';
-import { Position, positionToString } from '../position';
+import Position from '../position';
 import * as Path from '../path/path';
-import * as Constants from '../constants';
+import { COLORS, TILE_HEIGHT, TILE_WIDTH, OPACITY } from '../constants';
 
 interface ShowOptions {
     tileWidth: number;
@@ -21,19 +21,19 @@ interface ShowOptions {
 }
 
 const SHOW_OPTIONS: ShowOptions = {
-    tileWidth: Constants.TILE_WIDTH,
-    tileHeight: Constants.TILE_HEIGHT,
-    blockColor: Constants.COLOR_BLOCK,
-    passageColor: Constants.COLOR_PASSAGE,
-    lineAlgorithmColor: Constants.COLOR_LINE_ALGORITHM,
-    bgColor: Constants.COLOR_BG,
-    lineColor: Constants.COLOR_LINE,
-    lineOpacity: Constants.OPACITY_LINE,
-    fovColor: Constants.COLOR_FOV,
-    pathColor: Constants.COLOR_PATH,
-    startColor: Constants.COLOR_START,
-    endColor: Constants.COLOR_END,
-    opacityAlgorithm: Constants.OPACITY_ALGORITHM
+    tileWidth: TILE_WIDTH,
+    tileHeight: TILE_HEIGHT,
+    blockColor: COLORS.COLOR_BLOCK,
+    passageColor: COLORS.COLOR_PASSAGE,
+    lineAlgorithmColor: COLORS.COLOR_LINE_ALGORITHM,
+    bgColor: COLORS.COLOR_BG,
+    lineColor: COLORS.COLOR_LINE,
+    lineOpacity: OPACITY.OPACITY_LINE,
+    fovColor: COLORS.COLOR_FOV,
+    pathColor: COLORS.COLOR_PATH,
+    startColor: COLORS.COLOR_START,
+    endColor: COLORS.COLOR_END,
+    opacityAlgorithm: OPACITY.OPACITY_ALGORITHM
 };
 
 class Show {
@@ -205,6 +205,8 @@ class Show {
 
         if (!dark)
             this.drawTiles();
+
+        console.log('???')
 
         this.context.beginPath();
         positions.forEach((p: Position) => {

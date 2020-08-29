@@ -1,6 +1,6 @@
 import { randInRange } from '../../rand';
 import { Cell } from '../grid';
-import { Position } from '../../position';
+import Position from '../../position';
 import Dungeon from './dungeon';
 import Room from './room';
 import AStar from '../../path/astar';

@@ -1,6 +1,6 @@
 import { Cell } from '../grid';
-import { ORTHOG, DIAG } from '../../constants';
-import { Position } from '../../position';
+import { DIRECTIONS } from '../../constants';
+import Position from '../../position';
 import Dungeon from './dungeon';
 
 export interface Config {
@@ -68,7 +68,7 @@ class Cellular extends Dungeon {
     protected countAlives(position: Position): number {
         let count = 0;
 
-        [...ORTHOG, ...DIAG].forEach(neighbor => {
+        [...DIRECTIONS.ORTHOG, ...DIRECTIONS.DIAG].forEach(neighbor => {
             let nx = position.x + neighbor[0];
             let ny = position.y + neighbor[1];
 
