@@ -1,2 +1,4 @@
 # groolkit
-A TypeScript library with bunch of algorithms related to grids.
+A TypeScript library with a bunch of algorithms related to grids.
+
+/!\ WIP !
