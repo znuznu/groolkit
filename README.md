@@ -33,7 +33,9 @@ They are grouped by family:
 ## __Usage__
 
 Just import the lib:  
-`import Groolkit = require('@znuznu/groolkit');`
+```typescript
+import Groolkit = require('@znuznu/groolkit');
+```
 
 ### What type of grid can I use ?
 Apart from the ones used in grids generation, each algorithm can be used with a grid of any type. The only thing required is a callback function in order to test the tile property of the grid.
@@ -102,7 +104,7 @@ let rcs = new Groolkit.FOV.RecursiveShadowCasting(grid, n => n === 0);
 ```
 
 ### Grid generation
-Algorithms used to generate grid of `number` with 0 value as passages and 1 value as walls.
+Algorithms used to generate grid of `number` with 0 as passages and 1 as walls.
 
 The data can be accessed on the `data` attribute of the Grid object.
 
@@ -150,7 +152,8 @@ let cellular = new Groolkit.Dungeon.Cellular(width, height, {
 ```
 
 #### No overlap
-A dungeon-like grid generation. Try to randomly add non-overlapping rooms, then connects them to their nearest neighbor. 
+A dungeon-like grid generation.  
+Try to randomly add non-overlapping rooms, then connects them to their nearest neighbor. 
 
 ```typescript
 constructor(width: number, height: number, config?: Partial<Config>);
@@ -181,7 +184,8 @@ _I'm not completely happy with this one, I'd like to maybe add more informations
 Maze generation algorithms.
 
 #### Depth-First Search
-Generate the maze based on the Depth-First search algorithm. Use a stack to avoid depth of recursion.
+Generate the maze based on the Depth-First search algorithm.  
+Use a stack to avoid depth of recursion.
 
 ```typescript
 constructor(width: number, height: number);
@@ -193,7 +197,8 @@ let dfs = new Groolkit.Maze.DepthFirstSearch(width, heigth);
 ```
 
 #### Growing Tree
-Generate the maze based on the Growing Tree algorithm. The way cells are picked is a 50% random/50% newest chances split.
+Generate the maze based on the Growing Tree algorithm.  
+The way cells are picked is a 50% random/50% newest chances split.
 
 ```typescript
 constructor(width: number, height: number);
@@ -238,7 +243,7 @@ A `process()` method must be called on the object after his initialization.
 
 ```typescript
 let line = ...;
-let positions = lineLerp.process(position1, position2);
+let positions = line.process(position1, position2);
 ```
 
 #### Line interpolation
