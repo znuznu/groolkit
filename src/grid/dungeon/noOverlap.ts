@@ -13,6 +13,7 @@ interface Config {
 
 /**
  * Add random non-overlapping room and connects them to their closest room.
+ * 
  * @todo
  * Return an object containing rooms and corridors as well
  * (in order to put doors for example)

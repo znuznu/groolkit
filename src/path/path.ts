@@ -35,7 +35,7 @@ abstract class Path {
      * @param callbackBlock - A function to test if an element of the grid is a block
      * @param topology - Orthogonals or diagonals
      */
-    constructor(grid: any[][], callbackBlock: CallbackBlock, topology: Topology) {
+    constructor(grid: any[][], topology: Topology, callbackBlock: CallbackBlock) {
         this.grid = grid;
         this.gridCell = [];
         this.topology = topology;

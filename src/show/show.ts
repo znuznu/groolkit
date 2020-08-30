@@ -206,8 +206,6 @@ class Show {
         if (!dark)
             this.drawTiles();
 
-        console.log('???')
-
         this.context.beginPath();
         positions.forEach((p: Position) => {
             if (dark)

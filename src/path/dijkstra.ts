@@ -13,7 +13,7 @@ import Cell from './cell';
  */
 class Dijkstra extends Path {
     constructor(grid: any[][], topology: Topology, callbackBlock: CallbackBlock) {
-        super(grid, callbackBlock, topology);
+        super(grid, topology, callbackBlock);
     }
 
     search(start: Position, end: Position): Result {
