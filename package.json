@@ -1,6 +1,6 @@
 {
   "name": "@znuznu/groolkit",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A library with a bunch of algorithms related to grids.",
   "main": "dist/groolkit.min.js",
   "dependencies": {

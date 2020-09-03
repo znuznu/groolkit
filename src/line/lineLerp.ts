@@ -35,7 +35,14 @@ class LineLerp extends Line {
         }
 
         let isEmpty = !positions.length;
-        let isIncomplete = positions[positions.length - 1] === end; 
+        let isIncomplete = false;
+
+        if (isEmpty) {
+            isIncomplete = true;
+        } else {
+            let lastPosition = positions[positions.length - 1];
+            isIncomplete = lastPosition.x !== end.x || lastPosition.y !== end.y;
+        }
 
         return {
             status: (isEmpty || isIncomplete) ? 'Incomplete' : 'Complete',
