@@ -1,31 +1,32 @@
 import Position, { roundPosition } from '../position';
 import { CallbackBlock } from '../callbacks';
 import Line from './line';
+import { Result } from './line';
 
 class LineLerp extends Line {
     constructor(grid: number[][], callbackBlock: CallbackBlock) {
         super(grid, callbackBlock);
     }
 
-    process(p1: Position, p2: Position) {
-        let outOfBound = super.process(p1, p2);
+    process(start: Position, end: Position) {
+        let outOfBound = super.process(start, end);
         if (outOfBound) return outOfBound;
 
-        return this.getLine(p1, p2);
+        return this.getLine(start, end);
     }
 
-    getLine(p1: Position, p2: Position): Position[] {
+    getLine(start: Position, end: Position): Result {
         let positions: Position[] = [];
-        
+
         let steps = Math.max(
-            Math.abs(p2.x - p1.x),
-            Math.abs(p2.y - p1.y)
+            Math.abs(end.x - start.x),
+            Math.abs(end.y - start.y)
         );
 
         for (let n = 0; n <= steps; n++) {
             let t = steps == 0 ? 0.0 : n / steps;
 
-            let position = roundPosition(this.lerpPosition(p1, p2, t));
+            let position = roundPosition(this.lerpPosition(start, end, t));
 
             if (this.callbackBlock(this.grid[position.x][position.y]))
                 break;
@@ -33,9 +34,15 @@ class LineLerp extends Line {
             positions.push(position);
         }
 
-        return positions;
+        let isEmpty = !positions.length;
+        let isIncomplete = positions[positions.length - 1] === end; 
+
+        return {
+            status: (isEmpty || isIncomplete) ? 'Incomplete' : 'Complete',
+            positions: positions
+        };
     }
-    
+
     lerp(start: number, target: number, t: number) {
         return start + t * (target - start);
     }

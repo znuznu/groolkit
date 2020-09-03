@@ -3,6 +3,7 @@ import { ColorCell } from '../paint/floodFill';
 import Position from '../position';
 import * as Path from '../path/path';
 import { COLORS, TILE_HEIGHT, TILE_WIDTH, OPACITY } from '../constants';
+import { Result } from '../line/line';
 
 interface ShowOptions {
     tileWidth: number;
@@ -178,7 +179,7 @@ class Show {
         this.drawLines();
     }
 
-    drawLine(positions: Position[]) {
+    drawLine(result: Result) {
         this.clearCanvas();
         this.drawTiles();
 
@@ -186,7 +187,7 @@ class Show {
         this.context.globalAlpha = SHOW_OPTIONS.lineOpacity;
         this.context.fillStyle = SHOW_OPTIONS.lineAlgorithmColor;
 
-        positions.forEach((p: Position) => {
+        result.positions.forEach((p: Position) => {
             this.context.fillRect(
                 p.y * SHOW_OPTIONS.tileWidth,
                 p.x * SHOW_OPTIONS.tileHeight,

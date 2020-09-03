@@ -237,13 +237,20 @@ let border = new Groolkit.Simple.Border(width, height);
 ### Line
 Line drawing algorithms. 
 
-I might add a returned object specifying if the line drawing was complete or no. For now, the line is a greedy one that stops when a wall is on the path. 
-
 A `process()` method must be called on the object after his initialization.
 
 ```typescript
 let line = ...;
-let positions = line.process(position1, position2);
+let positions = line.process(startPosition, endPosition);
+```
+
+Return an object containing informations about the result of the line computation:
+
+```typescript
+interface Result {
+    status: 'Complete' | 'Incomplete',
+    positions: Position[]
+}
 ```
 
 #### Line interpolation

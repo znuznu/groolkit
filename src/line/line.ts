@@ -1,6 +1,11 @@
 import Position from '../position';
 import { CallbackBlock } from '../callbacks';
 
+export interface Result {
+    status: 'Complete' | 'Incomplete',
+    positions: Position[]
+}
+
 abstract class Line {
     grid: any[][];
     callbackBlock: CallbackBlock;
@@ -10,14 +15,15 @@ abstract class Line {
         this.callbackBlock = callbackBlock;
     }
 
-    process(p1: Position, p2: Position): Position[] {
+    process(start: Position, end: Position): Result {
         let h = this.grid.length;
         let w = this.grid[0].length;
-        let p1check = p1.x >= 0 && p1.x < h && p1.y >= 0 && p1.y < w;
-        let p2check = p2.x >= 0 && p2.x < h && p2.y >= 0 && p2.y < w;
 
-        if (!(p1check && p2check))
-            return [];
+        let startCheck = start.x >= 0 && start.x < h && start.y >= 0 && start.y < w;
+        let endCheck = end.x >= 0 && end.x < h && end.y >= 0 && end.y < w;
+
+        if (!(startCheck && endCheck))
+            return { status: 'Incomplete', positions: [] }
     }
 }
 
