@@ -212,7 +212,7 @@ let rogue = new Groolkit.Dungeon.Rogue(200, 200, {
     });
 ```
 
-The config is verify and some Errors might be thrown at runtime to help you use correct values.  
+The config is verified and some Errors might be thrown at runtime to help you use correct values.  
 By default, the config is 3 by 3 areas with rooms size randomized up to areas size - 2.
 
 ### Maze
