@@ -1,6 +1,5 @@
-
 /**
- * Returns a number in [lower;upper[
+ * Returns a number in [lower;upper[.
  *
  * @param lower - The lower limit (included)
  * @param upper - The upper limit (excluded)

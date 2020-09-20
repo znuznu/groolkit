@@ -18,9 +18,12 @@ export const D2 = Math.sqrt(2);
  * COLOR_START - Tile start color to use in the path drawing.
  * COLOR_END - Tile end color to use in the path drawing.
  * COLOR_PATH - Tile path color to use in the path drawing.
- * COLOR_RFF - The replacement color for Flood filling.
- * COLOR_LINE_ALGORITHM - The color for Line algorithms.
- * COLOR_FOV - The color for FOV algorithms.
+ * COLOR_RFF - The replacement color to use for Flood filling.
+ * COLOR_LINE_ALGORITHM - The color to use for Line algorithms.
+ * COLOR_FOV - The color to use for FOV algorithms.
+ * COLOR_DOOR - The color to use for doors in dungeon drawing.
+ * COLOR_CORRIDOR - The color to use for corridors in dungeon drawing.
+ * COLOR_VOID - The color to use for the outside tiles in dungeon drawing.
  */
 export const COLORS = {
     COLOR_BLOCK: 'grey',
@@ -32,7 +35,10 @@ export const COLORS = {
     COLOR_PATH: 'yellow',
     COLOR_RFF: 'lightblue',
     COLOR_LINE_ALGORITHM: 'red',
-    COLOR_FOV: 'wheat'
+    COLOR_FOV: 'wheat',
+    COLOR_DOOR: 'saddlebrown',
+    COLOR_CORRIDOR: 'blue',
+    COLOR_VOID: 'black'
 }
 
 export const DIRECTIONS = {

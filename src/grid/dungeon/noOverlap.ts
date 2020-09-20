@@ -4,6 +4,7 @@ import Position from '../../position';
 import Dungeon from './dungeon';
 import Room from './room';
 import AStar from '../../path/astar';
+import Corridor from './corridor';
 
 interface Config {
     maxAttempts: number;
@@ -15,8 +16,8 @@ interface Config {
  * Add random non-overlapping room and connects them to their closest room.
  * 
  * @todo
- * Return an object containing rooms and corridors as well
- * (in order to put doors for example)
+ * There's over engineering everywhere!
+ * WIP !
  */
 class NoOverlap extends Dungeon {
     maxAttempts: number;
@@ -26,30 +27,22 @@ class NoOverlap extends Dungeon {
     roomW: [number, number];
 
     constructor(width: number, height: number, config?: Partial<Config>) {
+        throw new Error(`Not working at the moment.`);
+
         super(width, height);
         this.connected = [];
         this.unconnected = new Set();
         this.maxAttempts = config.maxAttempts;
-        this.roomH = config.roomH || (this.height < 12 ? [1, this.height - 2] : [4, 10]);
-        this.roomW = config.roomW || (this.width < 12 ? [1, this.width - 2] : [4, 10]);
+        this.roomH = config.roomH || (this.height < 13 ? [1, this.height - 2] : [5, 11]);
+        this.roomW = config.roomW || (this.width < 13 ? [1, this.width - 2] : [5, 11]);
     }
 
     process(): void {
         this.fill(_ => 1);
         this.createCells();
         this.createRooms();
-
-        if (this.rooms.length > 1)
-            this.connectRooms();
-
-        for (let x = 0; x < this.height; x++) {
-            for (let y = 0; y < this.width; y++) {
-                let type = this.cells[x][y].type === 1 ? 1 : 0;
-                this.data[x][y] = type;
-            }
-        }
-
-        //this.createWalls();
+        this.createInnerWalls();
+        this.connectAllRooms();
     }
 
     createRooms(): void {
@@ -102,11 +95,12 @@ class NoOverlap extends Dungeon {
             }
         });
     }
-
+    
     /**
-     * Add wall around each room and corridor.
+     * Add walls around each room and corridor.
+     * (Not used)
      */
-    createWalls(): void {
+    createOuterWalls(): void {
         let finalGrid: number[][] = [];
 
         let d = [
@@ -114,7 +108,7 @@ class NoOverlap extends Dungeon {
             [1, 1], [1, -1], [-1, -1], [-1, 1]
         ];
 
-        let isWall = (cell: Cell) => {
+        let isWall = (cell: Cell): boolean => {
             if (cell.type !== 1) return false;
 
             let cx = cell.position.x;
@@ -142,11 +136,50 @@ class NoOverlap extends Dungeon {
         this.data = finalGrid;
     }
 
+    connectRooms(room1: Room, room2: Room, aStar: AStar) {
+        let room1center = room1.getCenterCell();
+        let room2Center = room2.getCenterCell();
+
+        let newCallbackBlock = (cell: Cell): boolean => {
+            let isWall = cell.type === 1
+            let isNotInRooms = !(room1.contains(cell) || room2.contains(cell));
+            let isCorner = room1.corners.has(cell) || room2.corners.has(cell);
+
+            return (isWall && isNotInRooms) || isCorner;
+        }
+
+        let result = aStar.search(
+            { x: room1center.position.x, y: room1center.position.y },
+            { x: room2Center.position.x, y: room2Center.position.y },
+            newCallbackBlock
+        );
+
+        if (result.status !== 'Found')
+            throw new Error('Cannot find any path between rooms');
+
+        let corridor = new Corridor();
+
+        result.path.forEach(position => {
+            let cell = this.cells[position.x][position.y];
+
+            let isWallOfRooms = (cell.type === 1 && (room1.contains(cell) || room2.contains(cell)));
+            let isNotInRooms = (!room1.contains(cell) && !room2.contains(cell));
+
+            if (isWallOfRooms || isNotInRooms) {
+                corridor.addCells(cell);
+                this.cells[position.x][position.y].type = 8;
+            }
+        });
+
+        return corridor;
+    }
+
     /**
      * Connect each room to the closest room.
+     * Might be improved (some refact).
      */
-    connectRooms(): void {
-        // Callback accepts every type.
+    connectAllRooms(): void {
+        // Callback block is changed after
         let aStar = new AStar(
             this.cells,
             { type: 4 },
@@ -159,47 +192,41 @@ class NoOverlap extends Dungeon {
         let room1 = this.popRandomUnconnected();
         let room2 = this.closestRoom(room1, Array.from(this.unconnected));
 
-        let room1center = room1.getCenterCell();
-        let room2Center = room2.getCenterCell();
-
-        let result = aStar.search(
-            { x: room1center.position.x, y: room1center.position.y },
-            { x: room2Center.position.x, y: room2Center.position.y }
-        );
-
-        if (result.status !== 'Found')
-            throw new Error('Cannot find any path between rooms');
-
-        result.path.forEach(position => {
-            this.cells[position.x][position.y].type = 8;
-        });
+        let corridor = this.connectRooms(room1, room2, aStar);
 
         this.connected.push(room1);
         this.connected.push(room2);
+
+        corridor.addConnectedRoom(room1);
+        corridor.addConnectedRoom(room2);
+
+        let corridorCells = corridor.getCells();
+
+       // room1.addDoors(corridorCells[0]);
+       // room2.addDoors(corridorCells[corridorCells.length - 1]);
+
+        this.corridors.add(corridor);
 
         while (this.unconnected.size) {
             let dRoom = this.popRandomUnconnected();
             let cRoom = this.closestRoom(dRoom, Array.from(this.connected));
 
-            let cCenter = cRoom.getCenterCell();
-            let dCenter = dRoom.getCenterCell();
-
-            let result = aStar.search(
-                { x: cCenter.position.x, y: cCenter.position.y },
-                { x: dCenter.position.x, y: dCenter.position.y }
-            );
-
-            if (result.status !== 'Found')
-                throw new Error('Cannot find any path between rooms');
-
-            result.path.forEach(position => {
-                this.cells[position.x][position.y].type = 8;
-            });
+            corridor = this.connectRooms(dRoom, cRoom, aStar);
 
             this.connected.push(dRoom);
+
+            corridor.addConnectedRoom(dRoom);
+            corridor.addConnectedRoom(cRoom);
+
+            let corridorCells = corridor.getCells();
+
+            //cRoom.addDoors(corridorCells[0]);
+           // dRoom.addDoors(corridorCells[corridorCells.length - 1]);
+
+            this.corridors.add(corridor);
         }
     }
-
+    
     /**
      * Get a random unconnected Room and removes it from the unconnected set.
      * 

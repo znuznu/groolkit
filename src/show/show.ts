@@ -1,9 +1,17 @@
+import Dungeon from '../grid/dungeon/dungeon';
+import Grid from '../grid/grid';
 import { CallbackBlock } from '../callbacks';
 import { ColorCell } from '../paint/floodFill';
 import Position from '../position';
 import * as Path from '../path/path';
 import { COLORS, TILE_HEIGHT, TILE_WIDTH, OPACITY } from '../constants';
 import { Result } from '../line/line';
+
+interface DungeonColors {
+    door: string,
+    void: string,
+    corridor: string
+}
 
 interface ShowOptions {
     tileWidth: number;
@@ -19,6 +27,7 @@ interface ShowOptions {
     startColor: string;
     endColor: string;
     opacityAlgorithm: number;
+    dungeonColors: DungeonColors;
 }
 
 const SHOW_OPTIONS: ShowOptions = {
@@ -34,29 +43,34 @@ const SHOW_OPTIONS: ShowOptions = {
     pathColor: COLORS.COLOR_PATH,
     startColor: COLORS.COLOR_START,
     endColor: COLORS.COLOR_END,
-    opacityAlgorithm: OPACITY.OPACITY_ALGORITHM
+    opacityAlgorithm: OPACITY.OPACITY_ALGORITHM,
+    dungeonColors: {
+        door: COLORS.COLOR_DOOR,
+        void: COLORS.COLOR_VOID,
+        corridor: COLORS.COLOR_CORRIDOR
+    }
 };
 
 class Show {
     context: CanvasRenderingContext2D;
-    grid: any[][];
+    grid: Grid;
     callback: CallbackBlock;
 
-    constructor(context: CanvasRenderingContext2D, grid: any[][], callback: CallbackBlock) {
+    constructor(context: CanvasRenderingContext2D, grid: Grid, callback: CallbackBlock) {
         this.context = context;
         this.grid = grid;
         this.callback = callback;
     }
 
     clearCanvas() {
-        let h = this.grid.length * SHOW_OPTIONS.tileWidth;
-        let w = this.grid[0].length * SHOW_OPTIONS.tileWidth;
+        let h = this.grid.data.length * SHOW_OPTIONS.tileWidth;
+        let w = this.grid.data[0].length * SHOW_OPTIONS.tileWidth;
         this.context.clearRect(0, 0, w, h);
     }
 
     drawGrid() {
-        let h = this.grid.length;
-        let w = this.grid[0].length;
+        let h = this.grid.data.length;
+        let w = this.grid.data[0].length;
 
         this.context.canvas.width = w * SHOW_OPTIONS.tileWidth;
         this.context.canvas.height = h * SHOW_OPTIONS.tileHeight;
@@ -68,8 +82,8 @@ class Show {
     }
 
     drawTiles() {
-        let h = this.grid.length;
-        let w = this.grid[0].length;
+        let h = this.grid.data.length;
+        let w = this.grid.data[0].length;
 
         for (let x = 0; x < h; x++) {
             for (let y = 0; y < w; y++) {
@@ -82,10 +96,35 @@ class Show {
         let x = position.x;
         let y = position.y;
 
+        let cell = this.grid.cells[x][y];
+
         this.context.fillStyle = SHOW_OPTIONS.passageColor;
 
-        if (this.callback(this.grid[x][y])) {
+        if (this.callback(this.grid.data[x][y])) {
             this.context.fillStyle = SHOW_OPTIONS.blockColor;
+        }
+
+        if (this.grid instanceof Dungeon) {
+            // Uncomment to draw happy corridors
+            /*
+            for (let corridor of this.grid.corridors) {
+                if (corridor.hasCell(cell)) {
+                    this.context.fillStyle = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
+                    break;
+                }
+             }
+            */
+
+            for (let room of this.grid.rooms) {
+                if (room.hasDoor(cell)) {
+                    this.context.fillStyle = SHOW_OPTIONS.dungeonColors.door;
+                    break;
+                }
+            }
+
+            if (this.grid.void.has(cell)) {
+                this.context.fillStyle = SHOW_OPTIONS.dungeonColors.void;
+            }
         }
 
         this.context.fillRect(
@@ -97,8 +136,8 @@ class Show {
     }
 
     drawLines() {
-        let h = this.grid.length * SHOW_OPTIONS.tileHeight;
-        let w = this.grid[0].length * SHOW_OPTIONS.tileWidth;
+        let h = this.grid.data.length * SHOW_OPTIONS.tileHeight;
+        let w = this.grid.data[0].length * SHOW_OPTIONS.tileWidth;
 
         this.context.strokeStyle = SHOW_OPTIONS.lineColor;
         this.context.globalAlpha = SHOW_OPTIONS.lineOpacity;
@@ -155,8 +194,8 @@ class Show {
     drawFlood(colorGrid: ColorCell[][]) {
         this.clearCanvas();
 
-        let h = this.grid.length;
-        let w = this.grid[0].length;
+        let h = this.grid.data.length;
+        let w = this.grid.data[0].length;
         this.drawTiles();
 
         this.context.beginPath();

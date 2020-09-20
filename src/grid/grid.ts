@@ -10,7 +10,7 @@ interface CellDirection {
     cell: Cell;
     direction: string;
 }
- 
+
 /**
  * A Grid object used to create different kind of maps.
  * 
@@ -49,8 +49,8 @@ abstract class Grid {
     protected fill(callback: CallbackFill): void {
         for (let x = 0; x < this.height; x++) {
             this.data.push([]);
-            for(let y = 0; y < this.width; y++) {
-                this.data[x][y] = callback({x: x, y: y});
+            for (let y = 0; y < this.width; y++) {
+                this.data[x][y] = callback({ x: x, y: y });
             }
         }
     }
@@ -61,9 +61,9 @@ abstract class Grid {
     protected createCells(): void {
         for (let x = 0; x < this.height; x++) {
             this.cells.push([]);
-            for(let y = 0; y < this.width; y++) {
+            for (let y = 0; y < this.width; y++) {
                 this.cells[x][y] = {
-                    position: {x: x, y: y},
+                    position: { x: x, y: y },
                     type: this.data[x][y]
                 };
             }
@@ -128,9 +128,9 @@ abstract class Grid {
                 break;
         }
 
-        if (x >= 0 && x < this.height && y >= 0 && y < this.width) 
+        if (x >= 0 && x < this.height && y >= 0 && y < this.width)
             cellInDirection = this.cells[x][y];
-        
+
         return cellInDirection;
     }
 

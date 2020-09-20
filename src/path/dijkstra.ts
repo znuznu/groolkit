@@ -16,7 +16,7 @@ class Dijkstra extends Path {
         super(grid, topology, callbackBlock);
     }
 
-    search(start: Position, end: Position): Result {
+    search(start: Position, end: Position, newCallbackBlock?: CallbackBlock): Result {
         let validPositions = this.isValidPath(start, end);
 
         if (validPositions) return validPositions;
@@ -25,6 +25,8 @@ class Dijkstra extends Path {
         let endCell = this.gridCell[end.x][end.y];
 
         /* Actual Dijsktra */
+
+        this.callbackBlock = newCallbackBlock || this.callbackBlock;
 
         let distances: Map<Cell, number> = new Map();
         let open: MinBinaryHeap<Cell> = new MinBinaryHeap(cell => distances.get(cell));

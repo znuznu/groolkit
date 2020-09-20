@@ -155,6 +155,8 @@ let cellular = new Groolkit.Dungeon.Cellular(width, height, {
 A dungeon-like grid generation.  
 Try to randomly add non-overlapping rooms, then connects them to their nearest neighbor. 
 
+# Not working anymore !
+
 ```typescript
 constructor(width: number, height: number, config?: Partial<Config>);
 ```
@@ -177,7 +179,41 @@ let noOverlap = new Groolkit.Dungeon.NoOverlap(width, height, {
         });
 ```
 
-_I'm not completely happy with this one, I'd like to maybe add more informations about rooms and corridors in the generated dungeon._
+#### Rogue
+A dungeon-like grid generation inspired by the [Rogue original algorithm](https://web.archive.org/web/20131025132021/http://kuoi.org/~kamikaze/GameDesign/art07_rogue_dungeon.php) with A* to join Rooms.  
+
+```typescript
+constructor(width: number, height: number, config?: Partial<Config>);
+```
+
+```typescript
+interface Config {
+    // Number of areas in the vertical axis
+    hAreas: number;
+
+    // Number of areas in the horizontal axis
+    wAreas: number;
+
+    // Minimum and maximum height room size
+    hRoom: [number, number];
+
+    // Minimum and maximum width room size
+    wRoom: [number, number];
+}
+```
+
+Example:
+```typescript
+let rogue = new Groolkit.Dungeon.Rogue(200, 200, {
+        wRoom: [8, 15],
+        hRoom: [8, 15],
+        wAreas: 10,
+        hAreas: 10
+    });
+```
+
+The config is verify and some Errors might be thrown at runtime to help you use correct values.  
+By default, the config is 3 by 3 areas with rooms size randomized up to areas size - 2.
 
 ### Maze
 

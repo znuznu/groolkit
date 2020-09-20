@@ -13,7 +13,7 @@ class AStar extends Path {
         super(grid, topology, callbackBlock);
     }
 
-    search(start: Position, end: Position): Result {
+    search(start: Position, end: Position, newCallbackBlock?: CallbackBlock): Result {
         let validPositions = this.isValidPath(start, end);
 
         if (validPositions) return validPositions;
@@ -22,6 +22,8 @@ class AStar extends Path {
         let endCell = this.gridCell[end.x][end.y];
 
         /* Actual A* */
+
+        this.callbackBlock = newCallbackBlock || this.callbackBlock;
 
         let gScore: Map<Cell, number> = new Map();
         let fScore: Map<Cell, number> = new Map();

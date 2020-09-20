@@ -3,3 +3,4 @@ lib
 lib-esm
 dist
 scripts
+.vscode/

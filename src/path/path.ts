@@ -48,8 +48,9 @@ abstract class Path {
      * 
      * @param start - The position from the cell to start with
      * @param end - The position from the cell to end with
+     * @param callbackBlock - An other block testing function, might be useful
      */
-    abstract search(start: Position, end: Position): Result;
+    abstract search(start: Position, end: Position, newCallbackBlock?: CallbackBlock): Result;
 
     /**
      * Init the Cell grid used to compute a path.
