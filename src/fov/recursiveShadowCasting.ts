@@ -1,6 +1,7 @@
 import { CallbackLight } from '../callbacks';
 import Position, { strToPosition, positionToString } from '../position';
-import FOV, { Options, Result } from './fov';
+import { ResultFov } from '../result';
+import FOV, { Options } from './fov';
 
 const OCTANTS = [
     [1, 0, 0, 1],
@@ -24,7 +25,7 @@ class RecursiveShadowCasting extends FOV {
         super(grid, callbackLight, options);
     }
 
-    compute(start: Position): Result {
+    compute(start: Position): ResultFov {
         if (!this.isValidStart(start)) {
             return {
                 status: 'Failed'

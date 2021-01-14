@@ -3,6 +3,7 @@
   "version": "0.4.0",
   "description": "A library with a bunch of algorithms related to grids.",
   "main": "dist/groolkit.min.js",
+  "types": "dist/types",
   "dependencies": {
     "ts-loader": "^8.0.3"
   },
@@ -14,8 +15,8 @@
     "webpack-cli": "^3.3.12"
   },
   "scripts": {
-    "clean": "rm -rf dist lib lib-esm",
-    "build": "npm run clean && tsc && tsc -m es6 --outDir lib-esm && webpack",
+    "clean": "rm -rf dist lib",
+    "build": "npm run clean && tsc && webpack",
     "test": "echo \"No test specified\""
   },
   "repository": {

@@ -1,10 +1,6 @@
 import Position from '../position';
 import { CallbackBlock } from '../callbacks';
-
-export interface Result {
-    status: 'Complete' | 'Incomplete',
-    positions: Position[]
-}
+import { ResultLine } from '../result';
 
 abstract class Line {
     grid: any[][];
@@ -15,7 +11,7 @@ abstract class Line {
         this.callbackBlock = callbackBlock;
     }
 
-    process(start: Position, end: Position): Result {
+    process(start: Position, end: Position): ResultLine {
         let h = this.grid.length;
         let w = this.grid[0].length;
 

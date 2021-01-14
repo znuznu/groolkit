@@ -1,13 +1,9 @@
 import { CallbackLight } from '../callbacks'
 import Position from '../position';
+import { ResultFov } from '../result';
 
 export interface Options {
     radius: number;
-}
-
-export interface Result {
-    status: 'Success' | 'Failed',
-    visibles?: Position[]
 }
 
 abstract class FOV {
@@ -23,7 +19,7 @@ abstract class FOV {
         this.callbackLight = callbackLight;
     }
 
-    abstract compute(start: Position): Result;
+    abstract compute(start: Position): ResultFov;
 
     /**
      * Check that the given position isn't out of bound.
@@ -36,7 +32,7 @@ abstract class FOV {
         let h = this.grid.length;
         let w = this.grid[0].length;
 
-        return start.x >= 0 && start.x < h && start.y >= 0 && start.y < w; 
+        return start.x >= 0 && start.x < h && start.y >= 0 && start.y < w;
     }
 }
 

@@ -2,11 +2,7 @@ import { DIRECTIONS, D, D2 } from '../constants';
 import { CallbackBlock } from '../callbacks';
 import Position from '../position';
 import Cell from './cell';
-
-export interface Result {
-    status: 'Found' | 'Unreachable' | 'Invalid' | 'Block';
-    path?: Position[];
-}
+import { ResultPath } from '../result';
 
 export interface Topology {
     type: 4 | 8;
@@ -50,7 +46,7 @@ abstract class Path {
      * @param end - The position from the cell to end with
      * @param callbackBlock - An other block testing function, might be useful
      */
-    abstract search(start: Position, end: Position, newCallbackBlock?: CallbackBlock): Result;
+    abstract search(start: Position, end: Position, newCallbackBlock?: CallbackBlock): ResultPath;
 
     /**
      * Init the Cell grid used to compute a path.
@@ -144,7 +140,7 @@ abstract class Path {
      * @param end - The Cell position to end with
      * @returns A Result or undefined if they're valid coordinates
      */
-    protected isValidPath(start: Position, end: Position): Result | undefined {
+    protected isValidPath(start: Position, end: Position): ResultPath | undefined {
         let containsStart = this.contains(start.x, start.y);
         let containsEnd = this.contains(end.x, end.y);
 

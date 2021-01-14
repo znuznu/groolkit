@@ -1,9 +1,10 @@
 import { CallbackBlock } from '../callbacks';
 import { D, D2 } from '../constants';
-import Path, { Result, Topology } from './path';
+import Path, { Topology } from './path';
 import Position from '../position';
 import MinBinaryHeap from '../struct/minBinaryHeap';
 import Cell from './cell';
+import { ResultPath } from '../result';
 
 /**
  * Dijkstra algorithm with 4 or 8 directions.
@@ -16,7 +17,7 @@ class Dijkstra extends Path {
         super(grid, topology, callbackBlock);
     }
 
-    search(start: Position, end: Position, newCallbackBlock?: CallbackBlock): Result {
+    search(start: Position, end: Position, newCallbackBlock?: CallbackBlock): ResultPath {
         let validPositions = this.isValidPath(start, end);
 
         if (validPositions) return validPositions;

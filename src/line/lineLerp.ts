@@ -1,7 +1,7 @@
 import Position, { roundPosition } from '../position';
 import { CallbackBlock } from '../callbacks';
 import Line from './line';
-import { Result } from './line';
+import { ResultLine } from '../result';
 
 class LineLerp extends Line {
     constructor(grid: number[][], callbackBlock: CallbackBlock) {
@@ -15,7 +15,7 @@ class LineLerp extends Line {
         return this.getLine(start, end);
     }
 
-    getLine(start: Position, end: Position): Result {
+    getLine(start: Position, end: Position): ResultLine {
         let positions: Position[] = [];
 
         let steps = Math.max(

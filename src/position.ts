@@ -3,16 +3,6 @@ export default interface Position {
     y: number;
 }
 
-export interface StringPositionDirection {
-    position: string;
-    direction: string;
-}
-
-export interface PositionDirection {
-    position: Position;
-    direction: string;
-}
-
 export function positionToString(position: Position): string {
     return position.x + ',' + position.y;
 }

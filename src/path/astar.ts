@@ -1,9 +1,10 @@
 import { CallbackBlock } from '../callbacks';
 import { D, D2 } from '../constants';
-import Path, { Result, Topology } from './path';
+import Path, { Topology } from './path';
 import Position from '../position';
 import MinBinaryHeap from '../struct/minBinaryHeap';
 import Cell from './cell';
+import { ResultPath } from '../result';
 
 /**
  * A* algorithm with 4 or 8 directions.
@@ -13,7 +14,7 @@ class AStar extends Path {
         super(grid, topology, callbackBlock);
     }
 
-    search(start: Position, end: Position, newCallbackBlock?: CallbackBlock): Result {
+    search(start: Position, end: Position, newCallbackBlock?: CallbackBlock): ResultPath {
         let validPositions = this.isValidPath(start, end);
 
         if (validPositions) return validPositions;
@@ -117,7 +118,7 @@ class AStar extends Path {
                 distance = D * (dx + dy) + (D2 - 2 * D) * Math.min(dx, dy);
                 break;
             default:
-                console.log('No such topology.');
+                console.error('No such topology.');
                 break;
         }
 
