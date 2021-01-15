@@ -1,8 +1,8 @@
 import { CallbackBlock } from '../callbacks';
-import COLOR from './colors';
+import { baseColors, fovColors, lineColors, pathColors } from './colors';
 import OPACITY from './opacity';
 import Position from '../position';
-import { Result } from '../result';
+import { Result, ResultFov, ResultLine, ResultPath } from '../result';
 
 interface MeasurementOptions {
     widthTile: number,
@@ -19,18 +19,6 @@ export interface DrawOptions {
     heightTile: number,
 }
 
-interface BaseColors {
-    passage: string,
-    block: string,
-    line: string,
-}
-
-const colors: BaseColors = {
-    passage: COLOR.PASSAGE,
-    block: COLOR.BLOCK,
-    line: COLOR.LINE,
-}
-
 interface BaseOpacity {
     line: number,
     algorithm: number,
@@ -41,7 +29,7 @@ export const opacities: BaseOpacity = {
     algorithm: OPACITY.ALGORITHM,
 }
 
-abstract class Draw {
+class Draw {
     protected context: CanvasRenderingContext2D;
     private grid: any[][];
     private callback: CallbackBlock;
@@ -53,8 +41,6 @@ abstract class Draw {
         this.callback = callback;
         this.drawOptions = drawOptions;
     }
-
-    abstract draw(result: Result): void;
 
     clearCanvas(): void {
         let h = this.grid.length * measurementOptions.widthTile;
@@ -90,10 +76,10 @@ abstract class Draw {
         let x = position.x;
         let y = position.y;
 
-        this.context.fillStyle = colors.passage;
+        this.context.fillStyle = baseColors.passage;
 
         if (this.callback(this.grid[x][y])) {
-            this.context.fillStyle = colors.block;
+            this.context.fillStyle = baseColors.block;
         }
 
         this.context.fillRect(
@@ -108,7 +94,7 @@ abstract class Draw {
         let h = this.grid.length * measurementOptions.heightTile;
         let w = this.grid[0].length * measurementOptions.widthTile;
 
-        this.context.strokeStyle = colors.line;
+        this.context.strokeStyle = baseColors.line;
         this.context.globalAlpha = opacities.line;
 
         let x: number, y: number = 0;
@@ -128,6 +114,89 @@ abstract class Draw {
         this.context.stroke();
 
         this.context.globalAlpha = 1;
+    }
+
+    drawPath(result: ResultPath): void {
+        if (result.status !== 'Found') {
+            return;
+        }
+
+        this.clearCanvas();
+        this.drawTiles();
+
+        this.context.beginPath();
+        this.context.globalAlpha = opacities.algorithm;
+
+        result.path.forEach((tile, index) => {
+            let color = pathColors.path;
+
+            if (index === 0) {
+                color = pathColors.start;
+            } else if (index === result.path.length - 1) {
+                color = pathColors.end;
+            }
+
+            this.context.fillStyle = color;
+
+            let x = tile.x * this.drawOptions.heightTile;
+            let y = tile.y * this.drawOptions.widthTile;
+            this.context.fillRect(y, x, this.drawOptions.widthTile, this.drawOptions.heightTile);
+        });
+
+        this.context.closePath();
+        this.context.globalAlpha = 1;
+        this.drawLines();
+    }
+
+    drawFov(result: ResultFov, dark: boolean = false): void {
+        this.clearCanvas();
+
+        if (!dark) {
+            this.drawTiles();
+        }
+
+        this.context.beginPath();
+        result.visibles.forEach((p: Position) => {
+            if (dark) {
+                this.drawTile(p);
+            }
+
+            this.context.globalAlpha = opacities.algorithm;
+            this.context.fillStyle = fovColors.visible;
+
+            this.context.fillRect(
+                p.y * this.drawOptions.widthTile,
+                p.x * this.drawOptions.heightTile,
+                this.drawOptions.widthTile,
+                this.drawOptions.heightTile
+            );
+        });
+
+        this.context.closePath();
+        this.context.globalAlpha = 1;
+        this.drawLines();
+    }
+
+    drawLine(result: ResultLine): void {
+        this.clearCanvas();
+        this.drawTiles();
+
+        this.context.beginPath();
+        this.context.globalAlpha = opacities.algorithm;
+        this.context.fillStyle = lineColors.tile;
+
+        result.positions.forEach((p: Position) => {
+            this.context.fillRect(
+                p.y * this.drawOptions.widthTile,
+                p.x * this.drawOptions.heightTile,
+                this.drawOptions.widthTile,
+                this.drawOptions.heightTile
+            );
+        });
+
+        this.context.closePath();
+        this.context.globalAlpha = 1;
+        this.drawLines();
     }
 }
 

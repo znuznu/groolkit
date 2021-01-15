@@ -10,7 +10,7 @@
  * LINE_ALGORITHM   - The color to use for Line algorithms.
  * FOV              - The color to use for FOV algorithms.
  */
-const COLOR = {
+export const COLOR = {
     BLOCK: 'grey',
     PASSAGE: 'white',
     LINE: 'black',
@@ -23,4 +23,42 @@ const COLOR = {
     FOV: 'wheat',
 }
 
-export default COLOR;
+export interface FovColors {
+    visible: string;
+}
+
+export const fovColors: FovColors = {
+    visible: COLOR.FOV,
+}
+
+export interface LineColors {
+    tile: string;
+}
+
+export const lineColors: LineColors = {
+    tile: COLOR.LINE_ALGORITHM,
+}
+
+export interface PathColors {
+    path: string,
+    start: string,
+    end: string,
+}
+
+export const pathColors: PathColors = {
+    path: COLOR.PATH,
+    start: COLOR.START,
+    end: COLOR.END,
+}
+
+export interface BaseColors {
+    passage: string,
+    block: string,
+    line: string,
+}
+
+export const baseColors: BaseColors = {
+    passage: COLOR.PASSAGE,
+    block: COLOR.BLOCK,
+    line: COLOR.LINE,
+}
