@@ -25,7 +25,7 @@ class Dijkstra extends Path {
         let startCell = this.gridCell[start.x][start.y];
         let endCell = this.gridCell[end.x][end.y];
 
-        /* Actual Dijsktra */
+        /* Actual Dijkstra */
 
         this.callbackBlock = newCallbackBlock || this.callbackBlock;
 

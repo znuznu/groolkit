@@ -2,6 +2,20 @@
   "name": "@znuznu/groolkit",
   "version": "0.4.0",
   "description": "A library with a bunch of algorithms related to grids.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/znuznu/groolkit.git"
+  },
+  "author": "znu (https://github.com/znuznu)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/znuznu/groolkit/issues"
+  },
+  "homepage": "https://github.com/znuznu/groolkit#readme",
+  "keywords": [
+    "algorithm",
+    "grid"
+  ],
   "main": "dist/groolkit.min.js",
   "types": "dist/types",
   "dependencies": {},
@@ -23,20 +37,6 @@
     "prettier-write": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "prettier-check": "prettier --config .prettierrc 'src/**/*.ts' --check"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/znuznu/groolkit.git"
-  },
-  "keywords": [
-    "algorithm",
-    "grid"
-  ],
-  "author": "znu (https://github.com/znuznu)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/znuznu/groolkit/issues"
-  },
-  "homepage": "https://github.com/znuznu/groolkit#readme",
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
