@@ -1,5 +1,3 @@
-import Position from './position';
-
 export interface CallbackBlock {
     (element: any): boolean;
 }
