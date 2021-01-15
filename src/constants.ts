@@ -11,6 +11,16 @@ export const D = 1;
 export const D2 = Math.sqrt(2);
 
 export const DIRECTIONS = {
-    ORTHOG: [[0, -1], [0, 1], [-1, 0], [1, 0]],
-    DIAG: [[-1, -1], [1, -1], [-1, 1], [1, 1]]
-}
+    ORTHOG: [
+        [0, -1],
+        [0, 1],
+        [-1, 0],
+        [1, 0]
+    ],
+    DIAG: [
+        [-1, -1],
+        [1, -1],
+        [-1, 1],
+        [1, 1]
+    ]
+};

@@ -1,4 +1,4 @@
-/** 
+/**
  * BLOCK            - Tile block color to use in the grid drawing.
  * PASSAGE          - Tile passage color to use in the grid drawing.
  * LINE             - Line color to use in the grid drawing.
@@ -20,53 +20,53 @@ export const COLOR = {
     PATH: 'yellow',
     FILL: 'lightblue',
     LINE_ALGORITHM: 'red',
-    FOV: 'wheat',
-}
+    FOV: 'wheat'
+};
 
 export interface FovColors {
     visible: string;
 }
 
 export const fovColors: FovColors = {
-    visible: COLOR.FOV,
-}
+    visible: COLOR.FOV
+};
 
 export interface LineColors {
     tile: string;
 }
 
 export const lineColors: LineColors = {
-    tile: COLOR.LINE_ALGORITHM,
-}
+    tile: COLOR.LINE_ALGORITHM
+};
 
 export interface PathColors {
-    path: string,
-    start: string,
-    end: string,
+    path: string;
+    start: string;
+    end: string;
 }
 
 export const pathColors: PathColors = {
     path: COLOR.PATH,
     start: COLOR.START,
-    end: COLOR.END,
-}
+    end: COLOR.END
+};
 
 export interface BaseColors {
-    passage: string,
-    block: string,
-    line: string,
+    passage: string;
+    block: string;
+    line: string;
 }
 
 export const baseColors: BaseColors = {
     passage: COLOR.PASSAGE,
     block: COLOR.BLOCK,
-    line: COLOR.LINE,
-}
+    line: COLOR.LINE
+};
 
 export interface FillColors {
-    fill: string,
+    fill: string;
 }
 
 export const fillColors: FillColors = {
-    fill: COLOR.FILL,
-}
+    fill: COLOR.FILL
+};

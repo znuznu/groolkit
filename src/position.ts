@@ -8,7 +8,7 @@ export function positionToString(position: Position): string {
 }
 
 export function strToPosition(sPosition: string): Position {
-    let [x, y] = sPosition.split(',').map(p => Number(p));
+    let [x, y] = sPosition.split(',').map((p) => Number(p));
     return { x: x, y: y };
 }
 

@@ -12,7 +12,7 @@ class MinBinaryHeap<T> {
 
     /**
      * @constructor
-     * @param scoreFunction - The score function in order to compare objects 
+     * @param scoreFunction - The score function in order to compare objects
      */
     constructor(scoreFunction: ScoreCallback<T>) {
         this.data = [];
@@ -22,7 +22,7 @@ class MinBinaryHeap<T> {
 
     /**
      * Return the size of this BinaryHeap.
-     * 
+     *
      * @returns The length of the data array
      */
     size(): number {
@@ -31,7 +31,7 @@ class MinBinaryHeap<T> {
 
     /**
      * Insert an element into this MinBinaryHeap
-     * 
+     *
      * @param element - The element to insert
      */
     push(element: T): void {
@@ -42,7 +42,7 @@ class MinBinaryHeap<T> {
 
     /**
      * Remove and return the smallest element of this BinaryHeap that is updated.
-     * 
+     *
      * @returns The smallest element
      */
     pop(): T {
@@ -61,21 +61,18 @@ class MinBinaryHeap<T> {
 
     /**
      * Remove the node given from this MinBinaryHeap (and update).
-     * 
+     *
      * @param node - The node to remove
      */
     remove(node: T): void {
-        if (this.dataSet.has(node))
-            this.dataSet.delete(node);
+        if (this.dataSet.has(node)) this.dataSet.delete(node);
 
         for (let i = 0; i < this.size(); i++) {
-            if (this.data[i] !== node)
-                continue;
+            if (this.data[i] !== node) continue;
 
             let end: T = this.data.pop();
 
-            if (i === length - 1)
-                break;
+            if (i === length - 1) break;
 
             this.data[i] = end;
             this.ascend(i);
@@ -87,7 +84,7 @@ class MinBinaryHeap<T> {
 
     /**
      * Move up the element with index n of this MinBinaryHeap.
-     * 
+     *
      * @param n - The element index
      */
     ascend(n: number): void {
@@ -98,8 +95,7 @@ class MinBinaryHeap<T> {
             let parentN = ~~((n + 1) / 2) - 1;
             let parent = this.data[parentN];
 
-            if (score >= this.scoreFunction(parent))
-                break;
+            if (score >= this.scoreFunction(parent)) break;
 
             this.data[parentN] = element;
             this.data[n] = parent;
@@ -109,7 +105,7 @@ class MinBinaryHeap<T> {
 
     /**
      * Move down the element with index n.
-     * 
+     *
      * @param n - The element index
      */
     descend(n: number): void {
@@ -118,7 +114,8 @@ class MinBinaryHeap<T> {
         let elemScore = this.scoreFunction(element);
 
         while (true) {
-            let c2 = (n + 1) * 2, c1 = c2 - 1;
+            let c2 = (n + 1) * 2,
+                c1 = c2 - 1;
 
             let swap = null;
 
@@ -127,19 +124,16 @@ class MinBinaryHeap<T> {
             if (c1 < length) {
                 let child1 = this.data[c1];
                 let child1Score = this.scoreFunction(child1);
-                if (child1Score < elemScore)
-                    swap = c1;
+                if (child1Score < elemScore) swap = c1;
             }
 
             if (c2 < length) {
                 let child2 = this.data[c2];
                 let child2Score = this.scoreFunction(child2);
-                if (child2Score < (swap == null ? elemScore : child1Score))
-                    swap = c2;
+                if (child2Score < (swap == null ? elemScore : child1Score)) swap = c2;
             }
 
-            if (swap == null)
-                break;
+            if (swap == null) break;
 
             this.data[n] = this.data[swap];
             this.data[swap] = element;
@@ -149,7 +143,7 @@ class MinBinaryHeap<T> {
 
     /**
      * Check whether this node exists in the heap.
-     * 
+     *
      * @param node - The node to check
      * @returns True if the node exists in the Heap
      */

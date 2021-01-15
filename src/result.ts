@@ -5,8 +5,8 @@ export interface Result {
 }
 
 export interface ResultLine extends Result {
-    status: 'Complete' | 'Incomplete',
-    positions: Position[]
+    status: 'Complete' | 'Incomplete';
+    positions: Position[];
 }
 
 export interface ResultPath extends Result {

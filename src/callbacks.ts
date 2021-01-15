@@ -2,7 +2,7 @@ import Position from './position';
 
 export interface CallbackBlock {
     (element: any): boolean;
-};
+}
 
 export interface CallbackLight {
     (element: any): boolean;
@@ -10,4 +10,4 @@ export interface CallbackLight {
 
 export interface CallbackFill {
     (element: any): boolean;
-};
+}

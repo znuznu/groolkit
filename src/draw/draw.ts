@@ -5,29 +5,29 @@ import Position from '../position';
 import { Result, ResultFill, ResultFov, ResultLine, ResultPath } from '../result';
 
 interface MeasurementOptions {
-    widthTile: number,
-    heightTile: number,
+    widthTile: number;
+    heightTile: number;
 }
 
 const measurementOptions: MeasurementOptions = {
     widthTile: 16,
     heightTile: 16
-}
+};
 
 export interface DrawOptions {
-    widthTile: number,
-    heightTile: number,
+    widthTile: number;
+    heightTile: number;
 }
 
 interface BaseOpacity {
-    line: number,
-    algorithm: number,
+    line: number;
+    algorithm: number;
 }
 
 export const opacities: BaseOpacity = {
     line: OPACITY.LINE,
-    algorithm: OPACITY.TILE,
-}
+    algorithm: OPACITY.TILE
+};
 
 class Draw {
     protected context: CanvasRenderingContext2D;
@@ -35,7 +35,12 @@ class Draw {
     private callback: CallbackBlock;
     protected drawOptions: DrawOptions;
 
-    constructor(context: CanvasRenderingContext2D, grid: any[][], callback: CallbackBlock, drawOptions: DrawOptions) {
+    constructor(
+        context: CanvasRenderingContext2D,
+        grid: any[][],
+        callback: CallbackBlock,
+        drawOptions: DrawOptions
+    ) {
         this.context = context;
         this.grid = grid;
         this.callback = callback;
@@ -97,9 +102,14 @@ class Draw {
         this.context.strokeStyle = baseColors.line;
         this.context.globalAlpha = opacities.line;
 
-        let x: number, y: number = 0;
+        let x: number,
+            y: number = 0;
 
-        for (x = measurementOptions.heightTile; x < h; x += measurementOptions.heightTile) {
+        for (
+            x = measurementOptions.heightTile;
+            x < h;
+            x += measurementOptions.heightTile
+        ) {
             this.context.moveTo(y, x);
             this.context.lineTo(w, x);
         }
@@ -140,7 +150,12 @@ class Draw {
 
             let x = tile.x * this.drawOptions.heightTile;
             let y = tile.y * this.drawOptions.widthTile;
-            this.context.fillRect(y, x, this.drawOptions.widthTile, this.drawOptions.heightTile);
+            this.context.fillRect(
+                y,
+                x,
+                this.drawOptions.widthTile,
+                this.drawOptions.heightTile
+            );
         });
 
         this.context.closePath();
@@ -218,7 +233,7 @@ class Draw {
                 this.drawOptions.widthTile,
                 this.drawOptions.heightTile
             );
-        })
+        });
 
         this.context.closePath();
         this.context.globalAlpha = 1;

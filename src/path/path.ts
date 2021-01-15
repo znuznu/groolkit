@@ -14,7 +14,7 @@ export interface Neighbor {
 }
 
 /**
- * A Path used to compute paths in a grid. 
+ * A Path used to compute paths in a grid.
  */
 abstract class Path {
     grid: any[][];
@@ -26,8 +26,8 @@ abstract class Path {
     parents: Map<Cell, Cell>;
 
     /**
-     * 
-     * @param grid - The original grid 
+     *
+     * @param grid - The original grid
      * @param callbackBlock - A function to test if an element of the grid is a block
      * @param topology - Orthogonals or diagonals
      */
@@ -41,16 +41,20 @@ abstract class Path {
 
     /**
      * Find a path between `start` and `end`.
-     * 
+     *
      * @param start - The position from the cell to start with
      * @param end - The position from the cell to end with
      * @param callbackBlock - An other block testing function, might be useful
      */
-    abstract search(start: Position, end: Position, newCallbackBlock?: CallbackBlock): ResultPath;
+    abstract search(
+        start: Position,
+        end: Position,
+        newCallbackBlock?: CallbackBlock
+    ): ResultPath;
 
     /**
      * Init the Cell grid used to compute a path.
-     * 
+     *
      * @remarks
      * Neighbors are not initialized.
      */
@@ -68,7 +72,7 @@ abstract class Path {
 
     /**
      * Get all neighbors from the Cell (based on the topology).
-     * 
+     *
      * @param cell - Cell to get the neighbors from
      * @returns An array containing the neighbors and the topology it comes from
      */
@@ -76,7 +80,7 @@ abstract class Path {
         let neighbors: Neighbor[] = [];
 
         let createNeighbor = (directions: number[][], type: number) => {
-            directions.forEach(dir => {
+            directions.forEach((dir) => {
                 let nx = cell.position.x + dir[0];
                 let ny = cell.position.y + dir[1];
 
@@ -91,15 +95,14 @@ abstract class Path {
 
         createNeighbor(DIRECTIONS.ORTHOG, 4);
 
-        if (this.topology.type === 8)
-            createNeighbor(DIRECTIONS.DIAG, 8);
+        if (this.topology.type === 8) createNeighbor(DIRECTIONS.DIAG, 8);
 
         return neighbors;
     }
 
     /**
      * Initialize the neighbors from the given Cell.
-     * 
+     *
      * @param cell - The Cell to initialize the neighbors
      */
     protected initNeighbors(cell: Cell): void {
@@ -108,7 +111,7 @@ abstract class Path {
 
     /**
      * Check if the Cell exists in the grid and isn't a block.
-     * 
+     *
      * @param x - x coordinates of the Cell to check
      * @param y - y coordinates of the Cell to check
      * @returns True if the Cell is valid
@@ -121,7 +124,7 @@ abstract class Path {
 
     /**
      * Check if the Cell exists in the grid.
-     * 
+     *
      * @param x - x coordinates of the Cell to check
      * @param y - y coordinates of the Cell to check
      * @returns True if the Cell exists
@@ -135,7 +138,7 @@ abstract class Path {
     /**
      * Check that start and end are valid positions.
      * They must be existing coordinates and not one from a blocking Cell.
-     * 
+     *
      * @param start - The Cell position to start with
      * @param end - The Cell position to end with
      * @returns A Result or undefined if they're valid coordinates
@@ -144,8 +147,7 @@ abstract class Path {
         let containsStart = this.contains(start.x, start.y);
         let containsEnd = this.contains(end.x, end.y);
 
-        if (!containsStart || !containsEnd)
-            return { status: 'Invalid' };
+        if (!containsStart || !containsEnd) return { status: 'Invalid' };
 
         let startCell = this.gridCell[start.x][start.y];
         let endCell = this.gridCell[end.x][end.y];
@@ -153,8 +155,7 @@ abstract class Path {
         let startBlock = this.callbackBlock(startCell.data);
         let endBlock = this.callbackBlock(endCell.data);
 
-        if (startBlock || endBlock)
-            return { status: 'Block' };
+        if (startBlock || endBlock) return { status: 'Block' };
     }
 }
 

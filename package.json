@@ -7,6 +7,9 @@
   "dependencies": {},
   "devDependencies": {
     "awesome-typescript-loader": "^5.2.1",
+    "husky": "^4.3.7",
+    "lint-staged": "^10.5.3",
+    "prettier": "^2.2.1",
     "terser-webpack-plugin": "^4.1.0",
     "ts-loader": "^8.0.14",
     "typescript": "^4.0.2",
@@ -16,7 +19,9 @@
   "scripts": {
     "clean": "rm -rf dist lib",
     "build": "npm run clean && tsc && webpack",
-    "test": "echo \"No test specified\""
+    "test": "echo \"No test specified\"",
+    "prettier-write": "prettier --config .prettierrc 'src/**/*.ts' --write",
+    "prettier-check": "prettier --config .prettierrc 'src/**/*.ts' --check"
   },
   "repository": {
     "type": "git",
@@ -31,5 +36,13 @@
   "bugs": {
     "url": "https://github.com/znuznu/groolkit/issues"
   },
-  "homepage": "https://github.com/znuznu/groolkit#readme"
+  "homepage": "https://github.com/znuznu/groolkit#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts}": "prettier --write --config .prettierrc"
+  }
 }

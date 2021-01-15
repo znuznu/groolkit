@@ -35,7 +35,7 @@ class AStar extends Path {
         let f = gScore.get(startCell) + this.distance(startCell, endCell);
         fScore.set(startCell, f);
 
-        let open: MinBinaryHeap<Cell> = new MinBinaryHeap(cell => fScore.get(cell));
+        let open: MinBinaryHeap<Cell> = new MinBinaryHeap((cell) => fScore.get(cell));
         let close: Set<Cell> = new Set();
 
         open.push(startCell);
@@ -62,7 +62,7 @@ class AStar extends Path {
                 this.initNeighbors(current);
             }
 
-            current.neighbors.forEach(neighbor => {
+            current.neighbors.forEach((neighbor) => {
                 let ncell = neighbor.cell;
 
                 if (!close.has(ncell)) {
@@ -72,14 +72,20 @@ class AStar extends Path {
                     if (!open.contains(ncell)) {
                         this.parents.set(ncell, current);
                         gScore.set(ncell, g);
-                        fScore.set(ncell, gScore.get(ncell) + this.distance(ncell, endCell));
+                        fScore.set(
+                            ncell,
+                            gScore.get(ncell) + this.distance(ncell, endCell)
+                        );
                         open.push(ncell);
                     } else {
                         if (g < gScore.get(ncell)) {
                             open.remove(ncell);
                             this.parents.set(ncell, current);
                             gScore.set(ncell, g);
-                            fScore.set(ncell, gScore.get(ncell) + this.distance(ncell, endCell));
+                            fScore.set(
+                                ncell,
+                                gScore.get(ncell) + this.distance(ncell, endCell)
+                            );
                             open.push(ncell);
                         }
                     }
@@ -102,8 +108,10 @@ class AStar extends Path {
      * @param c2 - The second Cell
      */
     protected distance(c1: Cell, c2: Cell): number | undefined {
-        let c1x = c1.position.x, c1y = c1.position.y;
-        let c2x = c2.position.x, c2y = c2.position.y;
+        let c1x = c1.position.x,
+            c1y = c1.position.y;
+        let c2x = c2.position.x,
+            c2y = c2.position.y;
 
         let distance: number | undefined = undefined;
 

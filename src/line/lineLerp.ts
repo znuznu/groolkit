@@ -18,18 +18,16 @@ class LineLerp extends Line {
     getLine(start: Position, end: Position): ResultLine {
         let positions: Position[] = [];
 
-        let steps = Math.max(
-            Math.abs(end.x - start.x),
-            Math.abs(end.y - start.y)
-        );
+        let steps = Math.max(Math.abs(end.x - start.x), Math.abs(end.y - start.y));
 
         for (let n = 0; n <= steps; n++) {
             let t = steps == 0 ? 0.0 : n / steps;
 
             let position = roundPosition(this.lerpPosition(start, end, t));
 
-            if (this.callbackBlock(this.grid[position.x][position.y]))
+            if (this.callbackBlock(this.grid[position.x][position.y])) {
                 break;
+            }
 
             positions.push(position);
         }
@@ -45,7 +43,7 @@ class LineLerp extends Line {
         }
 
         return {
-            status: (isEmpty || isIncomplete) ? 'Incomplete' : 'Complete',
+            status: isEmpty || isIncomplete ? 'Incomplete' : 'Complete',
             positions: positions
         };
     }
@@ -58,7 +56,7 @@ class LineLerp extends Line {
         return {
             x: this.lerp(p1.x, p2.x, t),
             y: this.lerp(p1.y, p2.y, t)
-        }
+        };
     }
 }
 

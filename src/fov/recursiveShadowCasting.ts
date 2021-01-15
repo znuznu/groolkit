@@ -18,7 +18,7 @@ const OCTANTS = [
  * Recursive Shadow Casting based on Björn Bergström's algorithm.
  * You can find an idea of how it works here:
  * http://www.roguebasin.com/index.php?title=FOV_using_recursive_shadowcasting
- * 
+ *
  */
 class RecursiveShadowCasting extends FOV {
     constructor(grid: any[][], callbackLight: CallbackLight, options?: Partial<Options>) {
@@ -29,7 +29,7 @@ class RecursiveShadowCasting extends FOV {
         if (!this.isValidStart(start)) {
             return {
                 status: 'Failed'
-            }
+            };
         }
 
         let visiblesSet: Set<string> = new Set();
@@ -42,8 +42,7 @@ class RecursiveShadowCasting extends FOV {
             this.processOctants(start, 1, 1.0, 0.0, OCTANTS[i], visiblesSet);
         }
 
-        let visibles = Array.from(visiblesSet)
-            .map((p: string) => strToPosition(p));
+        let visibles = Array.from(visiblesSet).map((p: string) => strToPosition(p));
 
         return {
             status: 'Success',
@@ -53,7 +52,7 @@ class RecursiveShadowCasting extends FOV {
 
     /**
      * Compute each tile from the given octant.
-     * 
+     *
      * @param start - The position of the tile to start
      * @param row - The current row
      * @param startSlope - The slope to start at
@@ -69,7 +68,9 @@ class RecursiveShadowCasting extends FOV {
         octant: number[],
         visiblesSet: Set<string>
     ) {
-        if (startSlope < endSlope) return;
+        if (startSlope < endSlope) {
+            return;
+        }
 
         const xx = octant[0];
         const xy = octant[1];
@@ -93,21 +94,22 @@ class RecursiveShadowCasting extends FOV {
                 let h = this.grid.length;
                 let w = this.grid[0].length;
 
-                if (!(mx >= 0 && mx < h && my >= 0 && my < w))
-                    break;
+                if (!(mx >= 0 && mx < h && my >= 0 && my < w)) break;
 
                 let leftSlope = (dx - 0.5) / (dy + 0.5);
                 let rightSlope = (dx + 0.5) / (dy - 0.5);
 
-                if (startSlope < rightSlope)
+                if (startSlope < rightSlope) {
                     continue;
+                }
 
-                if (endSlope > leftSlope)
+                if (endSlope > leftSlope) {
                     break;
+                }
 
                 // Circle around the starting position.
                 if (dx * dx + dy * dy < this.radius * this.radius) {
-                    visiblesSet.add(mx + "," + my);
+                    visiblesSet.add(mx + ',' + my);
                 }
 
                 if (blocked) {
@@ -121,7 +123,14 @@ class RecursiveShadowCasting extends FOV {
                 } else {
                     if (!this.callbackLight(this.grid[mx][my]) && i < this.radius) {
                         blocked = true;
-                        this.processOctants(start, i + 1, startSlope, leftSlope, octant, visiblesSet);
+                        this.processOctants(
+                            start,
+                            i + 1,
+                            startSlope,
+                            leftSlope,
+                            octant,
+                            visiblesSet
+                        );
                         newStart = rightSlope;
                     }
                 }

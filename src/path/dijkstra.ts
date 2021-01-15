@@ -8,7 +8,7 @@ import { ResultPath } from '../result';
 
 /**
  * Dijkstra algorithm with 4 or 8 directions.
- * 
+ *
  * @todo
  * The 8 directions needs huge improvements.
  */
@@ -30,7 +30,7 @@ class Dijkstra extends Path {
         this.callbackBlock = newCallbackBlock || this.callbackBlock;
 
         let distances: Map<Cell, number> = new Map();
-        let open: MinBinaryHeap<Cell> = new MinBinaryHeap(cell => distances.get(cell));
+        let open: MinBinaryHeap<Cell> = new MinBinaryHeap((cell) => distances.get(cell));
         let marked: Set<Cell> = new Set();
         this.parents = new Map();
 
@@ -54,7 +54,7 @@ class Dijkstra extends Path {
 
         for (let neighbor of startCell.neighbors) {
             let topology = neighbor.topology.type;
-            let distance = (topology === 4) ? D : D2;
+            let distance = topology === 4 ? D : D2;
             distances.set(neighbor.cell, distance);
             open.push(neighbor.cell);
             this.parents.set(neighbor.cell, startCell);
@@ -90,7 +90,7 @@ class Dijkstra extends Path {
                 if (marked.has(ncell)) continue;
 
                 let topology = neighbor.topology.type;
-                let distanceToCurrent = (topology === 4) ? D : D2;
+                let distanceToCurrent = topology === 4 ? D : D2;
                 let distance = distances.get(current) + distanceToCurrent;
 
                 if (!open.contains(ncell)) {

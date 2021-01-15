@@ -6,4 +6,3 @@ export { default as Draw } from './draw/draw';
 
 export { DIRECTIONS, TILE_WIDTH, TILE_HEIGHT } from './constants';
 export { default as Position } from './position';
-

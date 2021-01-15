@@ -2,7 +2,7 @@ import Position from '../position';
 import { Neighbor } from './path';
 
 /**
- * A Cell used to compute paths. 
+ * A Cell used to compute paths.
  */
 class Cell {
     position: Position;

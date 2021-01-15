@@ -5,6 +5,6 @@
 const OPACITY = {
     LINE: 0.9,
     TILE: 0.5
-}
+};
 
 export default OPACITY;

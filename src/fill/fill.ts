@@ -17,7 +17,7 @@ abstract class Fill {
     /**
      * @constructor
      * @param grid          - The original grid
-     * @param callbackFill  - A function to test if a cell of the grid is a block 
+     * @param callbackFill  - A function to test if a cell of the grid is a block
      */
     constructor(grid: any[][], callbackFill: CallbackFill) {
         this.grid = grid;
@@ -29,14 +29,14 @@ abstract class Fill {
 
     /**
      * Process the filling
-     * 
+     *
      * @param startPosition  - The position to start the computation with
      * @param targetCallback - The function used to test if a cell is a target
      */
     abstract process(startPosition: Position, targetCallback: CallbackFill): ResultFill;
 
     /**
-     * Init the grid used to compute the flood filling. 
+     * Init the grid used to compute the flood filling.
      */
     protected createColorGrid(): void {
         for (let x = 0; x < this.height; x++) {
