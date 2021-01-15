@@ -1,8 +1,8 @@
 import { CallbackBlock } from '../callbacks';
-import { baseColors, fovColors, lineColors, pathColors } from './colors';
+import { baseColors, fillColors, fovColors, lineColors, pathColors } from './colors';
 import OPACITY from './opacity';
 import Position from '../position';
-import { Result, ResultFov, ResultLine, ResultPath } from '../result';
+import { Result, ResultFill, ResultFov, ResultLine, ResultPath } from '../result';
 
 interface MeasurementOptions {
     widthTile: number,
@@ -26,7 +26,7 @@ interface BaseOpacity {
 
 export const opacities: BaseOpacity = {
     line: OPACITY.LINE,
-    algorithm: OPACITY.ALGORITHM,
+    algorithm: OPACITY.TILE,
 }
 
 class Draw {
@@ -193,6 +193,32 @@ class Draw {
                 this.drawOptions.heightTile
             );
         });
+
+        this.context.closePath();
+        this.context.globalAlpha = 1;
+        this.drawLines();
+    }
+
+    drawFill(result: ResultFill): void {
+        this.clearCanvas();
+
+        let h = this.grid.length;
+        let w = this.grid[0].length;
+        this.drawTiles();
+
+        this.context.beginPath();
+        this.context.globalAlpha = opacities.line;
+
+        result.filled.forEach((position) => {
+            this.context.fillStyle = fillColors.fill;
+
+            this.context.fillRect(
+                position.y * this.drawOptions.widthTile,
+                position.x * this.drawOptions.heightTile,
+                this.drawOptions.widthTile,
+                this.drawOptions.heightTile
+            );
+        })
 
         this.context.closePath();
         this.context.globalAlpha = 1;

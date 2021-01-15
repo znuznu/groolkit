@@ -18,3 +18,8 @@ export interface ResultFov extends Result {
     status: 'Success' | 'Failed';
     visibles?: Position[];
 }
+
+export interface ResultFill extends Result {
+    status: 'Success' | 'Block' | 'Failed';
+    filled?: Position[];
+}

@@ -18,7 +18,7 @@ export const COLOR = {
     START: 'pink',
     END: 'green',
     PATH: 'yellow',
-    RFF: 'lightblue',
+    FILL: 'lightblue',
     LINE_ALGORITHM: 'red',
     FOV: 'wheat',
 }
@@ -61,4 +61,12 @@ export const baseColors: BaseColors = {
     passage: COLOR.PASSAGE,
     block: COLOR.BLOCK,
     line: COLOR.LINE,
+}
+
+export interface FillColors {
+    fill: string,
+}
+
+export const fillColors: FillColors = {
+    fill: COLOR.FILL,
 }

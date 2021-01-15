@@ -18,8 +18,9 @@ abstract class Line {
         let startCheck = start.x >= 0 && start.x < h && start.y >= 0 && start.y < w;
         let endCheck = end.x >= 0 && end.x < h && end.y >= 0 && end.y < w;
 
-        if (!(startCheck && endCheck))
+        if (!(startCheck && endCheck)) {
             return { status: 'Incomplete', positions: [] }
+        }
     }
 }
 

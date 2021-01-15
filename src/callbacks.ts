@@ -1,4 +1,4 @@
-import Position  from './position';
+import Position from './position';
 
 export interface CallbackBlock {
     (element: any): boolean;
@@ -9,5 +9,5 @@ export interface CallbackLight {
 }
 
 export interface CallbackFill {
-    (position: Position): number;
+    (element: any): boolean;
 };
