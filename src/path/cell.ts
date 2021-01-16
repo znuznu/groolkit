@@ -1,6 +1,9 @@
 import Position from '../position';
 import { Neighbor } from './path';
 
+/**
+ * A class used to represent a copy of a cell from the original grid.
+ */
 class Cell {
     position: Position;
     data: any;
