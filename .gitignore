@@ -1,6 +1,6 @@
-node_modules
-lib
-lib-esm
-dist
-scripts
+node_modules/
+lib/
+dist/
+scripts/
 .vscode/
+coverage/
