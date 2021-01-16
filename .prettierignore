@@ -3,3 +3,4 @@ package-lock.json
 tsconfig.json
 webpack.config.js
 README.md
+.travis.yml
