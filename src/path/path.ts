@@ -57,7 +57,7 @@ abstract class Path {
      *
      * Note: Neighbors are not initialized.
      */
-    protected init(): void {
+    init(): void {
         let h = this.grid.length;
         let w = this.grid[0].length;
 
