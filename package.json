@@ -1,6 +1,6 @@
 {
   "name": "@znuznu/groolkit",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "A library with a bunch of algorithms related to grids.",
   "repository": {
     "type": "git",
