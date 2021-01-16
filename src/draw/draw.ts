@@ -1,23 +1,37 @@
 import { CallbackBlock } from '../callbacks';
-import { baseColors, fillColors, fovColors, lineColors, pathColors } from './colors';
+import {
+    BaseColors,
+    baseColors,
+    FillColors,
+    fillColors,
+    FovColors,
+    fovColors,
+    LineColors,
+    lineColors,
+    PathColors,
+    pathColors
+} from './colors';
 import { ResultFill, ResultFov, ResultLine, ResultPath } from '../result';
-import { TILE_HEIGHT, TILE_WIDTH } from './constants';
 import OPACITY from './opacity';
 import Position from '../position';
 
-interface MeasurementOptions {
-    widthTile: number;
-    heightTile: number;
+interface DrawColors {
+    base: BaseColors;
+    fill: FillColors;
+    fov: FovColors;
+    line: LineColors;
+    path: PathColors;
 }
 
-const measurementOptions: MeasurementOptions = {
-    widthTile: TILE_WIDTH,
-    heightTile: TILE_HEIGHT
-};
+interface CellSize {
+    width: number;
+    height: number;
+}
 
 export interface DrawOptions {
     widthTile: number;
     heightTile: number;
+    colors: DrawColors;
 }
 
 interface BaseOpacity {
@@ -34,23 +48,47 @@ class Draw {
     protected context: CanvasRenderingContext2D;
     private grid: any[][];
     private callback: CallbackBlock;
-    protected drawOptions: DrawOptions;
+    protected drawOptions: Partial<DrawOptions>;
 
     constructor(
         context: CanvasRenderingContext2D,
         grid: any[][],
         callback: CallbackBlock,
-        drawOptions: DrawOptions
+        sizeOptions?: Partial<CellSize>
     ) {
         this.context = context;
         this.grid = grid;
         this.callback = callback;
-        this.drawOptions = drawOptions;
+        this.drawOptions = {
+            widthTile: sizeOptions ? sizeOptions.width ?? 16 : 16,
+            heightTile: sizeOptions ? sizeOptions.height ?? 16 : 16,
+            colors: {
+                base: {
+                    passage: baseColors.passage,
+                    block: baseColors.passage,
+                    line: baseColors.line
+                },
+                fill: {
+                    fill: fillColors.fill
+                },
+                fov: {
+                    visible: fovColors.visible
+                },
+                line: {
+                    tile: lineColors.tile
+                },
+                path: {
+                    path: pathColors.path,
+                    start: pathColors.start,
+                    end: pathColors.end
+                }
+            }
+        };
     }
 
     clearCanvas(): void {
-        let h = this.grid.length * measurementOptions.widthTile;
-        let w = this.grid[0].length * measurementOptions.heightTile;
+        let h = this.grid.length * this.drawOptions.widthTile;
+        let w = this.grid[0].length * this.drawOptions.heightTile;
         this.context.clearRect(0, 0, w, h);
     }
 
@@ -58,8 +96,8 @@ class Draw {
         let h = this.grid.length;
         let w = this.grid[0].length;
 
-        this.context.canvas.width = w * measurementOptions.widthTile;
-        this.context.canvas.height = h * measurementOptions.heightTile;
+        this.context.canvas.width = w * this.drawOptions.widthTile;
+        this.context.canvas.height = h * this.drawOptions.heightTile;
 
         this.context.beginPath();
         this.drawTiles();
@@ -89,16 +127,16 @@ class Draw {
         }
 
         this.context.fillRect(
-            y * measurementOptions.widthTile,
-            x * measurementOptions.heightTile,
-            measurementOptions.widthTile,
-            measurementOptions.heightTile
+            y * this.drawOptions.widthTile,
+            x * this.drawOptions.heightTile,
+            this.drawOptions.widthTile,
+            this.drawOptions.heightTile
         );
     }
 
     protected drawLines(): void {
-        let h = this.grid.length * measurementOptions.heightTile;
-        let w = this.grid[0].length * measurementOptions.widthTile;
+        let h = this.grid.length * this.drawOptions.heightTile;
+        let w = this.grid[0].length * this.drawOptions.widthTile;
 
         this.context.strokeStyle = baseColors.line;
         this.context.globalAlpha = opacities.line;
@@ -106,18 +144,14 @@ class Draw {
         let x: number,
             y: number = 0;
 
-        for (
-            x = measurementOptions.heightTile;
-            x < h;
-            x += measurementOptions.heightTile
-        ) {
+        for (x = this.drawOptions.heightTile; x < h; x += this.drawOptions.heightTile) {
             this.context.moveTo(y, x);
             this.context.lineTo(w, x);
         }
 
         x = 0;
 
-        for (y = measurementOptions.widthTile; y < w; y += measurementOptions.widthTile) {
+        for (y = this.drawOptions.widthTile; y < w; y += this.drawOptions.widthTile) {
             this.context.moveTo(y, x);
             this.context.lineTo(y, h);
         }

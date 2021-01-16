@@ -236,7 +236,15 @@ let dijkstra = new Groolkit.Path.Dijkstra(grid, { type: 4 }, n => n === 1);
 If you want to easily try the library and see what happens, a `Draw` object is provided. You juste need a canvas context and a grid.  
 
 ```typescript
-constructor(context: CanvasRenderingContext2D, grid: any[][], callback: CallbackBlock);
+constructor(context: CanvasRenderingContext2D, grid: any[][], callback: CallbackBlock, sizeOptions?: Partial<CellSize>);
+```
+
+The CellSize is an interface used to set the size of a Cell on the canvas, in pixels. The default value is 16 x 16.  
+```typescript
+interface CellSize {
+    width: number;
+    height: number;
+}
 ```
 
 Example: 

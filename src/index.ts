@@ -3,5 +3,4 @@ export { default as Line } from './line/index';
 export { default as Fill } from './fill/index';
 export { default as Path } from './path/index';
 export { default as Draw } from './draw/draw';
-export { TILE_WIDTH, TILE_HEIGHT } from './draw/constants';
 export { default as Position } from './position';
