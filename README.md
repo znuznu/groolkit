@@ -1,7 +1,9 @@
 # groolkit
 A JavaScript library with a bunch of algorithms related to grids.
 
-__Note__: this is a WIP library and breaking changes might occur in the future. 
+__Note__: this is a WIP library and breaking changes might occur in the future.  
+
+You can see a demo [here](https://znuznu.github.io/gk-demo/).   
 
 ## __Installation__
 `npm i @znuznu/groolkit`
