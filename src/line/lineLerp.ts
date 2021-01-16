@@ -10,12 +10,14 @@ class LineLerp extends Line {
 
     process(start: Position, end: Position) {
         let outOfBound = super.process(start, end);
-        if (outOfBound) return outOfBound;
+        if (outOfBound) {
+            return outOfBound;
+        }
 
         return this.getLine(start, end);
     }
 
-    getLine(start: Position, end: Position): ResultLine {
+    private getLine(start: Position, end: Position): ResultLine {
         let positions: Position[] = [];
 
         let steps = Math.max(Math.abs(end.x - start.x), Math.abs(end.y - start.y));
@@ -48,11 +50,11 @@ class LineLerp extends Line {
         };
     }
 
-    lerp(start: number, target: number, t: number) {
+    private lerp(start: number, target: number, t: number) {
         return start + t * (target - start);
     }
 
-    lerpPosition(p1: Position, p2: Position, t: number) {
+    private lerpPosition(p1: Position, p2: Position, t: number) {
         return {
             x: this.lerp(p1.x, p2.x, t),
             y: this.lerp(p1.y, p2.y, t)

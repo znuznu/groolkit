@@ -1,11 +1,14 @@
+/** True if `cell` is a blocking one. */
 export interface CallbackBlock {
-    (element: any): boolean;
+    (cell: any): boolean;
 }
 
+/** True if light doesn't passes through `cell`. */
 export interface CallbackLight {
-    (element: any): boolean;
+    (cell: any): boolean;
 }
 
+/** True if `cell` is a target to fill. */
 export interface CallbackFill {
-    (element: any): boolean;
+    (cell: any): boolean;
 }

@@ -22,9 +22,15 @@ They are grouped by family:
 
 ## __Usage__
 
-Just import the lib (ESNext module):  
+Just import the lib:  
 ```typescript
 import * as Groolkit from '@znuznu/groolkit';
+```
+
+or
+
+```typescript
+const Groolkit = require('@znuznu/groolkit');
 ```
 
 ### What type of grid can I use ?
@@ -34,7 +40,7 @@ Any type of grid.
 The only thing required alongside the grid is a callback function in order to test the tile property of the grid. For example, `Groolkit` needs to know what cell in your array is block.  
 
 `callbackBlock`: return true if the tile is a blocking one (a wall...)  
-`callbackLight`: return true if the light passes through
+`callbackLight`: return true if the light doesn't passes through
 `callbackFill`: return true if the tile is a target to fill
 
 ### What is this grid below ?
@@ -96,7 +102,7 @@ interface Options {
 
 Example:
 ```typescript
-let rcs = new Groolkit.FOV.RecursiveShadowCasting(grid, n => n === 0);
+let rcs = new Groolkit.FOV.RecursiveShadowCasting(grid, n => n !== 0);
 ```
 
 ### Line

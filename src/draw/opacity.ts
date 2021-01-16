@@ -1,6 +1,6 @@
 /**
- * LINE         - The line opacity used in the grid drawing.
- * TILE         - The algorithm tiles opacity used in the grid drawing.
+ * LINE - The line opacity used in the grid drawing.
+ * TILE - The algorithm tiles opacity used in the grid drawing.
  */
 const OPACITY = {
     LINE: 0.9,

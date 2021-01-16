@@ -1,8 +1,8 @@
-import { DIRECTIONS, D, D2 } from '../constants';
+import { DIRECTIONS } from './constants';
 import { CallbackBlock } from '../callbacks';
-import Position from '../position';
-import Cell from './cell';
 import { ResultPath } from '../result';
+import Position, { gridContainsPosition } from '../position';
+import Cell from './cell';
 
 export interface Topology {
     type: 4 | 8;
@@ -14,22 +14,22 @@ export interface Neighbor {
 }
 
 /**
- * A Path used to compute paths in a grid.
+ * A class used to compute shortest paths between two cells in a grid.
  */
 abstract class Path {
-    grid: any[][];
-    callbackBlock: CallbackBlock;
-    topology: Topology;
+    protected grid: any[][];
+    protected callbackBlock: CallbackBlock;
+    protected topology: Topology;
     // The grid we use to compute paths.
-    gridCell: Cell[][];
+    protected gridCell: Cell[][];
     // The parents from each Cell in order to reconstruct paths.
-    parents: Map<Cell, Cell>;
+    protected parents: Map<Cell, Cell>;
 
     /**
-     *
-     * @param grid - The original grid
+     * @constructor
+     * @param grid          - The original grid
      * @param callbackBlock - A function to test if an element of the grid is a block
-     * @param topology - Orthogonals or diagonals
+     * @param topology      - Orthogonals or diagonals
      */
     constructor(grid: any[][], topology: Topology, callbackBlock: CallbackBlock) {
         this.grid = grid;
@@ -42,8 +42,8 @@ abstract class Path {
     /**
      * Find a path between `start` and `end`.
      *
-     * @param start - The position from the cell to start with
-     * @param end - The position from the cell to end with
+     * @param start         - The position of the cell to start with
+     * @param end           - The position of the cell to end with
      * @param callbackBlock - An other block testing function, might be useful
      */
     abstract search(
@@ -55,10 +55,9 @@ abstract class Path {
     /**
      * Init the Cell grid used to compute a path.
      *
-     * @remarks
-     * Neighbors are not initialized.
+     * Note: Neighbors are not initialized.
      */
-    init(): void {
+    protected init(): void {
         let h = this.grid.length;
         let w = this.grid[0].length;
 
@@ -73,7 +72,7 @@ abstract class Path {
     /**
      * Get all neighbors from the Cell (based on the topology).
      *
-     * @param cell - Cell to get the neighbors from
+     * @param cell - Cell to get the neighbors of
      * @returns An array containing the neighbors and the topology it comes from
      */
     protected getNeighbors(cell: Cell): Neighbor[] {
@@ -101,7 +100,7 @@ abstract class Path {
     }
 
     /**
-     * Initialize the neighbors from the given Cell.
+     * Initialize the neighbors of the given Cell.
      *
      * @param cell - The Cell to initialize the neighbors
      */
@@ -130,17 +129,15 @@ abstract class Path {
      * @returns True if the Cell exists
      */
     protected contains(x: number, y: number): boolean {
-        let h = this.grid.length;
-        let w = this.grid[0].length;
-        return x >= 0 && x < h && y >= 0 && y < w;
+        return gridContainsPosition(this.grid, { x, y });
     }
 
     /**
      * Check that start and end are valid positions.
-     * They must be existing coordinates and not one from a blocking Cell.
+     * They must be existing coordinates and not one of a blocking Cell.
      *
      * @param start - The Cell position to start with
-     * @param end - The Cell position to end with
+     * @param end   - The Cell position to end with
      * @returns A Result or undefined if they're valid coordinates
      */
     protected isValidPath(start: Position, end: Position): ResultPath | undefined {

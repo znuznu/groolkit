@@ -18,6 +18,9 @@
   ],
   "main": "dist/groolkit.min.js",
   "types": "dist/types",
+  "files": [
+    "/dist"
+  ],
   "dependencies": {},
   "devDependencies": {
     "awesome-typescript-loader": "^5.2.1",

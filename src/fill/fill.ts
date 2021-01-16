@@ -7,6 +7,9 @@ export interface ColorCell {
     color: string;
 }
 
+/**
+ * A class used to fill a part of a grid like the bucket tool of any raster graphics editor does.
+ */
 abstract class Fill {
     protected grid: any[][];
     protected colorGrid: ColorCell[][];
@@ -16,8 +19,8 @@ abstract class Fill {
 
     /**
      * @constructor
-     * @param grid          - The original grid
-     * @param callbackFill  - A function to test if a cell of the grid is a block
+     * @param grid         - The original grid
+     * @param callbackFill - A function to test if a cell of the grid is a target
      */
     constructor(grid: any[][], callbackFill: CallbackFill) {
         this.grid = grid;
@@ -30,10 +33,9 @@ abstract class Fill {
     /**
      * Process the filling
      *
-     * @param startPosition  - The position to start the computation with
-     * @param targetCallback - The function used to test if a cell is a target
+     * @param startPosition - The position to start the computation with
      */
-    abstract process(startPosition: Position, targetCallback: CallbackFill): ResultFill;
+    abstract process(startPosition: Position): ResultFill;
 
     /**
      * Init the grid used to compute the flood filling.

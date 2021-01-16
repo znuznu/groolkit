@@ -1,17 +1,26 @@
 import { CallbackLight } from '../callbacks';
-import Position from '../position';
+import Position, { gridContainsPosition } from '../position';
 import { ResultFov } from '../result';
 
 export interface Options {
     radius: number;
 }
 
+/**
+ * A class used to compute the Field Of View in a grid.
+ */
 abstract class FOV {
-    grid: any[][];
-    radius: number;
-    visibles: Position[];
-    callbackLight: CallbackLight;
+    protected grid: any[][];
+    protected radius: number;
+    protected visibles: Position[];
+    protected callbackLight: CallbackLight;
 
+    /**
+     * @constructor
+     * @param grid          - The original grid
+     * @param callbackLight - A function to indicate which tile the light doesn't passes through
+     * @param options       - The options related to the computation
+     */
     constructor(
         grid: any[][],
         callbackLight: CallbackLight,
@@ -23,6 +32,11 @@ abstract class FOV {
         this.callbackLight = callbackLight;
     }
 
+    /**
+     * Compute the FOV on the given position.
+     *
+     * @param start - The position to start the computation
+     */
     abstract compute(start: Position): ResultFov;
 
     /**
@@ -30,13 +44,10 @@ abstract class FOV {
      * It is acceptable to compute lights for a blocking tile,
      * for example if a torch is on a wall of a dungeon.
      *
-     * @param start - The position to start at
+     * @param start - The position to start
      */
     protected isValidStart(start: Position): boolean {
-        let h = this.grid.length;
-        let w = this.grid[0].length;
-
-        return start.x >= 0 && start.x < h && start.y >= 0 && start.y < w;
+        return gridContainsPosition(this.grid, start);
     }
 }
 

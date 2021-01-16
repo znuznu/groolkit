@@ -18,7 +18,6 @@ const OCTANTS = [
  * Recursive Shadow Casting based on Björn Bergström's algorithm.
  * You can find an idea of how it works here:
  * http://www.roguebasin.com/index.php?title=FOV_using_recursive_shadowcasting
- *
  */
 class RecursiveShadowCasting extends FOV {
     constructor(grid: any[][], callbackLight: CallbackLight, options?: Partial<Options>) {
@@ -51,16 +50,16 @@ class RecursiveShadowCasting extends FOV {
     }
 
     /**
-     * Compute each tile from the given octant.
+     * Compute each tile of the given octant.
      *
-     * @param start - The position of the tile to start
-     * @param row - The current row
-     * @param startSlope - The slope to start at
-     * @param endSlope - The slope to end at
-     * @param octant - The current octant
+     * @param start       - The position of the tile to start
+     * @param row         - The current row
+     * @param startSlope  - The slope to start
+     * @param endSlope    - The slope to end
+     * @param octant      - The current octant
      * @param visiblesSet - The visibles tile positions (as a string)
      */
-    protected processOctants(
+    private processOctants(
         start: Position,
         row: number,
         startSlope: number,
@@ -94,7 +93,9 @@ class RecursiveShadowCasting extends FOV {
                 let h = this.grid.length;
                 let w = this.grid[0].length;
 
-                if (!(mx >= 0 && mx < h && my >= 0 && my < w)) break;
+                if (!(mx >= 0 && mx < h && my >= 0 && my < w)) {
+                    break;
+                }
 
                 let leftSlope = (dx - 0.5) / (dy + 0.5);
                 let rightSlope = (dx + 0.5) / (dy - 0.5);
@@ -136,7 +137,9 @@ class RecursiveShadowCasting extends FOV {
                 }
             }
 
-            if (blocked) break;
+            if (blocked) {
+                break;
+            }
         }
     }
 }

@@ -1,8 +1,9 @@
 import { CallbackBlock } from '../callbacks';
 import { baseColors, fillColors, fovColors, lineColors, pathColors } from './colors';
+import { ResultFill, ResultFov, ResultLine, ResultPath } from '../result';
+import { TILE_HEIGHT, TILE_WIDTH } from './constants';
 import OPACITY from './opacity';
 import Position from '../position';
-import { Result, ResultFill, ResultFov, ResultLine, ResultPath } from '../result';
 
 interface MeasurementOptions {
     widthTile: number;
@@ -10,8 +11,8 @@ interface MeasurementOptions {
 }
 
 const measurementOptions: MeasurementOptions = {
-    widthTile: 16,
-    heightTile: 16
+    widthTile: TILE_WIDTH,
+    heightTile: TILE_HEIGHT
 };
 
 export interface DrawOptions {
@@ -216,9 +217,6 @@ class Draw {
 
     drawFill(result: ResultFill): void {
         this.clearCanvas();
-
-        let h = this.grid.length;
-        let w = this.grid[0].length;
         this.drawTiles();
 
         this.context.beginPath();

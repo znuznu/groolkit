@@ -3,6 +3,7 @@ const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
 
 module.exports = {
+    mode: 'production',
     entry: {
         'groolkit': './src/index.ts',
         'groolkit.min': './src/index.ts'

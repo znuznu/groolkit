@@ -1,5 +1,5 @@
 import { CallbackBlock } from '../callbacks';
-import { D, D2 } from '../constants';
+import { D, D2 } from './constants';
 import Path, { Topology } from './path';
 import Position from '../position';
 import MinBinaryHeap from '../struct/minBinaryHeap';

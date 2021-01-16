@@ -1,6 +1,6 @@
 import { CallbackFill } from '../callbacks';
 import Fill, { ColorCell } from './fill';
-import Position, { gridContainsPosition } from '../position';
+import Position from '../position';
 import { ResultFill } from '../result';
 
 type Index = [-1, 0] | [1, 0] | [0, -1] | [0, 1];
@@ -10,12 +10,6 @@ class FloodFill extends Fill {
         super(grid, callbackFill);
     }
 
-    /**
-     * Compute the flood filling.
-     *
-     * @param x - The x coordinate of the Cell to start with
-     * @param y - The y coordinate of the Cell to start with
-     */
     process(startPosition: Position): ResultFill {
         if (!this.contains(startPosition)) {
             return { status: 'Failed' };
@@ -36,9 +30,9 @@ class FloodFill extends Fill {
     /**
      * Fill the grid line by line.
      *
-     * @param cell              - The ColorCell to start with
-     * @param targetColor       - The color to replace
-     * @param replacementColor  - The color used to replace the target color
+     * @param cell             - The ColorCell to start with
+     * @param targetColor      - The color to replace
+     * @param replacementColor - The color used to replace the target color
      */
     private fill(cell: ColorCell): Position[] {
         if (cell.color === 'ignore') {
@@ -73,9 +67,9 @@ class FloodFill extends Fill {
      * Fill the line and check for each ColorCell of the line if their
      * vertical neighbours are target too.
      *
-     * @param cell      - The ColorCell of the line to start with
-     * @param index     - Numbers to add to our ColorCell in order to find the neighbor
-     * @param stack     - The ColorCell stack containing cells to process
+     * @param cell  - The ColorCell of the line to start with
+     * @param index - Numbers to add to our ColorCell in order to find the neighbor
+     * @param stack - The ColorCell stack containing cells to process
      */
     private processLine(cell: ColorCell, index: Index, stack: ColorCell[]): Position[] {
         let next1X = cell.position.x + index[0];
@@ -109,9 +103,9 @@ class FloodFill extends Fill {
     /**
      * Check vertical neighbors and add them to the stack if they have a target color.
      *
-     * @param cell          - The ColorCell to start with
-     * @param targetColor   - The color to find and replace
-     * @param stack         - The ColorCell stack containing cells to process
+     * @param cell        - The ColorCell to start with
+     * @param targetColor - The color to find and replace
+     * @param stack       - The ColorCell stack containing cells to process
      */
     private checkVerticalNeighbors(cell: ColorCell, stack: ColorCell[]) {
         const verticals: Index[] = [

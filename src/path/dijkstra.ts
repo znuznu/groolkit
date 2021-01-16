@@ -1,16 +1,13 @@
 import { CallbackBlock } from '../callbacks';
-import { D, D2 } from '../constants';
+import { D, D2 } from './constants';
+import { ResultPath } from '../result';
 import Path, { Topology } from './path';
 import Position from '../position';
 import MinBinaryHeap from '../struct/minBinaryHeap';
 import Cell from './cell';
-import { ResultPath } from '../result';
 
 /**
- * Dijkstra algorithm with 4 or 8 directions.
- *
- * @todo
- * The 8 directions needs huge improvements.
+ * Dijkstra pathfinding algorithm with 4 or 8 directions.
  */
 class Dijkstra extends Path {
     constructor(grid: any[][], topology: Topology, callbackBlock: CallbackBlock) {

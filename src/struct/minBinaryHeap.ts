@@ -7,8 +7,8 @@ export interface ScoreCallback<T> {
  */
 class MinBinaryHeap<T> {
     data: T[];
-    dataSet: Set<T>;
-    scoreFunction: ScoreCallback<T>;
+    private dataSet: Set<T>;
+    private scoreFunction: ScoreCallback<T>;
 
     /**
      * @constructor
@@ -60,7 +60,7 @@ class MinBinaryHeap<T> {
     }
 
     /**
-     * Remove the node given from this MinBinaryHeap (and update).
+     * Remove the node given of this MinBinaryHeap (and update).
      *
      * @param node - The node to remove
      */
