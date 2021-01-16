@@ -37,11 +37,11 @@ const Groolkit = require('@znuznu/groolkit');
 Any type of grid. 
 
 ### What is this callback thing ?
-The only thing required alongside the grid is a callback function in order to test the tile property of the grid. For example, `Groolkit` needs to know what cell in your array is block.  
+The only thing required alongside the grid is a callback function in order to test the cell property of the grid. For example, `Groolkit` needs to know what cell in your array is a block in order to avoid it during a shortest path computation.  
 
-`callbackBlock`: return true if the tile is a blocking one (a wall...)  
+`callbackBlock`: return true if the cell is a blocking one (a wall...)  
 `callbackLight`: return true if the light doesn't passes through
-`callbackFill`: return true if the tile is a target to fill
+`callbackFill`: return true if the cell is a target to fill
 
 ### What is this grid below ?
 
