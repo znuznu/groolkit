@@ -1,4 +1,4 @@
-export const scenarios = [
+export const goodScenarios = [
     {
         start: { x: 0, y: 0 },
         end: { x: 3, y: 2 },
