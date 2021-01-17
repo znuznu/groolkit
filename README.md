@@ -1,5 +1,8 @@
 # groolkit
-[![Build Status](https://travis-ci.com/znuznu/groolkit.svg?branch=master)](https://travis-ci.com/znuznu/groolkit)  
+[![npm version](https://img.shields.io/npm/v/@znuznu/groolkit.svg)](https://www.npmjs.com/package/@znuznu/groolkit)
+[![CI Status](https://github.com/znuznu/groolkit/workflows/CI/badge.svg)](https://github.com/znuznu/groolkit/actions)
+![License](https://img.shields.io/github/license/znuznu/groolkit)
+
 A JavaScript library with a bunch of algorithms related to grids.  
 
 __Note__: this is a WIP library and breaking changes might occur in the future.  
