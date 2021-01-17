@@ -20,7 +20,7 @@ They are grouped by family:
     * Recursive shadow casting
 * Line:
     * Line interpolation
-* Paint:
+* Fill:
     * Flood fill
 * Pathfinder:
     * A* (4 or 8 directions)
