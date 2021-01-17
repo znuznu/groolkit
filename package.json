@@ -43,9 +43,10 @@
   },
   "scripts": {
     "clean": "rm -rf dist lib",
-    "build": "npm test && npm run clean && tsc && webpack",
+    "build": "npm run clean && tsc && webpack",
     "test": "jest",
     "test-cov": "jest --coverage",
+    "test-build": "npm test && npm build",
     "prettier-write": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "prettier-check": "prettier --config .prettierrc 'src/**/*.ts' --check"
   },
