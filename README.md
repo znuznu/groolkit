@@ -82,13 +82,13 @@ if (result.status === 'Success') {
 }
 ```
 
-Return an object containing informations about the result of the computation:
+Returns an object containing informations about the result of the computation:
 
 ```typescript
 interface ResultFov {
     status: 'Success' | 'Failed',
     // Each lighted tiles
-    visibles?: Position[]
+    positions?: Position[]
 }
 ```
 
@@ -126,7 +126,7 @@ let result = line.process(startPosition, endPosition);
 // ...do funny things with the result
 ```
 
-Return an object containing informations about the result of the line computation:
+Returns an object containing informations about the result of the line computation:
 
 ```typescript
 interface ResultLine {
@@ -161,6 +161,16 @@ let fill = ...;
 let result = fill.process(position);
 
 // ...do funny things with the result
+```
+
+Returns an object containing informations about the result of the filling computation:
+
+```typescript
+interface ResultFill {
+    status: 'Success' | 'Block' | 'Failed';
+    // Filled cells positions
+    positions?: Position[];
+}
 ```
 
 #### Flood fill
@@ -201,12 +211,13 @@ if (result.status === 'Found') {
 }
 ```
 
-Return an object containing informations about the result of the computation:
+Returns an object containing informations about the result of the computation:
 
 ```typescript
 interface Result {
     status: 'Found' | 'Unreachable' | 'Invalid' | 'Block';
-    path?: Position[];
+    // Path positions
+    positions?: Position[];
 }
 ```
 

@@ -80,7 +80,7 @@ class Dijkstra<T> extends Path<T> {
 
                 path.push({ x: cursor.position.x, y: cursor.position.y });
 
-                return { status: 'Found', path: path.reverse() };
+                return { status: 'Found', positions: path.reverse() };
             }
 
             if (!current.neighbors) {

@@ -23,7 +23,7 @@ class FloodFill<T> extends Fill<T> {
 
         return {
             status: filled.length ? 'Success' : 'Block',
-            filled: filled
+            positions: filled
         };
     }
 

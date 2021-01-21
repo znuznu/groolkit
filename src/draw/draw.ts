@@ -172,12 +172,12 @@ class Draw<T> {
         this.context.beginPath();
         this.context.globalAlpha = opacities.algorithm;
 
-        result.path.forEach((tile, index) => {
+        result.positions.forEach((tile, index) => {
             let color = pathColors.path;
 
             if (index === 0) {
                 color = pathColors.start;
-            } else if (index === result.path.length - 1) {
+            } else if (index === result.positions.length - 1) {
                 color = pathColors.end;
             }
 
@@ -206,7 +206,7 @@ class Draw<T> {
         }
 
         this.context.beginPath();
-        result.visibles.forEach((p: Position) => {
+        result.positions.forEach((p: Position) => {
             if (dark) {
                 this.drawTile(p);
             }
@@ -256,7 +256,7 @@ class Draw<T> {
         this.context.beginPath();
         this.context.globalAlpha = opacities.line;
 
-        result.filled.forEach((position) => {
+        result.positions.forEach((position) => {
             this.context.fillStyle = fillColors.fill;
 
             this.context.fillRect(

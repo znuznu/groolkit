@@ -45,11 +45,11 @@ class RecursiveShadowCasting<T> extends FOV<T> {
             this.processOctants(start, 1, 1.0, 0.0, OCTANTS[i], visiblesSet);
         }
 
-        let visibles = Array.from(visiblesSet).map((p: string) => strToPosition(p));
+        let positions = Array.from(visiblesSet).map((p: string) => strToPosition(p));
 
         return {
             status: 'Success',
-            visibles: visibles
+            positions
         };
     }
 

@@ -6,7 +6,7 @@ it('should return the expected length with type 4', () => {
         const star = new Dijkstra(scenario.grid, { type: 4 }, (c) => c === 1);
         star.init();
 
-        expect(star.search(scenario.start, scenario.end).path.length).toEqual(
+        expect(star.search(scenario.start, scenario.end).positions.length).toEqual(
             scenario.expectedLength
         );
     });

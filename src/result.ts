@@ -11,15 +11,15 @@ export interface ResultLine extends Result {
 
 export interface ResultPath extends Result {
     status: 'Found' | 'Unreachable' | 'Invalid' | 'Block';
-    path?: Position[];
+    positions?: Position[];
 }
 
 export interface ResultFov extends Result {
     status: 'Success' | 'Failed';
-    visibles?: Position[];
+    positions?: Position[];
 }
 
 export interface ResultFill extends Result {
     status: 'Success' | 'Block' | 'Failed';
-    filled?: Position[];
+    positions?: Position[];
 }
