@@ -40,7 +40,7 @@ const Groolkit = require('@znuznu/groolkit');
 ```
 
 ### What type of grid can I use ?
-Any type of grid. 
+Any type of two-dimensional arrays.  
 
 ### What is this callback thing ?
 The only thing required alongside the grid is a callback function in order to test the cell property of the grid. For example, `Groolkit` needs to know what cell in your array is a block in order to avoid it during a shortest path computation.  
@@ -96,7 +96,7 @@ interface ResultFov {
 Based on Björn Bergström's [algorithm](http://www.roguebasin.com/index.php?title=FOV_using_recursive_shadowcasting).  
 
 ```typescript
-constructor(grid: any[][], callbackLight: CallbackLight, options: Partial<Options> = {});
+constructor(grid: T[][], callbackLight: CallbackLight<T>, options: Partial<Options> = {});
 ```
 
 ```typescript
@@ -139,7 +139,7 @@ interface ResultLine {
 Draw the line using interpolation, quite efficient.
 
 ```typescript
-constructor(grid: any[][], callbackBlock: CallbackBlock)
+constructor(grid: T[][], callbackBlock: CallbackBlock<T>)
 ```
 
 Example:
@@ -167,7 +167,7 @@ let result = fill.process(position);
 Process line by line.
 
 ```typescript
-constructor(grid: any[][], callbackFill: CallbackFill);
+constructor(grid: T[][], callbackFill: CallbackFill<T>);
 ```
 
 Example:
@@ -217,7 +217,7 @@ A* [algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) with 4 or 8 di
 _Note: Although the result is correct, the 8 directions doesn't always give you the one you can expect._
 
 ```typescript
-constructor(grid: any[][], topology: Topology, callbackBlock: CallbackBlock);
+constructor(grid: T[][], topology: Topology, callbackBlock: CallbackBlock<T>);
 ```
 
 Example:
@@ -230,7 +230,7 @@ let astar = new Groolkit.Path.AStar(grid, { type: 4 }, n => n === 1);
 Dijkstra [algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) with 4 or 8 directions.
 
 ```typescript
-constructor(grid: any[][], topology: Topology, callbackBlock: CallbackBlock);
+constructor(grid: T[][], topology: Topology, callbackBlock: CallbackBlock<T>);
 ```
 
 ```typescript
@@ -242,7 +242,7 @@ let dijkstra = new Groolkit.Path.Dijkstra(grid, { type: 4 }, n => n === 1);
 If you want to easily try the library and see what happens, a `Draw` object is provided. You juste need a canvas context and a grid.  
 
 ```typescript
-constructor(context: CanvasRenderingContext2D, grid: any[][], callback: CallbackBlock, sizeOptions?: Partial<CellSize>);
+constructor(context: CanvasRenderingContext2D, grid: T[][], callback: CallbackBlock<T>, sizeOptions?: Partial<CellSize>);
 ```
 
 The CellSize is an interface used to set the size of a Cell on the canvas, in pixels. The default value is 16 x 16.  
