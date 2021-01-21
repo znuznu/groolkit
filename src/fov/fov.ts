@@ -9,11 +9,11 @@ export interface Options {
 /**
  * A class used to compute the Field Of View in a grid.
  */
-abstract class FOV {
-    protected grid: any[][];
+abstract class FOV<T> {
+    protected grid: T[][];
     protected radius: number;
     protected visibles: Position[];
-    protected callbackLight: CallbackLight;
+    protected callbackLight: CallbackLight<T>;
 
     /**
      * @constructor
@@ -22,8 +22,8 @@ abstract class FOV {
      * @param options       - The options related to the computation
      */
     constructor(
-        grid: any[][],
-        callbackLight: CallbackLight,
+        grid: T[][],
+        callbackLight: CallbackLight<T>,
         options: Partial<Options> = {}
     ) {
         this.grid = grid;

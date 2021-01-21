@@ -9,12 +9,16 @@ import { ResultPath } from '../result';
 /**
  * A* algorithm with 4 or 8 directions.
  */
-class AStar extends Path {
-    constructor(grid: any[][], topology: Topology, callbackBlock: CallbackBlock) {
+class AStar<T> extends Path<T> {
+    constructor(grid: T[][], topology: Topology, callbackBlock: CallbackBlock<T>) {
         super(grid, topology, callbackBlock);
     }
 
-    search(start: Position, end: Position, newCallbackBlock?: CallbackBlock): ResultPath {
+    search(
+        start: Position,
+        end: Position,
+        newCallbackBlock?: CallbackBlock<T>
+    ): ResultPath {
         let validPositions = this.isValidPath(start, end);
 
         if (validPositions) return validPositions;
@@ -26,8 +30,8 @@ class AStar extends Path {
 
         this.callbackBlock = newCallbackBlock || this.callbackBlock;
 
-        let gScore: Map<Cell, number> = new Map();
-        let fScore: Map<Cell, number> = new Map();
+        let gScore: Map<Cell<T>, number> = new Map();
+        let fScore: Map<Cell<T>, number> = new Map();
         this.parents = new Map();
 
         gScore.set(startCell, 0);
@@ -35,18 +39,18 @@ class AStar extends Path {
         let f = gScore.get(startCell) + this.distance(startCell, endCell);
         fScore.set(startCell, f);
 
-        let open: MinBinaryHeap<Cell> = new MinBinaryHeap((cell) => fScore.get(cell));
-        let close: Set<Cell> = new Set();
+        let open: MinBinaryHeap<Cell<T>> = new MinBinaryHeap((cell) => fScore.get(cell));
+        let close: Set<Cell<T>> = new Set();
 
         open.push(startCell);
 
         while (open.data.length) {
-            let current: Cell = open.pop();
+            let current: Cell<T> = open.pop();
 
             // Target reached.
             if (current === endCell) {
                 let path: Position[] = [];
-                let cursor: Cell = current;
+                let cursor: Cell<T> = current;
 
                 while (cursor !== startCell) {
                     path.push({ x: cursor.position.x, y: cursor.position.y });
@@ -107,7 +111,7 @@ class AStar extends Path {
      * @param c1 - The first Cell
      * @param c2 - The second Cell
      */
-    protected distance(c1: Cell, c2: Cell): number | undefined {
+    protected distance(c1: Cell<T>, c2: Cell<T>): number | undefined {
         let c1x = c1.position.x,
             c1y = c1.position.y;
         let c2x = c2.position.x,

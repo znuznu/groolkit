@@ -8,22 +8,22 @@ export interface Topology {
     type: 4 | 8;
 }
 
-export interface Neighbor {
-    cell: Cell;
+export interface Neighbor<T> {
+    cell: Cell<T>;
     topology: Topology;
 }
 
 /**
  * A class used to compute shortest paths between two cells in a grid.
  */
-abstract class Path {
-    protected grid: any[][];
-    protected callbackBlock: CallbackBlock;
+abstract class Path<T> {
+    protected grid: T[][];
+    protected callbackBlock: CallbackBlock<T>;
     protected topology: Topology;
     // The grid we use to compute paths.
-    protected gridCell: Cell[][];
-    // The parents from each Cell in order to reconstruct paths.
-    protected parents: Map<Cell, Cell>;
+    protected gridCell: Cell<T>[][];
+    // The parents of each Cell in order to reconstruct paths.
+    protected parents: Map<Cell<T>, Cell<T>>;
 
     /**
      * @constructor
@@ -31,7 +31,7 @@ abstract class Path {
      * @param callbackBlock - A function to test if an element of the grid is a block
      * @param topology      - Orthogonals or diagonals
      */
-    constructor(grid: any[][], topology: Topology, callbackBlock: CallbackBlock) {
+    constructor(grid: T[][], topology: Topology, callbackBlock: CallbackBlock<T>) {
         this.grid = grid;
         this.gridCell = [];
         this.topology = topology;
@@ -49,7 +49,7 @@ abstract class Path {
     abstract search(
         start: Position,
         end: Position,
-        newCallbackBlock?: CallbackBlock
+        newCallbackBlock?: CallbackBlock<T>
     ): ResultPath;
 
     /**
@@ -75,8 +75,8 @@ abstract class Path {
      * @param cell - Cell to get the neighbors of
      * @returns An array containing the neighbors and the topology it comes from
      */
-    protected getNeighbors(cell: Cell): Neighbor[] {
-        let neighbors: Neighbor[] = [];
+    protected getNeighbors(cell: Cell<T>): Neighbor<T>[] {
+        let neighbors: Neighbor<T>[] = [];
 
         let createNeighbor = (directions: number[][], type: number) => {
             directions.forEach((dir) => {
@@ -104,7 +104,7 @@ abstract class Path {
      *
      * @param cell - The Cell to initialize the neighbors
      */
-    protected initNeighbors(cell: Cell): void {
+    protected initNeighbors(cell: Cell<T>): void {
         cell.neighbors = this.getNeighbors(cell);
     }
 

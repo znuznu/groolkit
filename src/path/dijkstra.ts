@@ -9,12 +9,16 @@ import Cell from './cell';
 /**
  * Dijkstra pathfinding algorithm with 4 or 8 directions.
  */
-class Dijkstra extends Path {
-    constructor(grid: any[][], topology: Topology, callbackBlock: CallbackBlock) {
+class Dijkstra<T> extends Path<T> {
+    constructor(grid: T[][], topology: Topology, callbackBlock: CallbackBlock<T>) {
         super(grid, topology, callbackBlock);
     }
 
-    search(start: Position, end: Position, newCallbackBlock?: CallbackBlock): ResultPath {
+    search(
+        start: Position,
+        end: Position,
+        newCallbackBlock?: CallbackBlock<T>
+    ): ResultPath {
         let validPositions = this.isValidPath(start, end);
 
         if (validPositions) return validPositions;
@@ -26,12 +30,14 @@ class Dijkstra extends Path {
 
         this.callbackBlock = newCallbackBlock || this.callbackBlock;
 
-        let distances: Map<Cell, number> = new Map();
-        let open: MinBinaryHeap<Cell> = new MinBinaryHeap((cell) => distances.get(cell));
-        let marked: Set<Cell> = new Set();
+        let distances: Map<Cell<T>, number> = new Map();
+        let open: MinBinaryHeap<Cell<T>> = new MinBinaryHeap((cell) =>
+            distances.get(cell)
+        );
+        let marked: Set<Cell<T>> = new Set();
         this.parents = new Map();
 
-        this.gridCell.forEach((row: Cell[], i: number) => {
+        this.gridCell.forEach((row: Cell<T>[], i: number) => {
             distances.set(row[i], Infinity);
         });
 
@@ -60,12 +66,12 @@ class Dijkstra extends Path {
         marked.add(startCell);
 
         while (open.data.length) {
-            let current: Cell = open.pop();
+            let current: Cell<T> = open.pop();
 
             // Target reached.
             if (current === endCell) {
                 let path: Position[] = [];
-                let cursor: Cell = current;
+                let cursor: Cell<T> = current;
 
                 while (cursor !== startCell) {
                     path.push({ x: cursor.position.x, y: cursor.position.y });

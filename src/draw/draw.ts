@@ -44,16 +44,16 @@ export const opacities: BaseOpacity = {
     algorithm: OPACITY.TILE
 };
 
-class Draw {
+class Draw<T> {
     protected context: CanvasRenderingContext2D;
-    private grid: any[][];
-    private callback: CallbackBlock;
+    private grid: T[][];
+    private callback: CallbackBlock<T>;
     protected drawOptions: Partial<DrawOptions>;
 
     constructor(
         context: CanvasRenderingContext2D,
         grid: any[][],
-        callback: CallbackBlock,
+        callback: CallbackBlock<T>,
         sizeOptions?: Partial<CellSize>
     ) {
         this.context = context;

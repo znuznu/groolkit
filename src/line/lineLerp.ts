@@ -3,8 +3,8 @@ import { CallbackBlock } from '../callbacks';
 import Line from './line';
 import { ResultLine } from '../result';
 
-class LineLerp extends Line {
-    constructor(grid: number[][], callbackBlock: CallbackBlock) {
+class LineLerp<T> extends Line<T> {
+    constructor(grid: T[][], callbackBlock: CallbackBlock<T>) {
         super(grid, callbackBlock);
     }
 

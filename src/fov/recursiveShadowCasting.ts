@@ -19,8 +19,12 @@ const OCTANTS = [
  * You can find an idea of how it works here:
  * http://www.roguebasin.com/index.php?title=FOV_using_recursive_shadowcasting
  */
-class RecursiveShadowCasting extends FOV {
-    constructor(grid: any[][], callbackLight: CallbackLight, options?: Partial<Options>) {
+class RecursiveShadowCasting<T> extends FOV<T> {
+    constructor(
+        grid: T[][],
+        callbackLight: CallbackLight<T>,
+        options?: Partial<Options>
+    ) {
         super(grid, callbackLight, options);
     }
 

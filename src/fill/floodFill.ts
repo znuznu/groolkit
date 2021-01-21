@@ -5,8 +5,8 @@ import { ResultFill } from '../result';
 
 type Index = [-1, 0] | [1, 0] | [0, -1] | [0, 1];
 
-class FloodFill extends Fill {
-    constructor(grid: any[][], callbackFill: CallbackFill) {
+class FloodFill<T> extends Fill<T> {
+    constructor(grid: T[][], callbackFill: CallbackFill<T>) {
         super(grid, callbackFill);
     }
 

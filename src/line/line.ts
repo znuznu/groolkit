@@ -5,16 +5,16 @@ import { ResultLine } from '../result';
 /**
  * A class used to get a line between two cells of a grid.
  */
-abstract class Line {
-    protected grid: any[][];
-    protected callbackBlock: CallbackBlock;
+abstract class Line<T> {
+    protected grid: T[][];
+    protected callbackBlock: CallbackBlock<T>;
 
     /**
      * @constructor
      * @param grid          - The original grid
      * @param callbackBlock - A function to test if an element of the grid is a block
      */
-    constructor(grid: any[][], callbackBlock: CallbackBlock) {
+    constructor(grid: T[][], callbackBlock: CallbackBlock<T>) {
         this.grid = grid;
         this.callbackBlock = callbackBlock;
     }

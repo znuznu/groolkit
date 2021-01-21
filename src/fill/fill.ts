@@ -10,10 +10,10 @@ export interface ColorCell {
 /**
  * A class used to fill a part of a grid like the bucket tool of any raster graphics editor does.
  */
-abstract class Fill {
-    protected grid: any[][];
+abstract class Fill<T> {
+    protected grid: T[][];
     protected colorGrid: ColorCell[][];
-    protected callbackFill: CallbackFill;
+    protected callbackFill: CallbackFill<T>;
     protected width: number;
     protected height: number;
 
@@ -22,7 +22,7 @@ abstract class Fill {
      * @param grid         - The original grid
      * @param callbackFill - A function to test if a cell of the grid is a target
      */
-    constructor(grid: any[][], callbackFill: CallbackFill) {
+    constructor(grid: T[][], callbackFill: CallbackFill<T>) {
         this.grid = grid;
         this.height = this.grid.length;
         this.width = this.grid[0].length;
