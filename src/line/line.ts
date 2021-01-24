@@ -33,7 +33,7 @@ abstract class Line<T> {
         let endCheck = end.x >= 0 && end.x < h && end.y >= 0 && end.y < w;
 
         if (!(startCheck && endCheck)) {
-            return { status: 'Incomplete', positions: [] };
+            return { status: 'Failed' };
         }
     }
 }

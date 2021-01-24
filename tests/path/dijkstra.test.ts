@@ -1,7 +1,7 @@
 import Dijkstra from '../../src/path/dijkstra';
 import { goodScenarios, badScenarios } from './scenarios';
 
-it('should return the expected length with type 4', () => {
+it('should have the expected length with type 4', () => {
     goodScenarios.forEach((scenario) => {
         const star = new Dijkstra(scenario.grid, { type: 4 }, (c) => c === 1);
         star.init();
@@ -12,7 +12,7 @@ it('should return the expected length with type 4', () => {
     });
 });
 
-it('should return the expected status', () => {
+it('should have the expected status', () => {
     goodScenarios.forEach((scenario) => {
         const star = new Dijkstra(scenario.grid, { type: 4 }, (c) => c === 1);
         star.init();

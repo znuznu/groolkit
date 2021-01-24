@@ -130,8 +130,8 @@ Returns an object containing informations about the result of the line computati
 
 ```typescript
 interface ResultLine {
-    status: 'Complete' | 'Incomplete',
-    positions: Position[]
+    status: 'Complete' | 'Incomplete' | 'Failed';
+    positions?: Position[];
 }
 ```
 

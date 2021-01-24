@@ -1,7 +1,7 @@
 import FloodFill from '../../src/fill/floodFill';
 import { goodScenarios, badScenarios } from './scenarios';
 
-it('should return the expected filled targets', () => {
+it('should have the expected filled targets', () => {
     goodScenarios.forEach((scenario) => {
         const flood = new FloodFill(scenario.grid, (c) => c === 0);
 
@@ -11,7 +11,7 @@ it('should return the expected filled targets', () => {
     });
 });
 
-it('should return the expected status', () => {
+it('should have the expected status', () => {
     goodScenarios.forEach((scenario) => {
         const flood = new FloodFill(scenario.grid, (c) => c === 0);
 
