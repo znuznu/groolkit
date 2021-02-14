@@ -14,6 +14,7 @@ import {
 import { ResultFill, ResultFov, ResultLine, ResultPath } from '../result';
 import OPACITY from './opacity';
 import Position from '../position';
+import { Output as RogueOutput } from '../dungeon/rogue/rogue';
 
 interface DrawColors {
     base: BaseColors;
@@ -52,7 +53,7 @@ class Draw<T> {
 
     constructor(
         context: CanvasRenderingContext2D,
-        grid: any[][],
+        grid: T[][],
         callback: CallbackBlock<T>,
         sizeOptions?: Partial<CellSize>
     ) {
@@ -111,7 +112,7 @@ class Draw<T> {
 
         for (let x = 0; x < h; x++) {
             for (let y = 0; y < w; y++) {
-                this.drawTile({ x: x, y: y });
+                this.drawTile({ x, y });
             }
         }
     }
@@ -185,12 +186,7 @@ class Draw<T> {
 
             let x = tile.x * this.drawOptions.heightTile;
             let y = tile.y * this.drawOptions.widthTile;
-            this.context.fillRect(
-                y,
-                x,
-                this.drawOptions.widthTile,
-                this.drawOptions.heightTile
-            );
+            this.context.fillRect(y, x, this.drawOptions.widthTile, this.drawOptions.heightTile);
         });
 
         this.context.closePath();
@@ -269,6 +265,54 @@ class Draw<T> {
 
         this.context.closePath();
         this.context.globalAlpha = 1;
+        this.drawLines();
+    }
+
+    drawRogue(output: RogueOutput): void {
+        this.clearCanvas();
+
+        this.context.beginPath();
+        this.context.globalAlpha = 1;
+
+        output.void.forEach((voidCell) => {
+            this.context.fillStyle = 'black';
+            this.context.fillRect(
+                voidCell.position.y * this.drawOptions.widthTile,
+                voidCell.position.x * this.drawOptions.heightTile,
+                this.drawOptions.widthTile,
+                this.drawOptions.heightTile
+            );
+        });
+
+        for (const room of output.rooms) {
+            const doors = [room.doors.east, room.doors.west, room.doors.north, room.doors.south];
+
+            for (const doorCells of doors) {
+                doorCells.forEach((cell) => {
+                    this.context.fillStyle = 'brown';
+                    this.context.fillRect(
+                        cell.position.y * this.drawOptions.widthTile,
+                        cell.position.x * this.drawOptions.heightTile,
+                        this.drawOptions.widthTile,
+                        this.drawOptions.heightTile
+                    );
+                });
+            }
+
+            for (const roomCell of room.cells) {
+                if (roomCell.type === 1) {
+                    this.context.fillStyle = 'grey';
+                    this.context.fillRect(
+                        roomCell.position.y * this.drawOptions.widthTile,
+                        roomCell.position.x * this.drawOptions.heightTile,
+                        this.drawOptions.widthTile,
+                        this.drawOptions.heightTile
+                    );
+                }
+            }
+        }
+
+        this.context.closePath();
         this.drawLines();
     }
 }
