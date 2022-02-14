@@ -34,7 +34,7 @@ class RecursiveShadowCasting<T> extends FOV<T> {
             };
         }
 
-        let visiblesSet: Set<string> = new Set();
+        const visiblesSet: Set<string> = new Set();
 
         visiblesSet.add(positionToString(start));
 
@@ -44,7 +44,7 @@ class RecursiveShadowCasting<T> extends FOV<T> {
             this.processOctants(start, 1, 1.0, 0.0, OCTANTS[i], visiblesSet);
         }
 
-        let positions = Array.from(visiblesSet).map((p: string) => strToPosition(p));
+        const positions = Array.from(visiblesSet).map((p: string) => strToPosition(p));
 
         return {
             status: 'Success',
@@ -81,7 +81,7 @@ class RecursiveShadowCasting<T> extends FOV<T> {
 
         for (let i = row; i <= this.radius; i++) {
             let dx = -i - 1;
-            let dy = -i;
+            const dy = -i;
 
             let newStart = 0;
             let blocked = false;
@@ -90,18 +90,18 @@ class RecursiveShadowCasting<T> extends FOV<T> {
                 dx += 1;
 
                 // Map coordinates.
-                let mx = start.x + dx * xx + dy * xy;
-                let my = start.y + dx * yx + dy * yy;
+                const mx = start.x + dx * xx + dy * xy;
+                const my = start.y + dx * yx + dy * yy;
 
-                let h = this.grid.length;
-                let w = this.grid[0].length;
+                const h = this.grid.length;
+                const w = this.grid[0].length;
 
                 if (!(mx >= 0 && mx < h && my >= 0 && my < w)) {
                     break;
                 }
 
-                let leftSlope = (dx - 0.5) / (dy + 0.5);
-                let rightSlope = (dx + 0.5) / (dy - 0.5);
+                const leftSlope = (dx - 0.5) / (dy + 0.5);
+                const rightSlope = (dx + 0.5) / (dy - 0.5);
 
                 if (startSlope < rightSlope) {
                     continue;

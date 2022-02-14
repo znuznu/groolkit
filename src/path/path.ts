@@ -62,8 +62,8 @@ abstract class Path<T> {
      * Note: Neighbors are not initialized.
      */
     init(): void {
-        let h = this.grid.length;
-        let w = this.grid[0].length;
+        const h = this.grid.length;
+        const w = this.grid[0].length;
 
         for (let x = 0; x < h; x++) {
             this.gridCell.push([]);
@@ -80,12 +80,12 @@ abstract class Path<T> {
      * @returns An array containing the neighbors and the topology it comes from
      */
     protected getNeighbors(cell: Cell<T>): Neighbor<T>[] {
-        let neighbors: Neighbor<T>[] = [];
+        const neighbors: Neighbor<T>[] = [];
 
-        let createNeighbor = (directions: number[][], type: number) => {
+        const createNeighbor = (directions: number[][], type: number) => {
             directions.forEach((dir) => {
-                let nx = cell.position.x + dir[0];
-                let ny = cell.position.y + dir[1];
+                const nx = cell.position.x + dir[0];
+                const ny = cell.position.y + dir[1];
 
                 if (this.isValidCell(nx, ny)) {
                     neighbors.push({
@@ -145,16 +145,16 @@ abstract class Path<T> {
      * @returns A Result or undefined if they're valid coordinates
      */
     protected isValidPath(start: Position, end: Position): ResultPath | undefined {
-        let containsStart = this.contains(start.x, start.y);
-        let containsEnd = this.contains(end.x, end.y);
+        const containsStart = this.contains(start.x, start.y);
+        const containsEnd = this.contains(end.x, end.y);
 
         if (!containsStart || !containsEnd) return { status: 'Invalid' };
 
-        let startCell = this.gridCell[start.x][start.y];
-        let endCell = this.gridCell[end.x][end.y];
+        const startCell = this.gridCell[start.x][start.y];
+        const endCell = this.gridCell[end.x][end.y];
 
-        let startBlock = this.callbackBlock(startCell.data);
-        let endBlock = this.callbackBlock(endCell.data);
+        const startBlock = this.callbackBlock(startCell.data);
+        const endBlock = this.callbackBlock(endCell.data);
 
         if (startBlock || endBlock) return { status: 'Block' };
     }

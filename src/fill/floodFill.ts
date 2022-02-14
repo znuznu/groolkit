@@ -40,11 +40,11 @@ class FloodFill<T> extends Fill<T> {
 
         let filledCells: Position[] = [];
 
-        let stack: ColorCell[] = [];
+        const stack: ColorCell[] = [];
         stack.push(cell);
 
         while (stack.length) {
-            let neighbor = stack.shift();
+            const neighbor = stack.shift();
 
             if (neighbor.color === 'target') {
                 const west = neighbor,
@@ -71,10 +71,10 @@ class FloodFill<T> extends Fill<T> {
      * @param stack - The ColorCell stack containing cells to process
      */
     private processLine(cell: ColorCell, index: Index, stack: ColorCell[]): Position[] {
-        let next1X = cell.position.x + index[0];
-        let next1Y = cell.position.y + index[1];
+        const next1X = cell.position.x + index[0];
+        const next1Y = cell.position.y + index[1];
 
-        let filledCells: Position[] = [];
+        const filledCells: Position[] = [];
 
         if (!this.contains({ x: next1X, y: next1Y })) {
             return [];
@@ -88,8 +88,8 @@ class FloodFill<T> extends Fill<T> {
 
             this.checkVerticalNeighbors(next1, stack);
 
-            let next2X = next1.position.x + index[0];
-            let next2Y = next1.position.y + index[1];
+            const next2X = next1.position.x + index[0];
+            const next2Y = next1.position.y + index[1];
 
             if (this.contains({ x: next2X, y: next2Y })) {
                 next1 = this.colorGrid[next2X][next2Y];
@@ -112,13 +112,13 @@ class FloodFill<T> extends Fill<T> {
             [1, 0]
         ];
         verticals.forEach((v) => {
-            let neighborPosition = {
+            const neighborPosition = {
                 x: cell.position.x + v[0],
                 y: cell.position.y + v[1]
             };
 
             if (this.contains(neighborPosition)) {
-                let neighbor = this.colorGrid[neighborPosition.x][neighborPosition.y];
+                const neighbor = this.colorGrid[neighborPosition.x][neighborPosition.y];
                 if (neighbor.color === 'target') {
                     stack.unshift(neighbor);
                 }

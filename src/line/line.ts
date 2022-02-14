@@ -30,11 +30,11 @@ abstract class Line<T> {
      * @param end   - The position to end the line
      */
     process(start: Position, end: Position): ResultLine {
-        let h = this.grid.length;
-        let w = this.grid[0].length;
+        const h = this.grid.length;
+        const w = this.grid[0].length;
 
-        let startCheck = start.x >= 0 && start.x < h && start.y >= 0 && start.y < w;
-        let endCheck = end.x >= 0 && end.x < h && end.y >= 0 && end.y < w;
+        const startCheck = start.x >= 0 && start.x < h && start.y >= 0 && start.y < w;
+        const endCheck = end.x >= 0 && end.x < h && end.y >= 0 && end.y < w;
 
         if (!(startCheck && endCheck)) {
             return { status: 'Failed' };
