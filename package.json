@@ -56,5 +56,6 @@
   },
   "lint-staged": {
     "src/**/*.ts": "prettier --write --config .prettierrc"
-  }
+  },
+  "engines": {"node": "16"}
 }
