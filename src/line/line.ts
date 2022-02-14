@@ -1,6 +1,10 @@
 import Position from '../position';
 import { CallbackBlock } from '../callbacks';
-import { ResultLine } from '../result';
+
+export interface ResultLine {
+    status: 'Complete' | 'Incomplete' | 'Failed';
+    positions?: Position[];
+}
 
 /**
  * A class used to get a line between two cells of a grid.

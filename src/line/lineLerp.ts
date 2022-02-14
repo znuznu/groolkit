@@ -1,7 +1,6 @@
 import Position, { roundPosition } from '../position';
 import { CallbackBlock } from '../callbacks';
-import Line from './line';
-import { ResultLine } from '../result';
+import Line, { ResultLine } from './line';
 
 class LineLerp<T> extends Line<T> {
     constructor(grid: T[][], callbackBlock: CallbackBlock<T>) {

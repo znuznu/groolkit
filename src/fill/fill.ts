@@ -1,10 +1,14 @@
 import { CallbackFill } from '../callbacks';
-import { ResultFill } from '../result';
 import Position, { gridContainsPosition } from '../position';
 
 export interface ColorCell {
     position: Position;
     color: string;
+}
+
+export interface ResultFill {
+    status: 'Success' | 'Block' | 'Failed';
+    positions?: Position[];
 }
 
 /**

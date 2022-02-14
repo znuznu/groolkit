@@ -11,9 +11,12 @@ import {
     PathColors,
     pathColors
 } from './colors';
-import { ResultFill, ResultFov, ResultLine, ResultPath } from '../result';
 import OPACITY from './opacity';
 import Position from '../position';
+import { ResultPath } from '../path/path';
+import { ResultFov } from '../fov/fov';
+import { ResultLine } from '../line/line';
+import { ResultFill } from '../fill/fill';
 
 interface DrawColors {
     base: BaseColors;

@@ -1,9 +1,13 @@
 import { CallbackLight } from '../callbacks';
 import Position, { gridContainsPosition } from '../position';
-import { ResultFov } from '../result';
 
 export interface Options {
     radius: number;
+}
+
+export interface ResultFov {
+    status: 'Success' | 'Failed';
+    positions?: Position[];
 }
 
 /**

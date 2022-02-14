@@ -1,10 +1,9 @@
 import { CallbackBlock } from '../callbacks';
 import { D, D2 } from './constants';
-import Path, { Topology } from './path';
+import Path, { ResultPath, Topology } from './path';
 import Position from '../position';
 import MinBinaryHeap from '../struct/minBinaryHeap';
 import Cell from './cell';
-import { ResultPath } from '../result';
 
 /**
  * A* algorithm with 4 or 8 directions.

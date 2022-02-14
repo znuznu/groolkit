@@ -1,6 +1,5 @@
 import { DIRECTIONS } from './constants';
 import { CallbackBlock } from '../callbacks';
-import { ResultPath } from '../result';
 import Position, { gridContainsPosition } from '../position';
 import Cell from './cell';
 
@@ -11,6 +10,11 @@ export interface Topology {
 export interface Neighbor<T> {
     cell: Cell<T>;
     topology: Topology;
+}
+
+export interface ResultPath {
+    status: 'Found' | 'Unreachable' | 'Invalid' | 'Block';
+    positions?: Position[];
 }
 
 /**

@@ -1,7 +1,6 @@
 import { CallbackFill } from '../callbacks';
-import Fill, { ColorCell } from './fill';
+import Fill, { ColorCell, ResultFill } from './fill';
 import Position from '../position';
-import { ResultFill } from '../result';
 
 type Index = [-1, 0] | [1, 0] | [0, -1] | [0, 1];
 
