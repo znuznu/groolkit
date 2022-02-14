@@ -72,7 +72,7 @@ class MinBinaryHeap<T> {
 
             let end: T = this.data.pop();
 
-            if (i === length - 1) break;
+            if (i === this.data.length - 1) break;
 
             this.data[i] = end;
             this.ascend(i);
