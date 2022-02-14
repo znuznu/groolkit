@@ -47,8 +47,8 @@
     "test": "jest",
     "test-cov": "jest --coverage",
     "test-build": "npm test && npm build",
-    "prettier-write": "prettier --config .prettierrc 'src/**/*.ts' --write",
-    "prettier-check": "prettier --config .prettierrc 'src/**/*.ts' --check"
+    "fmt": "prettier --config .prettierrc 'src/**/*.ts' --write",
+    "fmt-check": "prettier --config .prettierrc 'src/**/*.ts' --check"
   },
   "husky": {
     "hooks": {
