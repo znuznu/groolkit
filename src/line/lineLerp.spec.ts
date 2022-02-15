@@ -2,23 +2,69 @@ import LineLerp from './lineLerp';
 
 describe('Line lerp', () => {
     describe('when the line is completely drawable', () => {
-        const lineLerp = new LineLerp(
-            [
-                [0, 0, 0],
-                [0, 0, 0],
-                [0, 0, 0]
-            ],
-            (c) => c === 1
-        );
-
-        it('should return the result with Complete status', () => {
-            expect(lineLerp.process({ x: 0, y: 0 }, { x: 2, y: 2 })).toEqual({
-                positions: [
-                    { x: 0, y: 0 },
-                    { x: 1, y: 1 },
-                    { x: 2, y: 2 }
+        describe('diagonal', () => {
+            const lineLerp = new LineLerp(
+                [
+                    [0, 0, 0],
+                    [0, 0, 0],
+                    [0, 0, 0]
                 ],
-                status: 'Complete'
+                (c) => c === 1
+            );
+
+            it('should return the result with Complete status', () => {
+                expect(lineLerp.process({ x: 0, y: 0 }, { x: 2, y: 2 })).toEqual({
+                    positions: [
+                        { x: 0, y: 0 },
+                        { x: 1, y: 1 },
+                        { x: 2, y: 2 }
+                    ],
+                    status: 'Complete'
+                });
+            });
+        });
+
+        describe('horizontal', () => {
+            const lineLerp = new LineLerp(
+                [
+                    [0, 0, 0],
+                    [0, 0, 0],
+                    [0, 0, 0]
+                ],
+                (c) => c === 1
+            );
+
+            it('should return the result with Complete status', () => {
+                expect(lineLerp.process({ x: 0, y: 0 }, { x: 0, y: 2 })).toEqual({
+                    positions: [
+                        { x: 0, y: 0 },
+                        { x: 0, y: 1 },
+                        { x: 0, y: 2 }
+                    ],
+                    status: 'Complete'
+                });
+            });
+        });
+
+        describe('vertical', () => {
+            const lineLerp = new LineLerp(
+                [
+                    [0, 0, 0],
+                    [0, 0, 0],
+                    [0, 0, 0]
+                ],
+                (c) => c === 1
+            );
+
+            it('should return the result with Complete status', () => {
+                expect(lineLerp.process({ x: 0, y: 0 }, { x: 2, y: 0 })).toEqual({
+                    positions: [
+                        { x: 0, y: 0 },
+                        { x: 1, y: 0 },
+                        { x: 2, y: 0 }
+                    ],
+                    status: 'Complete'
+                });
             });
         });
     });
