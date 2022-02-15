@@ -31,7 +31,7 @@ abstract class FOV<T> {
         options: Partial<Options> = {}
     ) {
         this.grid = grid;
-        this.radius = options.radius || 6;
+        this.radius = options.radius ?? 6;
         this.visibles = [];
         this.callbackLight = callbackLight;
     }
