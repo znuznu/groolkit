@@ -1,5 +1,6 @@
-import Position, { roundPosition } from '../position';
-import { CallbackBlock } from '../callbacks';
+import { CallbackBlock } from '../helpers/callbacks';
+import { roundPosition } from '../helpers/position';
+import { Position } from '../helpers/types';
 import Line, { ResultLine } from './line';
 
 class LineLerp<T> extends Line<T> {

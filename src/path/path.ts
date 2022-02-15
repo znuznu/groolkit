@@ -1,7 +1,8 @@
 import { DIRECTIONS } from './constants';
-import { CallbackBlock } from '../callbacks';
-import Position, { gridContainsPosition } from '../position';
+import { CallbackBlock } from '../helpers/callbacks';
 import Cell from './cell';
+import { Position } from '../helpers/types';
+import { gridContainsPosition } from '../helpers/position';
 
 export interface Topology {
     type: 4 | 8;

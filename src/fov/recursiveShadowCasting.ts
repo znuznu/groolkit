@@ -1,5 +1,6 @@
-import { CallbackLight } from '../callbacks';
-import Position, { strToPosition, positionToString } from '../position';
+import { CallbackLight } from '../helpers/callbacks';
+import { positionToString, strToPosition } from '../helpers/position';
+import { Position } from '../helpers/types';
 import FOV, { Options, ResultFov } from './fov';
 
 const OCTANTS = [

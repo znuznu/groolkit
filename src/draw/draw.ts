@@ -1,4 +1,4 @@
-import { CallbackBlock } from '../callbacks';
+import { CallbackBlock } from '../helpers/callbacks';
 import {
     BaseColors,
     baseColors,
@@ -12,11 +12,11 @@ import {
     pathColors
 } from './colors';
 import OPACITY from './opacity';
-import Position from '../position';
 import { ResultPath } from '../path/path';
 import { ResultFov } from '../fov/fov';
 import { ResultLine } from '../line/line';
 import { ResultFill } from '../fill/fill';
+import { Position } from '../helpers/types';
 
 interface DrawColors {
     base: BaseColors;

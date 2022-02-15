@@ -1,5 +1,6 @@
-import { CallbackLight } from '../callbacks';
-import Position, { gridContainsPosition } from '../position';
+import { CallbackLight } from '../helpers/callbacks';
+import { gridContainsPosition } from '../helpers/position';
+import { Position } from '../helpers/types';
 
 export interface Options {
     radius: number;

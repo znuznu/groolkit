@@ -1,5 +1,6 @@
-import { CallbackFill } from '../callbacks';
-import Position, { gridContainsPosition } from '../position';
+import { CallbackFill } from '../helpers/callbacks';
+import { gridContainsPosition } from '../helpers/position';
+import { Position } from '../helpers/types';
 
 export interface ColorCell {
     position: Position;

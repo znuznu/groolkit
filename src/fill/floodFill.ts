@@ -1,6 +1,6 @@
-import { CallbackFill } from '../callbacks';
+import { CallbackFill } from '../helpers/callbacks';
+import { Position } from '../helpers/types';
 import Fill, { ColorCell, ResultFill } from './fill';
-import Position from '../position';
 
 type Index = [-1, 0] | [1, 0] | [0, -1] | [0, 1];
 

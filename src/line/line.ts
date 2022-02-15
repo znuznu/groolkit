@@ -1,5 +1,5 @@
-import Position from '../position';
-import { CallbackBlock } from '../callbacks';
+import { CallbackBlock } from '../helpers/callbacks';
+import { Position } from '../helpers/types';
 
 export interface ResultLine {
     status: 'Complete' | 'Incomplete' | 'Failed';

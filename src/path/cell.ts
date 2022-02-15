@@ -1,4 +1,4 @@
-import Position from '../position';
+import { Position } from '../helpers/types';
 import { Neighbor } from './path';
 
 /**

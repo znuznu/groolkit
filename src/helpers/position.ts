@@ -1,7 +1,4 @@
-export default interface Position {
-    x: number;
-    y: number;
-}
+import { Position } from './types';
 
 export function positionToString(position: Position): string {
     return position.x + ',' + position.y;
@@ -29,3 +26,10 @@ export function gridContainsPosition(grid: any[][], position: Position): boolean
 
     return x >= 0 && x <= height - 1 && y >= 0 && y <= width - 1;
 }
+
+export default {
+    positionToString,
+    strToPosition,
+    roundPosition,
+    gridContainsPosition
+};
