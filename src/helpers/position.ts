@@ -4,9 +4,36 @@ export function positionToString(position: Position, separator?: string): string
     return `${position.x}${separator ?? ','}${position.y}`;
 }
 
-export function strToPosition(sPosition: string): Position {
-    let [x, y] = sPosition.split(',').map((p) => Number(p));
-    return { x: x, y: y };
+export function stringToPosition(position: string, separator?: string): Position {
+    if (!position.includes(separator ?? ',')) {
+        throw new Error(`Expected separator ${separator ?? ','} not found`);
+    }
+
+    const splittedPositions = position.split(separator ?? ',');
+
+    const xValue = splittedPositions[0].trim();
+    const yValue = splittedPositions[1].trim();
+
+    if (xValue === '') {
+        throw new Error('Invalid position: x is missing');
+    }
+
+    if (yValue === '') {
+        throw new Error('Invalid position: y is missing');
+    }
+
+    const xNumber = Number(xValue);
+    const yNumber = Number(yValue);
+
+    if (isNaN(xNumber)) {
+        throw new Error('Invalid position: x is not a number');
+    }
+
+    if (isNaN(yNumber)) {
+        throw new Error('Invalid position: y is not a number');
+    }
+
+    return { x: xNumber, y: yNumber };
 }
 
 export function roundPosition(position: Position) {
@@ -29,7 +56,7 @@ export function gridContainsPosition(grid: any[][], position: Position): boolean
 
 export default {
     positionToString,
-    strToPosition,
+    stringToPosition,
     roundPosition,
     gridContainsPosition
 };

@@ -1,5 +1,5 @@
 import { CallbackLight } from '../helpers/callbacks';
-import { positionToString, strToPosition } from '../helpers/position';
+import { positionToString, stringToPosition } from '../helpers/position';
 import { Position } from '../helpers/types';
 import FOV, { Options, ResultFov } from './fov';
 
@@ -45,7 +45,7 @@ class RecursiveShadowCasting<T> extends FOV<T> {
             this.processOctants(start, 1, 1.0, 0.0, OCTANTS[i], visiblesSet);
         }
 
-        const positions = Array.from(visiblesSet).map((p: string) => strToPosition(p));
+        const positions = Array.from(visiblesSet).map((p: string) => stringToPosition(p));
 
         return {
             status: 'Success',
