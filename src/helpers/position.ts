@@ -1,7 +1,7 @@
 import { Position } from './types';
 
-export function positionToString(position: Position): string {
-    return position.x + ',' + position.y;
+export function positionToString(position: Position, separator?: string): string {
+    return `${position.x}${separator ?? ','}${position.y}`;
 }
 
 export function strToPosition(sPosition: string): Position {
