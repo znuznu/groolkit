@@ -40,20 +40,9 @@ abstract class FOV<T> {
     /**
      * Compute the FOV on the given position.
      *
-     * @param start - The position to start the computation
+     * @param start - The position on which to start the computation
      */
     abstract compute(start: Position): ResultFov;
-
-    /**
-     * Check that the given position isn't out of bound.
-     * It is acceptable to compute lights for a blocking tile,
-     * for example if a torch is on a wall of a dungeon.
-     *
-     * @param start - The position to start
-     */
-    protected isValidStart(start: Position): boolean {
-        return isPositionWithinGrid(this.grid, start);
-    }
 }
 
 export default FOV;

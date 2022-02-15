@@ -2,7 +2,7 @@ import { Position } from '../helpers/types';
 import { Neighbor } from './path';
 
 /**
- * A class used to represent a copy of a cell from the original grid.
+ * Represents a copy of a cell from the original grid.
  */
 class Cell<T> {
     position: Position;

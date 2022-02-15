@@ -99,7 +99,9 @@ abstract class Path<T> {
 
         createNeighbor(DIRECTIONS.ORTHOG, 4);
 
-        if (this.topology.type === 8) createNeighbor(DIRECTIONS.DIAG, 8);
+        if (this.topology.type === 8) {
+            createNeighbor(DIRECTIONS.DIAG, 8);
+        }
 
         return neighbors;
     }
@@ -121,7 +123,9 @@ abstract class Path<T> {
      * @returns True if the Cell is valid
      */
     protected isValidCell(x: number, y: number): boolean {
-        if (!this.contains(x, y)) return false;
+        if (!this.contains({ x, y })) {
+            return false;
+        }
 
         return !this.callbackBlock(this.grid[x][y]);
     }
@@ -133,8 +137,8 @@ abstract class Path<T> {
      * @param y - y coordinates of the Cell to check
      * @returns True if the Cell exists
      */
-    protected contains(x: number, y: number): boolean {
-        return isPositionWithinGrid(this.grid, { x, y });
+    protected contains(position: Position): boolean {
+        return isPositionWithinGrid(this.grid, position);
     }
 
     /**
@@ -146,10 +150,12 @@ abstract class Path<T> {
      * @returns A Result or undefined if they're valid coordinates
      */
     protected isValidPath(start: Position, end: Position): ResultPath | undefined {
-        const containsStart = this.contains(start.x, start.y);
-        const containsEnd = this.contains(end.x, end.y);
+        const isStartWithinGrid = this.contains({ x: start.x, y: start.y });
+        const isEndWithinGrid = this.contains({ x: end.x, y: end.y });
 
-        if (!containsStart || !containsEnd) return { status: 'Invalid' };
+        if (!isStartWithinGrid || !isEndWithinGrid) {
+            return { status: 'Invalid' };
+        }
 
         const startCell = this.gridCell[start.x][start.y];
         const endCell = this.gridCell[end.x][end.y];
@@ -157,7 +163,9 @@ abstract class Path<T> {
         const startBlock = this.callbackBlock(startCell.data);
         const endBlock = this.callbackBlock(endCell.data);
 
-        if (startBlock || endBlock) return { status: 'Block' };
+        if (startBlock || endBlock) {
+            return { status: 'Block' };
+        }
     }
 }
 

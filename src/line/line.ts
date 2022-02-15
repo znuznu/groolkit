@@ -1,4 +1,5 @@
 import { CallbackBlock } from '../helpers/callbacks';
+import { isPositionWithinGrid } from '../helpers/position';
 import { Position } from '../helpers/types';
 
 export interface ResultLine {
@@ -30,13 +31,10 @@ abstract class Line<T> {
      * @param end   - The position to end the line
      */
     process(start: Position, end: Position): ResultLine {
-        const h = this.grid.length;
-        const w = this.grid[0].length;
+        const isStartWithinGrid = isPositionWithinGrid(this.grid, start);
+        const isEndWithinGrid = isPositionWithinGrid(this.grid, end);
 
-        const startCheck = start.x >= 0 && start.x < h && start.y >= 0 && start.y < w;
-        const endCheck = end.x >= 0 && end.x < h && end.y >= 0 && end.y < w;
-
-        if (!(startCheck && endCheck)) {
+        if (!isStartWithinGrid || !isEndWithinGrid) {
             return { status: 'Failed' };
         }
     }

@@ -127,8 +127,7 @@ class AStar<T> extends Path<T> {
             case 8:
                 return D * (dx + dy) + (D2 - 2 * D) * Math.min(dx, dy);
             default:
-                console.error('No such topology.');
-                break;
+                throw new Error('No such topology.');
         }
     }
 }

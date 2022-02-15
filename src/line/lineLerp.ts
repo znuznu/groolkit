@@ -9,9 +9,9 @@ class LineLerp<T> extends Line<T> {
     }
 
     process(start: Position, end: Position) {
-        const outOfBound = super.process(start, end);
-        if (outOfBound) {
-            return outOfBound;
+        const result = super.process(start, end);
+        if (result) {
+            return result;
         }
 
         return this.getLine(start, end);

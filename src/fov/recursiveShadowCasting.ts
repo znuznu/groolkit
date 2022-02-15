@@ -1,5 +1,9 @@
 import { CallbackLight } from '../helpers/callbacks';
-import { positionToString, stringToPosition } from '../helpers/position';
+import {
+    isPositionWithinGrid,
+    positionToString,
+    stringToPosition
+} from '../helpers/position';
 import { Position } from '../helpers/types';
 import FOV, { Options, ResultFov } from './fov';
 
@@ -29,7 +33,7 @@ class RecursiveShadowCasting<T> extends FOV<T> {
     }
 
     compute(start: Position): ResultFov {
-        if (!this.isValidStart(start)) {
+        if (!isPositionWithinGrid(this.grid, start)) {
             return {
                 status: 'Failed'
             };

@@ -3,7 +3,7 @@ export interface ScoreCallback<T> {
 }
 
 /**
- * Represent a Min Binary Heap.
+ * Represents a Min Binary Heap.
  */
 class MinBinaryHeap<T> {
     data: T[];
