@@ -2,7 +2,7 @@ import { DIRECTIONS } from './constants';
 import { CallbackBlock } from '../helpers/callbacks';
 import Cell from './cell';
 import { Position } from '../helpers/types';
-import { gridContainsPosition } from '../helpers/position';
+import { isPositionWithinGrid } from '../helpers/position';
 
 export interface Topology {
     type: 4 | 8;
@@ -134,7 +134,7 @@ abstract class Path<T> {
      * @returns True if the Cell exists
      */
     protected contains(x: number, y: number): boolean {
-        return gridContainsPosition(this.grid, { x, y });
+        return isPositionWithinGrid(this.grid, { x, y });
     }
 
     /**

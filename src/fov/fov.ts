@@ -1,5 +1,5 @@
 import { CallbackLight } from '../helpers/callbacks';
-import { gridContainsPosition } from '../helpers/position';
+import { isPositionWithinGrid } from '../helpers/position';
 import { Position } from '../helpers/types';
 
 export interface Options {
@@ -52,7 +52,7 @@ abstract class FOV<T> {
      * @param start - The position to start
      */
     protected isValidStart(start: Position): boolean {
-        return gridContainsPosition(this.grid, start);
+        return isPositionWithinGrid(this.grid, start);
     }
 }
 

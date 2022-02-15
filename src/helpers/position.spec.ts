@@ -1,4 +1,9 @@
-import { getRoundedPosition, positionToString, stringToPosition } from './position';
+import {
+    getRoundedPosition,
+    isPositionWithinGrid,
+    positionToString,
+    stringToPosition
+} from './position';
 
 describe('#positionToString', () => {
     describe('no separator provided', () => {
@@ -83,5 +88,49 @@ describe('#stringToPosition', () => {
 describe('#getRoundedPosition', () => {
     it('should round the x and y value', () => {
         expect(getRoundedPosition({ x: 1.2, y: 1.9 })).toEqual({ x: 1, y: 2 });
+    });
+});
+
+describe('#isPositionWithinGrid', () => {
+    describe('when x and y are inside the boundaries of the grid', () => {
+        it('should return true', () => {
+            expect(
+                isPositionWithinGrid(
+                    [
+                        [0, 0, 0],
+                        [0, 0, 0]
+                    ],
+                    { x: 0, y: 0 }
+                )
+            ).toBeTruthy();
+        });
+    });
+
+    describe('when x is outside the boundaries of the grid', () => {
+        it('should return false', () => {
+            expect(
+                isPositionWithinGrid(
+                    [
+                        [0, 0, 0],
+                        [0, 0, 0]
+                    ],
+                    { x: 2, y: 0 }
+                )
+            ).toBeFalsy();
+        });
+    });
+
+    describe('when y is outside the boundaries of the grid', () => {
+        it('should return false', () => {
+            expect(
+                isPositionWithinGrid(
+                    [
+                        [0, 0, 0],
+                        [0, 0, 0]
+                    ],
+                    { x: 0, y: 3 }
+                )
+            ).toBeFalsy();
+        });
     });
 });

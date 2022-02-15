@@ -1,5 +1,5 @@
 import { CallbackFill } from '../helpers/callbacks';
-import { gridContainsPosition } from '../helpers/position';
+import { isPositionWithinGrid } from '../helpers/position';
 import { Position } from '../helpers/types';
 
 export interface ColorCell {
@@ -58,7 +58,7 @@ abstract class Fill<T> {
     }
 
     protected contains(position: Position): boolean {
-        return gridContainsPosition(this.grid, position);
+        return isPositionWithinGrid(this.grid, position);
     }
 }
 

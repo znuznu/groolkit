@@ -40,23 +40,22 @@ export function getRoundedPosition(position: Position) {
     return { x: Math.round(position.x), y: Math.round(position.y) };
 }
 
-export function gridContainsPosition(grid: any[][], position: Position): boolean {
+export function isPositionWithinGrid(grid: any[][], position: Position): boolean {
     if (grid.length <= 0) {
         return false;
     }
 
     const x = position.x;
     const y = position.y;
+    const h = grid.length;
+    const w = grid[0].length;
 
-    const height = grid.length;
-    const width = grid[0].length;
-
-    return x >= 0 && x <= height - 1 && y >= 0 && y <= width - 1;
+    return x >= 0 && x <= h - 1 && y >= 0 && y <= w - 1;
 }
 
 export default {
     positionToString,
     stringToPosition,
     getRoundedPosition,
-    gridContainsPosition
+    isPositionWithinGrid
 };
