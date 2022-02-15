@@ -1,5 +1,5 @@
 import { CallbackBlock } from '../helpers/callbacks';
-import { roundPosition } from '../helpers/position';
+import { getRoundedPosition } from '../helpers/position';
 import { Position } from '../helpers/types';
 import Line, { ResultLine } from './line';
 
@@ -25,7 +25,7 @@ class LineLerp<T> extends Line<T> {
         for (let n = 0; n <= steps; n++) {
             const t = steps == 0 ? 0.0 : n / steps;
 
-            const position = roundPosition(this.lerpPosition(start, end, t));
+            const position = getRoundedPosition(this.lerpPosition(start, end, t));
 
             if (this.callbackBlock(this.grid[position.x][position.y])) {
                 break;

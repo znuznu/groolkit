@@ -36,7 +36,7 @@ export function stringToPosition(position: string, separator?: string): Position
     return { x: xNumber, y: yNumber };
 }
 
-export function roundPosition(position: Position) {
+export function getRoundedPosition(position: Position) {
     return { x: Math.round(position.x), y: Math.round(position.y) };
 }
 
@@ -57,6 +57,6 @@ export function gridContainsPosition(grid: any[][], position: Position): boolean
 export default {
     positionToString,
     stringToPosition,
-    roundPosition,
+    getRoundedPosition,
     gridContainsPosition
 };

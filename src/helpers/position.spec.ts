@@ -1,4 +1,4 @@
-import { positionToString, stringToPosition } from './position';
+import { getRoundedPosition, positionToString, stringToPosition } from './position';
 
 describe('#positionToString', () => {
     describe('no separator provided', () => {
@@ -77,5 +77,11 @@ describe('#stringToPosition', () => {
                 );
             });
         });
+    });
+});
+
+describe('#getRoundedPosition', () => {
+    it('should round the x and y value', () => {
+        expect(getRoundedPosition({ x: 1.2, y: 1.9 })).toEqual({ x: 1, y: 2 });
     });
 });
