@@ -14,7 +14,9 @@
   "homepage": "https://github.com/znuznu/groolkit#readme",
   "keywords": [
     "algorithm",
-    "grid"
+    "grid",
+    "gamedev",
+    "2d"
   ],
   "main": "dist/groolkit.min.js",
   "types": "dist/types",
