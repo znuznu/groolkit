@@ -1,53 +1,61 @@
-export interface ScoreCallback<T> {
+export type ScoreCallback<T> = {
     (element: T): number;
-}
+};
 
 /**
- * Represents a Min Binary Heap.
+ * Represents a Binary (min) heap.
+ * https://en.wikipedia.org/wiki/Binary_heap
  */
 class MinBinaryHeap<T> {
     data: T[];
     private dataSet: Set<T>;
-    private scoreFunction: ScoreCallback<T>;
+    private scoreFn: ScoreCallback<T>;
 
     /**
      * @constructor
-     * @param scoreFunction - The score function in order to compare objects
+     * @param scoreFn - The score function in order to compare objects
      */
-    constructor(scoreFunction: ScoreCallback<T>) {
+    constructor(scoreFn: ScoreCallback<T>) {
         this.data = [];
         this.dataSet = new Set();
-        this.scoreFunction = scoreFunction;
+        this.scoreFn = scoreFn;
     }
 
     /**
-     * Return the size of this BinaryHeap.
+     * Get the size of the heap.
      *
-     * @returns The length of the data array
+     * @returns The number of elements inside the heap
      */
     size(): number {
         return this.data.length;
     }
 
     /**
-     * Insert an element into this MinBinaryHeap
+     * Inserts a node into the heap.
      *
-     * @param element - The element to insert
+     * @param element - A node
      */
-    push(element: T): void {
-        this.data.push(element);
+    push(node: T): void {
+        this.data.push(node);
         this.ascend(this.data.length - 1);
-        this.dataSet.add(element);
+        this.dataSet.add(node);
     }
 
     /**
-     * Remove and return the smallest element of this BinaryHeap that is updated.
+     * Removes and return the min node from the heap.
      *
-     * @returns The smallest element
+     * @returns The node with the minimum value (according to the score function)
+     *
+     * @throws
+     * If the heap is empty.
      */
     pop(): T {
-        let result: T = this.data[0];
-        let end: T = this.data.pop();
+        if (!this.size()) {
+            throw new Error('Trying to pop from an empty heap.');
+        }
+
+        const result: T = this.data[0];
+        const end: T = this.data.pop();
 
         if (this.data.length > 0) {
             this.data[0] = end;
@@ -60,19 +68,27 @@ class MinBinaryHeap<T> {
     }
 
     /**
-     * Remove the node given of this MinBinaryHeap (and update).
+     * Removes a node from the heap.
      *
-     * @param node - The node to remove
+     * @param node - A node
      */
     remove(node: T): void {
-        if (this.dataSet.has(node)) this.dataSet.delete(node);
+        if (this.dataSet.has(node)) {
+            this.dataSet.delete(node);
+        }
 
-        for (let i = 0; i < this.size(); i++) {
-            if (this.data[i] !== node) continue;
+        const length = this.data.length;
 
-            let end: T = this.data.pop();
+        for (let i = 0; i < length; i++) {
+            if (this.data[i] !== node) {
+                continue;
+            }
 
-            if (i === this.data.length - 1) break;
+            const end: T = this.data.pop();
+
+            if (i === length - 1) {
+                break;
+            }
 
             this.data[i] = end;
             this.ascend(i);
@@ -83,57 +99,65 @@ class MinBinaryHeap<T> {
     }
 
     /**
-     * Move up the element with index n of this MinBinaryHeap.
+     * Move up in the heap the node with the given n index.
      *
-     * @param n - The element index
+     * @param n - A node index
      */
-    ascend(n: number): void {
-        let element = this.data[n];
-        let score = this.scoreFunction(element);
+    private ascend(n: number): void {
+        const node = this.data[n];
+        const score = this.scoreFn(node);
 
         while (n > 0) {
-            let parentN = ~~((n + 1) / 2) - 1;
-            let parent = this.data[parentN];
+            const parentN = Math.floor((n + 1) / 2) - 1;
+            const parent = this.data[parentN];
 
-            if (score >= this.scoreFunction(parent)) break;
+            if (score >= this.scoreFn(parent)) {
+                break;
+            }
 
-            this.data[parentN] = element;
+            this.data[parentN] = node;
             this.data[n] = parent;
             n = parentN;
         }
     }
 
     /**
-     * Move down the element with index n.
+     * Move down in the heap the node with the given n index.
      *
-     * @param n - The element index
+     * @param n - A node index
      */
-    descend(n: number): void {
-        let length = this.size();
-        let element = this.data[n];
-        let elemScore = this.scoreFunction(element);
+    private descend(n: number): void {
+        const length = this.data.length;
+        const element = this.data[n];
+        const elementScore = this.scoreFn(element);
 
         while (true) {
-            let c2 = (n + 1) * 2,
-                c1 = c2 - 1;
+            const c2 = (n + 1) * 2;
+            const c1 = c2 - 1;
 
             let swap = null;
 
             let child1Score: number | undefined = undefined;
 
             if (c1 < length) {
-                let child1 = this.data[c1];
-                let child1Score = this.scoreFunction(child1);
-                if (child1Score < elemScore) swap = c1;
+                const child1 = this.data[c1];
+                child1Score = this.scoreFn(child1);
+                if (child1Score < elementScore) {
+                    swap = c1;
+                }
             }
 
             if (c2 < length) {
-                let child2 = this.data[c2];
-                let child2Score = this.scoreFunction(child2);
-                if (child2Score < (swap == null ? elemScore : child1Score)) swap = c2;
+                const child2 = this.data[c2];
+                const child2Score = this.scoreFn(child2);
+                if (child2Score < (swap == null ? elementScore : child1Score)) {
+                    swap = c2;
+                }
             }
 
-            if (swap == null) break;
+            if (swap == null) {
+                break;
+            }
 
             this.data[n] = this.data[swap];
             this.data[swap] = element;
@@ -142,10 +166,10 @@ class MinBinaryHeap<T> {
     }
 
     /**
-     * Check whether this node exists in the heap.
+     * Tests if a node exists in the heap.
      *
-     * @param node - The node to check
-     * @returns True if the node exists in the Heap
+     * @param node - A node
+     * @returns True if the node exists in the heap
      */
     contains(node: T): boolean {
         return this.dataSet.has(node);
