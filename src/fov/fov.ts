@@ -14,7 +14,7 @@ export interface ResultFov {
 /**
  * A class used to compute the Field Of View in a grid.
  */
-abstract class FOV<T> {
+export abstract class FOV<T> {
     protected grid: T[][];
     protected radius: number;
     protected visibles: Position[];
@@ -44,5 +44,3 @@ abstract class FOV<T> {
      */
     abstract compute(start: Position): ResultFov;
 }
-
-export default FOV;

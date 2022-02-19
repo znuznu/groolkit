@@ -1,6 +1,5 @@
 import { DIRECTIONS } from './constants';
 import { CallbackBlock } from '../helpers/callbacks';
-import Cell from './cell';
 import { Position } from '../helpers/types';
 import { isPositionWithinGrid } from '../helpers/position';
 
@@ -13,6 +12,26 @@ export interface Neighbor<T> {
     topology: Topology;
 }
 
+/**
+ * Represents a copy of a cell from the original grid.
+ */
+export class Cell<T> {
+    position: Position;
+    data: T;
+    neighbors: Neighbor<T>[];
+
+    /**
+     * @constructor
+     * @param position - The position of this Cell inside the grid
+     * @param data     - The data of the original cell in the user grid
+     */
+    constructor(position: Position, data: T) {
+        this.position = position;
+        this.data = data;
+        this.neighbors = undefined;
+    }
+}
+
 export interface ResultPath {
     status: 'Found' | 'Unreachable' | 'Invalid' | 'Block';
     positions?: Position[];
@@ -21,7 +40,7 @@ export interface ResultPath {
 /**
  * A class used to compute shortest paths between two cells in a grid.
  */
-abstract class Path<T> {
+export abstract class Path<T> {
     protected grid: T[][];
     protected callbackBlock: CallbackBlock<T>;
     protected topology: Topology;
@@ -168,5 +187,3 @@ abstract class Path<T> {
         }
     }
 }
-
-export default Path;

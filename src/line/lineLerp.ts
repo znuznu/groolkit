@@ -1,9 +1,9 @@
 import { CallbackBlock } from '../helpers/callbacks';
 import { getRoundedPosition } from '../helpers/position';
 import { Position } from '../helpers/types';
-import Line, { ResultLine } from './line';
+import { Line, ResultLine } from './line';
 
-class LineLerp<T> extends Line<T> {
+export class LineLerp<T> extends Line<T> {
     constructor(grid: T[][], callbackBlock: CallbackBlock<T>) {
         super(grid, callbackBlock);
     }

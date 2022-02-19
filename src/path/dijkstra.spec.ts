@@ -1,4 +1,4 @@
-import Dijkstra from './dijkstra';
+import { Dijkstra } from './dijkstra';
 
 describe('Dijkstra', () => {
     describe('type 4', () => {

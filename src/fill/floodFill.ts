@@ -4,7 +4,7 @@ import Fill, { ColorCell, ResultFill } from './fill';
 
 type Index = [-1, 0] | [1, 0] | [0, -1] | [0, 1];
 
-class FloodFill<T> extends Fill<T> {
+export class FloodFill<T> extends Fill<T> {
     constructor(grid: T[][], callbackFill: CallbackFill<T>) {
         super(grid, callbackFill);
     }
@@ -126,5 +126,3 @@ class FloodFill<T> extends Fill<T> {
         });
     }
 }
-
-export default FloodFill;

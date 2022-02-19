@@ -1,3 +1,3 @@
-import RecursiveShadowCasting from './recursiveShadowCasting';
+import { RecursiveShadowCasting } from './recursiveShadowCasting';
 
-export default { RecursiveShadowCasting };
+export { RecursiveShadowCasting };

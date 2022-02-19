@@ -1,4 +1,4 @@
-import MinBinaryHeap from './minBinaryHeap';
+import { MinBinaryHeap } from './minBinaryHeap';
 
 describe('MinBinaryHeap', () => {
     type TestCell = {

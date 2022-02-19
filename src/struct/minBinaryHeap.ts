@@ -5,8 +5,11 @@ export type ScoreCallback<T> = {
 /**
  * Represents a Binary (min) heap.
  * https://en.wikipedia.org/wiki/Binary_heap
+ *
+ * Original code comes from the Eloquent JavaScript book
+ * https://eloquentjavascript.net/1st_edition/appendix2.html
  */
-class MinBinaryHeap<T> {
+export class MinBinaryHeap<T> {
     data: T[];
     private dataSet: Set<T>;
     private scoreFn: ScoreCallback<T>;
@@ -175,5 +178,3 @@ class MinBinaryHeap<T> {
         return this.dataSet.has(node);
     }
 }
-
-export default MinBinaryHeap;

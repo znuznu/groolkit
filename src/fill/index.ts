@@ -1,3 +1,3 @@
-import FloodFill from './floodFill';
+import { FloodFill } from './floodFill';
 
-export default { FloodFill };
+export { FloodFill };

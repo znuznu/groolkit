@@ -1,4 +1,4 @@
-import AStar from './astar';
-import Dijkstra from './dijkstra';
+import { AStar } from './astar';
+import { Dijkstra } from './dijkstra';
 
-export default { AStar, Dijkstra };
+export { AStar, Dijkstra };

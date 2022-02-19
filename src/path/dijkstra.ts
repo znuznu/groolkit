@@ -1,14 +1,13 @@
 import { CallbackBlock } from '../helpers/callbacks';
 import { D, D2 } from './constants';
-import Path, { ResultPath, Topology } from './path';
-import MinBinaryHeap from '../struct/minBinaryHeap';
-import Cell from './cell';
+import { Cell, Path, ResultPath, Topology } from './path';
+import { MinBinaryHeap } from '../struct/minBinaryHeap';
 import { Position } from '../helpers/types';
 
 /**
  * Dijkstra pathfinding algorithm with 4 or 8 directions.
  */
-class Dijkstra<T> extends Path<T> {
+export class Dijkstra<T> extends Path<T> {
     constructor(grid: T[][], topology: Topology, callbackBlock: CallbackBlock<T>) {
         super(grid, topology, callbackBlock);
     }
@@ -115,5 +114,3 @@ class Dijkstra<T> extends Path<T> {
         return { status: 'Unreachable' };
     }
 }
-
-export default Dijkstra;

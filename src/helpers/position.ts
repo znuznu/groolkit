@@ -52,10 +52,3 @@ export function isPositionWithinGrid(grid: any[][], position: Position): boolean
 
     return x >= 0 && x <= h - 1 && y >= 0 && y <= w - 1;
 }
-
-export default {
-    positionToString,
-    stringToPosition,
-    getRoundedPosition,
-    isPositionWithinGrid
-};

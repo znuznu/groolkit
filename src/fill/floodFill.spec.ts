@@ -1,4 +1,4 @@
-import FloodFill from './floodFill';
+import { FloodFill } from './floodFill';
 
 describe('Flood fill', () => {
     describe("when it's possible to fill some cells of the grid", () => {

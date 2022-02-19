@@ -1,4 +1,4 @@
-import AStar from './astar';
+import { AStar } from './astar';
 
 describe('AStar', () => {
     describe('type 4', () => {

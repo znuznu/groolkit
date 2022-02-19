@@ -10,7 +10,7 @@ export interface ResultLine {
 /**
  * A class used to get a line between two cells of a grid.
  */
-abstract class Line<T> {
+export abstract class Line<T> {
     protected grid: T[][];
     protected callbackBlock: CallbackBlock<T>;
 
@@ -39,5 +39,3 @@ abstract class Line<T> {
         }
     }
 }
-
-export default Line;
