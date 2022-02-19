@@ -1,6 +1,6 @@
 {
   "name": "@znuznu/groolkit",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "description": "A library with a bunch of algorithms related to grids.",
   "repository": {
     "type": "git",
@@ -13,10 +13,17 @@
   },
   "homepage": "https://github.com/znuznu/groolkit#readme",
   "keywords": [
+    "2d",
+    "astar",
     "algorithm",
+    "dijkstra",
+    "flood filling",
+    "field of view",
     "grid",
     "gamedev",
-    "2d"
+    "line drawing",
+    "rogue",
+    "shortest path"
   ],
   "main": "dist/groolkit.min.js",
   "types": "dist/types",
