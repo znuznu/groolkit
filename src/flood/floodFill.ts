@@ -14,8 +14,8 @@ export class FloodFill<T> extends Flood<T> {
      * @param grid - The grid for which to compute the flooding.
      * @param floodCallbackFn - A callback function used to determine if a cell is a one to flood.
      */
-    constructor(grid: T[][], callbackFill: FloodCallbackFn<T>) {
-        super(grid, callbackFill);
+    constructor(grid: T[][], floodCallbackFn: FloodCallbackFn<T>) {
+        super(grid, floodCallbackFn);
     }
 
     /**

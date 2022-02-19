@@ -13,7 +13,7 @@ import {
 } from './colors';
 import OPACITY from './opacity';
 import { ResultPath } from '../path/path';
-import { ResultFov } from '../fov/fov';
+import { ResultFOV } from '../fov/fov';
 import { ResultLine } from '../line/line';
 import { ResultFlood } from '../flood/flood';
 import { Position } from '../helpers/types';
@@ -201,7 +201,7 @@ class Draw<T> {
         this.drawLines();
     }
 
-    drawFov(result: ResultFov, dark: boolean = false): void {
+    drawFov(result: ResultFOV, dark: boolean = false): void {
         this.clearCanvas();
 
         if (!dark) {

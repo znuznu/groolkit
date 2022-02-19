@@ -4,7 +4,7 @@ import {
     stringToPosition
 } from '../helpers/position';
 import { Position } from '../helpers/types';
-import { CallbackLight, FOV, Options, ResultFov } from './fov';
+import { LightCallbackFn, FOV, FOVOptions, ResultFOV } from './fov';
 
 const OCTANTS = [
     [1, 0, 0, 1],
@@ -25,15 +25,27 @@ const OCTANTS = [
  * http://www.roguebasin.com/index.php?title=FOV_using_recursive_shadowcasting
  */
 export class RecursiveShadowCasting<T> extends FOV<T> {
+    /**
+     * @constructor
+     * @param grid - The grid for which to compute the FOV.
+     * @param lightCallbackFn - A callback function used to determine if a cell doesn't let the "light" passes through.
+     * @param options - The options related to the computation.
+     */
     constructor(
         grid: T[][],
-        callbackLight: CallbackLight<T>,
-        options?: Partial<Options>
+        lightCallbackFn: LightCallbackFn<T>,
+        options?: Partial<FOVOptions>
     ) {
-        super(grid, callbackLight, options);
+        super(grid, lightCallbackFn, options);
     }
 
-    compute(start: Position): ResultFov {
+    /**
+     * Computes the FOV on the given position, using the Recursive Shadow Casting strategy.
+     *
+     * @param start - The Position on which to start the computation.
+     * @returns The FOV computation result.
+     */
+    compute(start: Position): ResultFOV {
         if (!isPositionWithinGrid(this.grid, start)) {
             return {
                 status: 'Failed'
@@ -61,12 +73,12 @@ export class RecursiveShadowCasting<T> extends FOV<T> {
     /**
      * Compute each tile of the given octant.
      *
-     * @param start       - The position of the tile to start
-     * @param row         - The current row
-     * @param startSlope  - The slope to start
-     * @param endSlope    - The slope to end
-     * @param octant      - The current octant
-     * @param visiblesSet - The visibles tile positions (as a string)
+     * @param start - The Position of the cell on which to start the computation.
+     * @param row - The current row.
+     * @param startSlope - The slope to start.
+     * @param endSlope - The slope to end.
+     * @param octant - The current octant.
+     * @param visiblesSet - A Set containing the visibles tile positions (as a string).
      */
     private processOctants(
         start: Position,
@@ -123,7 +135,7 @@ export class RecursiveShadowCasting<T> extends FOV<T> {
                 }
 
                 if (blocked) {
-                    if (!this.callbackLight(this.grid[mx][my])) {
+                    if (!this.lightCallbackFn(this.grid[mx][my])) {
                         newStart = rightSlope;
                         continue;
                     } else {
@@ -131,7 +143,7 @@ export class RecursiveShadowCasting<T> extends FOV<T> {
                         startSlope = newStart;
                     }
                 } else {
-                    if (!this.callbackLight(this.grid[mx][my]) && i < this.radius) {
+                    if (!this.lightCallbackFn(this.grid[mx][my]) && i < this.radius) {
                         blocked = true;
                         this.processOctants(
                             start,

@@ -22,19 +22,13 @@ export type FloodCallbackFn<T> = (cell: T) => boolean;
  * @param T - Any type of data.
  */
 export abstract class Flood<T> {
-    /**
-     * The grid for which to compute the flooding.
-     */
+    /** The grid for which to compute the flooding. */
     protected grid: T[][];
 
-    /**
-     * A grid containing the state of all cells during the computation.
-     */
+    /** A grid containing the state of all cells during the computation. */
     protected colorGrid: ColorCell[][];
 
-    /**
-     * The callback function used to determine if a cell is a one to flood.
-     */
+    /** The callback function used to determine if a cell is a one to flood. */
     protected floodCallbackFn: FloodCallbackFn<T>;
 
     private width: number;
