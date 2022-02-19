@@ -41,7 +41,9 @@ const Groolkit = require('@znuznu/groolkit');
 Any type of two-dimensional arrays. `Groolkit` doesn't mutate your grids.
 
 ### What needs Groolkit ?
-The only thing required alongside the grid is a callback function to checks the cell property of the grid. For example, `Groolkit` needs to know what makes a cell of your array a blocking one in order to avoid it during a shortest path computation.  
+The only thing required alongside the grid is a callback function to checks the cell property of the grid.
+
+For example, `Groolkit` needs to know what makes a cell of your array a blocking one in order to avoid it during a shortest path computation.  
 
 `blockCallbackFn`: return `true` if the cell is a blocking one (line of sight, shortest path, ...)  
 `lightCallbackFn`: return `true` if the cell doesn't let the light passes through (FOV, ...)  
@@ -49,4 +51,4 @@ The only thing required alongside the grid is a callback function to checks the 
 
 ## __Documentation__
 
-See the full documentation, with examples [here](https://znuznu.github.io/groolkit/).
+See the full documentation with examples [here](https://znuznu.github.io/groolkit/).
