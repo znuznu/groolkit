@@ -1,6 +1,6 @@
 import { getRoundedPosition } from '../helpers/position';
 import { Position } from '../helpers/types';
-import { BlockCallbackFn, Line, ResultLine } from './line';
+import { BlockCallbackFn, Line, LineResult } from './line';
 
 /**
  * Represents a line of sight finder between two cells in a two dimensional array
@@ -15,6 +15,8 @@ export class LineLerp<T> extends Line<T> {
      * @constructor
      * @param grid - The grid for which to compute the line.
      * @param blockCallbackFn - A callback function used to determine if a cell is a blocking one.
+     *
+     * @template T - Any type of data.
      */
     constructor(grid: T[][], blockCallbackFn: BlockCallbackFn<T>) {
         super(grid, blockCallbackFn);
@@ -27,7 +29,7 @@ export class LineLerp<T> extends Line<T> {
      * @param end - A Position
      * @returns The line result.
      */
-    process(start: Position, end: Position): ResultLine {
+    process(start: Position, end: Position): LineResult {
         const result = super.process(start, end);
         if (result) {
             return result;
@@ -36,7 +38,7 @@ export class LineLerp<T> extends Line<T> {
         return this.getLine(start, end);
     }
 
-    private getLine(start: Position, end: Position): ResultLine {
+    private getLine(start: Position, end: Position): LineResult {
         const positions: Position[] = [];
 
         const steps = Math.max(Math.abs(end.x - start.x), Math.abs(end.y - start.y));
@@ -82,5 +84,3 @@ export class LineLerp<T> extends Line<T> {
         };
     }
 }
-
-export default LineLerp;

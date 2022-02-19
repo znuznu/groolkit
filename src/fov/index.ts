@@ -1,4 +1,4 @@
 import { RecursiveShadowCasting } from './recursiveShadowCasting';
-import { FOV, LightCallbackFn, FOVOptions, ResultFOV } from './fov';
+import { FOV, LightCallbackFn, FOVOptions, FOVResult } from './fov';
 
-export { FOV, FOVOptions, LightCallbackFn, ResultFOV, RecursiveShadowCasting };
+export { FOV, FOVOptions, LightCallbackFn, FOVResult, RecursiveShadowCasting };

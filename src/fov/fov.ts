@@ -10,8 +10,20 @@ export interface FOVOptions {
     radius: number;
 }
 
-export interface ResultFOV {
+/** The result of a FOV computation. */
+export interface FOVResult {
+    /**
+     * The status of the computation.
+     *
+     * - `Success`
+     * - `Failed` : the target {@linkcode Position} was outside the boundaries of the grid.
+     */
     status: 'Success' | 'Failed';
+    /**
+     * All the positions found.
+     *
+     * `undefined` if in a `Failed` status.
+     */
     positions?: Position[];
 }
 
@@ -44,6 +56,8 @@ export abstract class FOV<T> {
      * @param grid - The grid for which to compute the FOV.
      * @param lightCallbackFn - A callback function used to determine if a cell doesn't let the "light" passes through.
      * @param options - The options related to the computation.
+     *
+     * @template T - Any type of data.
      */
     constructor(
         grid: T[][],
@@ -62,5 +76,5 @@ export abstract class FOV<T> {
      * @param start - The position on which to start the computation.
      * @returns The FOV computation result.
      */
-    abstract compute(start: Position): ResultFOV;
+    abstract compute(start: Position): FOVResult;
 }

@@ -18,8 +18,8 @@ describe('AStar', () => {
 
                 const result = star.search({ x: 0, y: 0 }, { x: 3, y: 2 });
 
-                it('should return result with Found status', () => {
-                    expect(result.status).toEqual('Found');
+                it('should return result with Success status', () => {
+                    expect(result.status).toEqual('Success');
                 });
 
                 it('should return result with expected positions length', () => {
@@ -48,8 +48,8 @@ describe('AStar', () => {
 
                 const result = star.search({ x: 0, y: 0 }, { x: 9, y: 9 });
 
-                it('should return result with Found status', () => {
-                    expect(result.status).toEqual('Found');
+                it('should return result with Success status', () => {
+                    expect(result.status).toEqual('Success');
                 });
 
                 it('should return result with expected positions length', () => {
@@ -72,8 +72,8 @@ describe('AStar', () => {
 
                 const result = star.search({ x: 0, y: 2 }, { x: 0, y: 5 });
 
-                it('should return result with Found status', () => {
-                    expect(result.status).toEqual('Found');
+                it('should return result with Success status', () => {
+                    expect(result.status).toEqual('Success');
                 });
 
                 it('should return result with expected positions length', () => {
@@ -88,8 +88,8 @@ describe('AStar', () => {
 
             const result = star.search({ x: 0, y: 0 }, { x: 4, y: 9 });
 
-            it('should return result with Invalid status', () => {
-                expect(result.status).toEqual('Invalid');
+            it('should return result with Failed status', () => {
+                expect(result.status).toEqual('Failed');
             });
         });
 

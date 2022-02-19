@@ -29,6 +29,8 @@ export class Cell<T> {
      * @constructor
      * @param position - The position of this Cell inside the grid
      * @param data - The data of the original cell in the user grid
+     *
+     * @template T - Any type of data.
      */
     constructor(position: Position, data: T) {
         this.position = position;
@@ -37,8 +39,22 @@ export class Cell<T> {
     }
 }
 
-export interface ResultPath {
-    status: 'Found' | 'Unreachable' | 'Invalid' | 'Block';
+/** The result of a shortest path finding computation. */
+export interface PathResult {
+    /**
+     * The status of the computation.
+     *
+     * - `Success`: a shortest path was found.
+     * - `Unreachable` : all paths between start and end {@linkcode Position} are blocked.
+     * - `Block` : the start or end {@linkcode Position} is a blocking one.
+     * - `Failed` : the target {@linkcode Position} was outside the boundaries of the grid.
+     */
+    status: 'Success' | 'Unreachable' | 'Block' | 'Failed';
+    /**
+     * All the positions found, from start to end.
+     *
+     * `undefined` if in a `Failed`, `Block` or `Unreachable` status.
+     */
     positions?: Position[];
 }
 
@@ -95,7 +111,7 @@ export abstract class Path<T> {
         start: Position,
         end: Position,
         newBlockCallbackFn?: BlockCallbackFn<T>
-    ): ResultPath;
+    ): PathResult;
 
     /**
      * Initializes the grid used to compute a path.
@@ -178,12 +194,12 @@ export abstract class Path<T> {
      * @param end - An end Position.
      * @returns A path finding result if one of the position is invalid, or undefined if they're both valid.
      */
-    protected isValidPath(start: Position, end: Position): ResultPath | undefined {
+    protected isValidPath(start: Position, end: Position): PathResult | undefined {
         const isStartWithinGrid = this.contains({ x: start.x, y: start.y });
         const isEndWithinGrid = this.contains({ x: end.x, y: end.y });
 
         if (!isStartWithinGrid || !isEndWithinGrid) {
-            return { status: 'Invalid' };
+            return { status: 'Failed' };
         }
 
         const startCell = this.gridCell[start.x][start.y];

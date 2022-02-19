@@ -1,8 +1,21 @@
 import { isPositionWithinGrid } from '../helpers/position';
 import { Position } from '../helpers/types';
 
-export interface ResultLine {
+/** The result of a line computation. */
+export interface LineResult {
+    /**
+     * The status of the computation.
+     *
+     * - `Complete` : no blocking cells were encountered between the start and the end {@linkcode Position}.
+     * - `Incomplete` : a blocking cell was encountered between the start and the end {@linkcode Position}.
+     * - `Failed` : the start or end {@linkcode Position} was outside the boundaries of the grid.
+     */
     status: 'Complete' | 'Incomplete' | 'Failed';
+    /**
+     * All the positions found (in the order of discovery).
+     *
+     * `undefined` if in a `Failed` status.
+     */
     positions?: Position[];
 }
 
@@ -25,6 +38,8 @@ export abstract class Line<T> {
      * @constructor
      * @param grid - The grid for which to compute the line.
      * @param blockCallbackFn - A callback function used to determine if a cell is a blocking one.
+     *
+     * @template T - Any type of data.
      */
     constructor(grid: T[][], blockCallbackFn: BlockCallbackFn<T>) {
         this.grid = grid;
@@ -38,7 +53,7 @@ export abstract class Line<T> {
      * @param end - A Position
      * @returns The line result.
      */
-    process(start: Position, end: Position): ResultLine {
+    process(start: Position, end: Position): LineResult {
         const isStartWithinGrid = isPositionWithinGrid(this.grid, start);
         const isEndWithinGrid = isPositionWithinGrid(this.grid, end);
 

@@ -4,7 +4,7 @@ import {
     stringToPosition
 } from '../helpers/position';
 import { Position } from '../helpers/types';
-import { LightCallbackFn, FOV, FOVOptions, ResultFOV } from './fov';
+import { LightCallbackFn, FOV, FOVOptions, FOVResult } from './fov';
 
 const OCTANTS = [
     [1, 0, 0, 1],
@@ -30,6 +30,8 @@ export class RecursiveShadowCasting<T> extends FOV<T> {
      * @param grid - The grid for which to compute the FOV.
      * @param lightCallbackFn - A callback function used to determine if a cell doesn't let the "light" passes through.
      * @param options - The options related to the computation.
+     *
+     * @template T - Any type of data.
      */
     constructor(
         grid: T[][],
@@ -45,7 +47,7 @@ export class RecursiveShadowCasting<T> extends FOV<T> {
      * @param start - The Position on which to start the computation.
      * @returns The FOV computation result.
      */
-    compute(start: Position): ResultFOV {
+    compute(start: Position): FOVResult {
         if (!isPositionWithinGrid(this.grid, start)) {
             return {
                 status: 'Failed'

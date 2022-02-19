@@ -11,10 +11,10 @@ import {
     pathColors
 } from './colors';
 import OPACITY from './opacity';
-import { BlockCallbackFn, ResultPath } from '../path/path';
-import { ResultFOV } from '../fov/fov';
-import { ResultLine } from '../line/line';
-import { ResultFlood } from '../flood/flood';
+import { BlockCallbackFn, PathResult } from '../path/path';
+import { FOVResult } from '../fov/fov';
+import { LineResult } from '../line/line';
+import { FloodResult } from '../flood/flood';
 import { Position } from '../helpers/types';
 
 interface DrawColors {
@@ -46,6 +46,9 @@ export const opacities: BaseOpacity = {
     algorithm: OPACITY.TILE
 };
 
+/**
+ * @ignore
+ */
 class Draw<T> {
     protected context: CanvasRenderingContext2D;
     private grid: T[][];
@@ -163,8 +166,8 @@ class Draw<T> {
         this.context.globalAlpha = 1;
     }
 
-    drawPath(result: ResultPath): void {
-        if (result.status !== 'Found') {
+    drawPath(result: PathResult): void {
+        if (result.status !== 'Success') {
             return;
         }
 
@@ -200,7 +203,7 @@ class Draw<T> {
         this.drawLines();
     }
 
-    drawFov(result: ResultFOV, dark: boolean = false): void {
+    drawFov(result: FOVResult, dark: boolean = false): void {
         this.clearCanvas();
 
         if (!dark) {
@@ -229,7 +232,7 @@ class Draw<T> {
         this.drawLines();
     }
 
-    drawLine(result: ResultLine): void {
+    drawLine(result: LineResult): void {
         this.clearCanvas();
         this.drawTiles();
 
@@ -251,7 +254,7 @@ class Draw<T> {
         this.drawLines();
     }
 
-    drawFill(result: ResultFlood): void {
+    drawFill(result: FloodResult): void {
         this.clearCanvas();
         this.drawTiles();
 

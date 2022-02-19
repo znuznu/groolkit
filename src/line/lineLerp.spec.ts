@@ -1,4 +1,4 @@
-import LineLerp from './lineLerp';
+import { LineLerp } from './lineLerp';
 
 describe('Line lerp', () => {
     describe('when the line is completely drawable', () => {

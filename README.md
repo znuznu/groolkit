@@ -85,7 +85,7 @@ if (result.status === 'Success') {
 Returns an object containing informations about the result of the computation:
 
 ```typescript
-interface ResultFov {
+interface FOVResult {
     status: 'Success' | 'Failed',
     // Each lighted tiles
     positions?: Position[]
@@ -129,7 +129,7 @@ let result = line.process(startPosition, endPosition);
 Returns an object containing informations about the result of the line computation:
 
 ```typescript
-interface ResultLine {
+interface LineResult {
     status: 'Complete' | 'Incomplete' | 'Failed';
     positions?: Position[];
 }
@@ -215,7 +215,7 @@ Returns an object containing informations about the result of the computation:
 
 ```typescript
 interface Result {
-    status: 'Found' | 'Unreachable' | 'Invalid' | 'Block';
+    status: 'Found' | 'Unreachable' | 'Failed' | 'Block';
     // Path positions
     positions?: Position[];
 }

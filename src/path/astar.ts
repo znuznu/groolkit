@@ -1,5 +1,5 @@
 import { D, D2 } from './constants';
-import { BlockCallbackFn, Cell, Path, ResultPath, Topology } from './path';
+import { BlockCallbackFn, Cell, Path, PathResult, Topology } from './path';
 import { MinBinaryHeap } from '../struct/minBinaryHeap';
 import { Position } from '../helpers/types';
 
@@ -17,6 +17,8 @@ export class AStar<T> extends Path<T> {
      * @param grid - The grid for which to compute the path finding.
      * @param blockCallbackFn - A callback function used to determine if a cell is a blocking one.
      * @param topology - The topology of the grid.
+     *
+     * @template T - Any type of data.
      */
     constructor(grid: T[][], topology: Topology, blockCallbackFn: BlockCallbackFn<T>) {
         super(grid, topology, blockCallbackFn);
@@ -35,7 +37,7 @@ export class AStar<T> extends Path<T> {
         start: Position,
         end: Position,
         newBlockCallbackFn?: BlockCallbackFn<T>
-    ): ResultPath {
+    ): PathResult {
         const validPositions = this.isValidPath(start, end);
 
         if (validPositions) return validPositions;
@@ -78,7 +80,7 @@ export class AStar<T> extends Path<T> {
 
                 path.push({ x: cursor.position.x, y: cursor.position.y });
 
-                return { status: 'Found', positions: path.reverse() };
+                return { status: 'Success', positions: path.reverse() };
             }
 
             if (!current.neighbors) {

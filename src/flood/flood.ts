@@ -6,8 +6,21 @@ export interface ColorCell {
     color: 'target' | 'ignore' | 'done';
 }
 
-export interface ResultFlood {
+/** The result of a flooding computation. */
+export interface FloodResult {
+    /**
+     * The status of the computation.
+     *
+     * - `Success`
+     * - `Block` : no cells were flooded due to the target {@linkcode Position} being a blocking one.
+     * - `Failed` : the target {@linkcode Position} was outside the boundaries of the grid.
+     */
     status: 'Success' | 'Block' | 'Failed';
+    /**
+     * All the positions found.
+     *
+     * `undefined` if in a `Failed` status.
+     */
     positions?: Position[];
 }
 
@@ -39,6 +52,8 @@ export abstract class Flood<T> {
      * @constructor
      * @param grid - The grid for which to compute the flooding.
      * @param floodCallbackFn - A callback function used to determine if a cell is a one to flood.
+     *
+     * @template T - Any type of data.
      */
     constructor(grid: T[][], floodCallbackFn: FloodCallbackFn<T>) {
         this.grid = grid;
@@ -54,7 +69,7 @@ export abstract class Flood<T> {
      * @param startPosition - The Position on which to start the computation.
      * @returns The flooding result.
      */
-    abstract process(startPosition: Position): ResultFlood;
+    abstract process(startPosition: Position): FloodResult;
 
     /**
      * Initializes the color grid used to compute the flooding.

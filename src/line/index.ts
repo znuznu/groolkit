@@ -1,3 +1,4 @@
-import LineLerp from './lineLerp';
+import { Line, BlockCallbackFn, LineResult } from './line';
+import { LineLerp } from './lineLerp';
 
-export { LineLerp };
+export { Line, BlockCallbackFn, LineResult, LineLerp };

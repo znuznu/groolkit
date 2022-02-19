@@ -1,5 +1,5 @@
 import { Position } from '../helpers/types';
-import { Flood, ColorCell, ResultFlood, FloodCallbackFn } from './flood';
+import { Flood, ColorCell, FloodResult, FloodCallbackFn } from './flood';
 
 type Index = [-1, 0] | [1, 0] | [0, -1] | [0, 1];
 
@@ -25,8 +25,10 @@ export class FloodFill<T> extends Flood<T> {
      *
      * @param startPosition - The Position on which to start the computation.
      * @returns The flooding result.
+     *
+     * @template T - Any type of data.
      */
-    process(startPosition: Position): ResultFlood {
+    process(startPosition: Position): FloodResult {
         if (!this.contains(startPosition)) {
             return { status: 'Failed' };
         }

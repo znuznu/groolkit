@@ -1,4 +1,4 @@
-import { Flood, ResultFlood, FloodCallbackFn } from './flood';
+import { Flood, FloodResult, FloodCallbackFn } from './flood';
 import { FloodFill } from './floodFill';
 
-export { Flood, FloodFill, ResultFlood, FloodCallbackFn };
+export { Flood, FloodResult, FloodCallbackFn, FloodFill };
