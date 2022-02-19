@@ -1,23 +1,37 @@
 import { Position } from '../helpers/types';
-import { Flood, ColorCell, ResultFill, FloodCallbackFn } from './flood';
+import { Flood, ColorCell, ResultFlood, FloodCallbackFn } from './flood';
 
 type Index = [-1, 0] | [1, 0] | [0, -1] | [0, 1];
 
+/**
+ * Represents a "flood filler".
+ *
+ * See: https://en.wikipedia.org/wiki/Flood_fill (Span Filling section)
+ */
 export class FloodFill<T> extends Flood<T> {
+    /**
+     * @constructor
+     * @param grid - The grid for which to compute the flooding.
+     * @param floodCallbackFn - A callback function used to determine if a cell is a one to flood.
+     */
     constructor(grid: T[][], callbackFill: FloodCallbackFn<T>) {
         super(grid, callbackFill);
     }
 
-    process(startPosition: Position): ResultFill {
+    /**
+     * Computes the flooding, using a line by line strategy.
+     *
+     * @param startPosition - The Position on which to start the computation.
+     * @returns The flooding result.
+     */
+    process(startPosition: Position): ResultFlood {
         if (!this.contains(startPosition)) {
             return { status: 'Failed' };
         }
 
         this.createColorGrid();
 
-        const x = startPosition.x;
-        const y = startPosition.y;
-        const filled = this.fill(this.colorGrid[x][y]);
+        const filled = this.fill(this.colorGrid[startPosition.x][startPosition.y]);
 
         return {
             status: filled.length ? 'Success' : 'Block',
@@ -26,11 +40,10 @@ export class FloodFill<T> extends Flood<T> {
     }
 
     /**
-     * Fill the grid line by line.
+     * Fills the grid line by line.
      *
-     * @param cell             - The ColorCell to start with
-     * @param targetColor      - The color to replace
-     * @param replacementColor - The color used to replace the target color
+     * @param cell - The ColorCell to start with.
+     * @returns An array containing all the filled Positions.
      */
     private fill(cell: ColorCell): Position[] {
         if (cell.color === 'ignore') {
@@ -62,10 +75,11 @@ export class FloodFill<T> extends Flood<T> {
     }
 
     /**
-     * Fill the line and check for each ColorCell of the line if their
-     * vertical neighbours are target too.
+     * Fills the line of a given index.
      *
-     * @param cell  - The ColorCell of the line to start with
+     * For each {@linkcode ColorCell} of the line, calls the {@link checkVerticalNeighbors} method.
+     *
+     * @param cell - The ColorCell of the line to start with.
      * @param index - Numbers to add to our ColorCell in order to find the neighbor
      * @param stack - The ColorCell stack containing cells to process
      */
@@ -99,18 +113,20 @@ export class FloodFill<T> extends Flood<T> {
     }
 
     /**
-     * Check vertical neighbors and add them to the stack if they have a target color.
+     * Checks vertical neighbors of a {@linkcode ColorCell} and add them to the
+     * stack if they have a target color.
      *
-     * @param cell        - The ColorCell to start with
-     * @param targetColor - The color to find and replace
-     * @param stack       - The ColorCell stack containing cells to process
+     * @param cell - The ColorCell to start with.
+     * @param targetColor - The color to find and replace.
+     * @param stack - The ColorCell stack containing cells to process.
      */
-    private checkVerticalNeighbors(cell: ColorCell, stack: ColorCell[]) {
-        const verticals: Index[] = [
+    private checkVerticalNeighbors(cell: ColorCell, stack: ColorCell[]): void {
+        const verticalIndexes: Index[] = [
             [-1, 0],
             [1, 0]
         ];
-        verticals.forEach((v) => {
+
+        verticalIndexes.forEach((v) => {
             const neighborPosition = {
                 x: cell.position.x + v[0],
                 y: cell.position.y + v[1]

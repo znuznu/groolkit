@@ -15,7 +15,7 @@ import OPACITY from './opacity';
 import { ResultPath } from '../path/path';
 import { ResultFov } from '../fov/fov';
 import { ResultLine } from '../line/line';
-import { ResultFill } from '../flood/flood';
+import { ResultFlood } from '../flood/flood';
 import { Position } from '../helpers/types';
 
 interface DrawColors {
@@ -252,7 +252,7 @@ class Draw<T> {
         this.drawLines();
     }
 
-    drawFill(result: ResultFill): void {
+    drawFill(result: ResultFlood): void {
         this.clearCanvas();
         this.drawTiles();
 

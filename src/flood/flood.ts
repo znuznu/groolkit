@@ -3,50 +3,70 @@ import { Position } from '../helpers/types';
 
 export interface ColorCell {
     position: Position;
-    color: string;
+    color: 'target' | 'ignore' | 'done';
 }
 
-export interface ResultFill {
+export interface ResultFlood {
     status: 'Success' | 'Block' | 'Failed';
     positions?: Position[];
 }
 
-/** True if `cell` is a target to fill. */
+/** Returns `true` if the given cell is a target to flood. */
 export type FloodCallbackFn<T> = (cell: T) => boolean;
 
 /**
- * @class
- * Represents a "flooder" than can fill a part of a grid like the bucket tool of any raster graphics editor does.
+ * @abstract
+ * Represents a "flooder" than can flood a part of a grid like
+ * the bucket tool of any raster graphics editor does.
+ *
+ * @param T - Any type of data.
  */
 export abstract class Flood<T> {
+    /**
+     * The grid for which to compute the flooding.
+     */
     protected grid: T[][];
+
+    /**
+     * A grid containing the state of all cells during the computation.
+     */
     protected colorGrid: ColorCell[][];
-    protected callbackFill: FloodCallbackFn<T>;
-    protected width: number;
-    protected height: number;
+
+    /**
+     * The callback function used to determine if a cell is a one to flood.
+     */
+    protected floodCallbackFn: FloodCallbackFn<T>;
+
+    private width: number;
+
+    private height: number;
 
     /**
      * @constructor
-     * @param grid         - The original grid
-     * @param callbackFill - A function to test if a cell of the grid is a target
+     * @param grid - The grid for which to compute the flooding.
+     * @param floodCallbackFn - A callback function used to determine if a cell is a one to flood.
      */
-    constructor(grid: T[][], callbackFill: FloodCallbackFn<T>) {
+    constructor(grid: T[][], floodCallbackFn: FloodCallbackFn<T>) {
         this.grid = grid;
         this.height = this.grid.length;
         this.width = this.grid[0].length;
-        this.callbackFill = callbackFill;
+        this.floodCallbackFn = floodCallbackFn;
         this.colorGrid = [];
     }
 
     /**
-     * Process the filling
+     * Computes the flooding.
      *
-     * @param startPosition - The position to start the computation with
+     * @param startPosition - The Position on which to start the computation.
+     * @returns The flooding result.
      */
-    abstract process(startPosition: Position): ResultFill;
+    abstract process(startPosition: Position): ResultFlood;
 
     /**
-     * Init the grid used to compute the flood filling.
+     * Initializes the color grid used to compute the flooding.
+     *
+     * Based on the result of the {@linkcode floodCallbackFn}, the cell is either
+     * in `target` or `ignore` state.
      */
     protected createColorGrid(): void {
         for (let x = 0; x < this.height; x++) {
@@ -54,7 +74,7 @@ export abstract class Flood<T> {
             for (let y = 0; y < this.width; y++) {
                 this.colorGrid[x][y] = {
                     position: { x, y },
-                    color: this.callbackFill(this.grid[x][y]) ? 'target' : 'ignore'
+                    color: this.floodCallbackFn(this.grid[x][y]) ? 'target' : 'ignore'
                 };
             }
         }
