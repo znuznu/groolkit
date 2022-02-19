@@ -6,9 +6,42 @@ import { Position } from '../helpers/types';
 /**
  * Represents a shortest path finder using Dijkstra algorithm.
  *
+ * See: https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
+ *
  * It works for a 4 or 8 topology.
  *
  * @template T - Any type of data.
+ *
+ * ```typescript
+ * const path = new Dijkstra(
+ *     [
+ *         [0, 0, 0, 0, 1, 0],
+ *         [0, 1, 1, 1, 1, 0],
+ *         [0, 0, 0, 0, 0, 0],
+ *         [0, 1, 0, 1, 1, 0]
+ *     ],
+ *     { type: 4 },
+ *     (c) => c === 1
+ * );
+ *
+ * path.init();
+ *
+ * const result = path.search({ x: 0, y: 2 }, { x: 0, y: 5 });
+ *
+ * console.log(result);
+ *
+ * {
+ *   status: 'Success',
+ *   positions: [
+ *     { x: 0, y: 2 }, { x: 0, y: 1 },
+ *     { x: 0, y: 0 }, { x: 1, y: 0 },
+ *     { x: 2, y: 0 }, { x: 2, y: 1 },
+ *     { x: 2, y: 2 }, { x: 2, y: 3 },
+ *     { x: 2, y: 4 }, { x: 2, y: 5 },
+ *     { x: 1, y: 5 }, { x: 0, y: 5 }
+ *   ]
+ * }
+ * ```
  */
 export class Dijkstra<T> extends Path<T> {
     /**

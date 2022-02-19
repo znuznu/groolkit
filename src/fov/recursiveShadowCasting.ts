@@ -23,7 +23,33 @@ const OCTANTS = [
  *
  * You can find an idea of how it works here:
  * http://www.roguebasin.com/index.php?title=FOV_using_recursive_shadowcasting
+ *
+ * ```typescript
+ * const grid = [
+ *      [1, 0, 0],
+ *      [0, 0, 0],
+ *      [0, 0, 0],
+ *      [0, 0, 0]
+ *  ];
+ *
+ *  const fov = new RecursiveShadowCasting(grid, (c) => c === 0, { radius: 2 });
+ *
+ *  const result = fov.compute({ x: 0, y: 0 });
+ *
+ *  console.log(result);
+ *
+ *  {
+ *      status: 'Success',
+ *      positions: [
+ *          { x: 0, y: 0 },
+ *          { x: 1, y: 1 },
+ *          { x: 1, y: 0 },
+ *          { x: 0, y: 1 }
+ *      ]
+ *  }
+ * ```
  */
+
 export class RecursiveShadowCasting<T> extends FOV<T> {
     /**
      * @constructor

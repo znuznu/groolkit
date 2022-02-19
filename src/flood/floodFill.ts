@@ -9,6 +9,32 @@ type Index = [-1, 0] | [1, 0] | [0, -1] | [0, 1];
  * See: https://en.wikipedia.org/wiki/Flood_fill (Span Filling section)
  *
  * @template T - Any type of data.
+ *
+ * ```typescript
+ * const grid = [
+ *      [0, 0, 1],
+ *      [1, 0, 0],
+ *      [0, 0, 0]
+ *  ];
+ *  const flood = new FloodFill(grid, (c) => c === 0);
+ *
+ *  const result = flood.process({ x: 0, y: 0 });
+ *
+ *  console.log(result);
+ *
+ *  {
+ *      status: 'Success',
+ *      positions: [
+ *          { x: 0, y: 1 },
+ *          { x: 0, y: 0 },
+ *          { x: 1, y: 2 },
+ *          { x: 1, y: 1 },
+ *          { x: 2, y: 0 },
+ *          { x: 2, y: 2 },
+ *          { x: 2, y: 1 }
+ *      ]
+ *  }
+ * ```
  */
 export class FloodFill<T> extends Flood<T> {
     /**
