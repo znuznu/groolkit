@@ -1,4 +1,3 @@
-import { CallbackBlock } from '../helpers/callbacks';
 import {
     BaseColors,
     baseColors,
@@ -12,7 +11,7 @@ import {
     pathColors
 } from './colors';
 import OPACITY from './opacity';
-import { ResultPath } from '../path/path';
+import { BlockCallbackFn, ResultPath } from '../path/path';
 import { ResultFOV } from '../fov/fov';
 import { ResultLine } from '../line/line';
 import { ResultFlood } from '../flood/flood';
@@ -50,13 +49,13 @@ export const opacities: BaseOpacity = {
 class Draw<T> {
     protected context: CanvasRenderingContext2D;
     private grid: T[][];
-    private callback: CallbackBlock<T>;
+    private callback: BlockCallbackFn<T>;
     protected drawOptions: Partial<DrawOptions>;
 
     constructor(
         context: CanvasRenderingContext2D,
         grid: any[][],
-        callback: CallbackBlock<T>,
+        callback: BlockCallbackFn<T>,
         sizeOptions?: Partial<CellSize>
     ) {
         this.context = context;

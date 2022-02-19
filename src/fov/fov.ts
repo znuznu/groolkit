@@ -19,6 +19,7 @@ export interface ResultFOV {
 export type LightCallbackFn<T> = (cell: T) => boolean;
 
 /**
+ * @abstract
  * Represents a Field Of View in a grid.
  *
  * There's a lot of usage, a classic one is to display the visibles tiles around a player in a 2D game.

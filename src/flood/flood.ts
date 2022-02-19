@@ -19,7 +19,7 @@ export type FloodCallbackFn<T> = (cell: T) => boolean;
  * Represents a "flooder" than can flood a part of a grid like
  * the bucket tool of any raster graphics editor does.
  *
- * @param T - Any type of data.
+ * @template T - Any type of data.
  */
 export abstract class Flood<T> {
     /** The grid for which to compute the flooding. */

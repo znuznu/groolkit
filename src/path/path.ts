@@ -1,8 +1,12 @@
 import { DIRECTIONS } from './constants';
-import { CallbackBlock } from '../helpers/callbacks';
 import { Position } from '../helpers/types';
 import { isPositionWithinGrid } from '../helpers/position';
 
+/**
+ * A path finder topology.
+ *
+ * Either 4 (orthogonal) or 8 (orthogonal and diagonal).
+ */
 export interface Topology {
     type: 4 | 8;
 }
@@ -12,9 +16,10 @@ export interface Neighbor<T> {
     topology: Topology;
 }
 
-/**
- * Represents a copy of a cell from the original grid.
- */
+/** Returns `true` if the given cell is a blocking one. */
+export type BlockCallbackFn<T> = (cell: T) => boolean;
+
+/** Represents a Cell used to compute shortest path(s). */
 export class Cell<T> {
     position: Position;
     data: T;
@@ -23,7 +28,7 @@ export class Cell<T> {
     /**
      * @constructor
      * @param position - The position of this Cell inside the grid
-     * @param data     - The data of the original cell in the user grid
+     * @param data - The data of the original cell in the user grid
      */
     constructor(position: Position, data: T) {
         this.position = position;
@@ -38,48 +43,64 @@ export interface ResultPath {
 }
 
 /**
- * A class used to compute shortest paths between two cells in a grid.
+ * @abstract
+ * Represents a shortest path finder between two cells in a two dimensional array.
+ *
+ * @template T - Any type of data.
  */
 export abstract class Path<T> {
+    /** The grid for which to compute the flooding. */
     protected grid: T[][];
-    protected callbackBlock: CallbackBlock<T>;
+
+    /** The callback function used to determine if a cell is a blocking one. */
+    protected blockCallbackFn: BlockCallbackFn<T>;
+
+    /** The path finder topology. */
     protected topology: Topology;
-    // The grid we use to compute paths.
+
+    /** A grid containing the state of all cells during the computation. */
     protected gridCell: Cell<T>[][];
-    // The parents of each Cell in order to reconstruct paths.
+
+    /**
+     * A structure that maps a {@linkcode Cell} to his parent.
+     *
+     * Used in order to reconstructs the path when the computation is done.
+     */
     protected parents: Map<Cell<T>, Cell<T>>;
 
     /**
      * @constructor
-     * @param grid          - The original grid
-     * @param callbackBlock - A function to test if an element of the grid is a block
-     * @param topology      - Orthogonals or diagonals
+     * @param grid - The grid for which to compute the path finding.
+     * @param blockCallbackFn - A callback function used to determine if a cell is a blocking one.
+     * @param topology - The topology of the grid.
      */
-    constructor(grid: T[][], topology: Topology, callbackBlock: CallbackBlock<T>) {
+    constructor(grid: T[][], topology: Topology, blockCallbackFn: BlockCallbackFn<T>) {
         this.grid = grid;
         this.gridCell = [];
         this.topology = topology;
-        this.callbackBlock = callbackBlock;
+        this.blockCallbackFn = blockCallbackFn;
         this.parents = new Map();
     }
 
     /**
-     * Find a path between `start` and `end`.
+     * Find a path between a start {@linkcode Position} and an end {@linkcode Position}.
      *
-     * @param start         - The position of the cell to start with
-     * @param end           - The position of the cell to end with
-     * @param callbackBlock - An other block testing function, might be useful
+     * Should be called after the {@link init} method.
+     *
+     * @param start - The start Position.
+     * @param end - The end Position.
+     * @param newBlockCallbackFn - A block testing function, different from the constructor one.
      */
     abstract search(
         start: Position,
         end: Position,
-        newCallbackBlock?: CallbackBlock<T>
+        newBlockCallbackFn?: BlockCallbackFn<T>
     ): ResultPath;
 
     /**
-     * Init the Cell grid used to compute a path.
+     * Initializes the grid used to compute a path.
      *
-     * Note: Neighbors are not initialized.
+     * A mandatory step before calling the {@link search} method.
      */
     init(): void {
         const h = this.grid.length;
@@ -94,10 +115,10 @@ export abstract class Path<T> {
     }
 
     /**
-     * Get all neighbors from the Cell (based on the topology).
+     * Retrieves all neighbors from the Cell based on the {@linkcode Topology}.
      *
-     * @param cell - Cell to get the neighbors of
-     * @returns An array containing the neighbors and the topology it comes from
+     * @param cell - A Cell for which to get the neighbors.
+     * @returns An array containing the neighbors and the topology it comes from.
      */
     protected getNeighbors(cell: Cell<T>): Neighbor<T>[] {
         const neighbors: Neighbor<T>[] = [];
@@ -107,7 +128,7 @@ export abstract class Path<T> {
                 const nx = cell.position.x + dir[0];
                 const ny = cell.position.y + dir[1];
 
-                if (this.isValidCell(nx, ny)) {
+                if (this.hasNonBlockingCellWithPosition({ x: nx, y: ny })) {
                     neighbors.push({
                         cell: this.gridCell[nx][ny],
                         topology: type === 4 ? { type: 4 } : { type: 8 }
@@ -126,47 +147,36 @@ export abstract class Path<T> {
     }
 
     /**
-     * Initialize the neighbors of the given Cell.
+     * Initializes the neighbors of a given {@linkcode Cell}.
      *
-     * @param cell - The Cell to initialize the neighbors
+     * @param cell - The Cell for which to initialize the neighbors.
      */
     protected initNeighbors(cell: Cell<T>): void {
         cell.neighbors = this.getNeighbors(cell);
     }
 
     /**
-     * Check if the Cell exists in the grid and isn't a block.
+     * Checks for a given {@linkcode Position} that a {@linkcode Cell} exists in the grid and isn't a blocking one.
      *
-     * @param x - x coordinates of the Cell to check
-     * @param y - y coordinates of the Cell to check
-     * @returns True if the Cell is valid
+     * @param position - A Position
+     * @returns `true` if the Position is the one from a non-blocking Cell.
      */
-    protected isValidCell(x: number, y: number): boolean {
-        if (!this.contains({ x, y })) {
+    private hasNonBlockingCellWithPosition(position: Position): boolean {
+        if (!this.contains(position)) {
             return false;
         }
 
-        return !this.callbackBlock(this.grid[x][y]);
+        return !this.blockCallbackFn(this.grid[position.x][position.y]);
     }
 
     /**
-     * Check if the Cell exists in the grid.
+     * Checks that it's possible to search a shortest path between a start and end {@linkcode Position}.
      *
-     * @param x - x coordinates of the Cell to check
-     * @param y - y coordinates of the Cell to check
-     * @returns True if the Cell exists
-     */
-    protected contains(position: Position): boolean {
-        return isPositionWithinGrid(this.grid, position);
-    }
-
-    /**
-     * Check that start and end are valid positions.
-     * They must be existing coordinates and not one of a blocking Cell.
+     * Both start and end must be positions of a non-blocking Cell.
      *
-     * @param start - The Cell position to start with
-     * @param end   - The Cell position to end with
-     * @returns A Result or undefined if they're valid coordinates
+     * @param start - A start Position.
+     * @param end - An end Position.
+     * @returns A path finding result if one of the position is invalid, or undefined if they're both valid.
      */
     protected isValidPath(start: Position, end: Position): ResultPath | undefined {
         const isStartWithinGrid = this.contains({ x: start.x, y: start.y });
@@ -179,11 +189,15 @@ export abstract class Path<T> {
         const startCell = this.gridCell[start.x][start.y];
         const endCell = this.gridCell[end.x][end.y];
 
-        const startBlock = this.callbackBlock(startCell.data);
-        const endBlock = this.callbackBlock(endCell.data);
+        const startBlock = this.blockCallbackFn(startCell.data);
+        const endBlock = this.blockCallbackFn(endCell.data);
 
         if (startBlock || endBlock) {
             return { status: 'Block' };
         }
+    }
+
+    protected contains(position: Position): boolean {
+        return isPositionWithinGrid(this.grid, position);
     }
 }

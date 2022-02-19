@@ -1,21 +1,37 @@
-import { CallbackBlock } from '../helpers/callbacks';
 import { D, D2 } from './constants';
-import { Cell, Path, ResultPath, Topology } from './path';
+import { BlockCallbackFn, Cell, Path, ResultPath, Topology } from './path';
 import { MinBinaryHeap } from '../struct/minBinaryHeap';
 import { Position } from '../helpers/types';
 
 /**
- * Dijkstra pathfinding algorithm with 4 or 8 directions.
+ * Represents a shortest path finder using Dijkstra algorithm.
+ *
+ * It works for a 4 or 8 topology.
  */
 export class Dijkstra<T> extends Path<T> {
-    constructor(grid: T[][], topology: Topology, callbackBlock: CallbackBlock<T>) {
-        super(grid, topology, callbackBlock);
+    /**
+     * @constructor
+     * @param grid - The grid for which to compute the path finding.
+     * @param blockCallbackFn - A callback function used to determine if a cell is a blocking one.
+     * @param topology - The topology of the grid.
+     */
+    constructor(grid: T[][], topology: Topology, blockCallbackFn: BlockCallbackFn<T>) {
+        super(grid, topology, blockCallbackFn);
     }
 
+    /**
+     * Find a path between a start {@linkcode Position} and an end {@linkcode Position} using Dijkstra algorithm.
+     *
+     * Should be called after the {@link init} method.
+     *
+     * @param start - The start Position.
+     * @param end - The end Position.
+     * @param newBlockCallbackFn - A block testing function, different from the constructor one.
+     */
     search(
         start: Position,
         end: Position,
-        newCallbackBlock?: CallbackBlock<T>
+        newBlockCallbackFn?: BlockCallbackFn<T>
     ): ResultPath {
         const validPositions = this.isValidPath(start, end);
 
@@ -24,9 +40,9 @@ export class Dijkstra<T> extends Path<T> {
         const startCell = this.gridCell[start.x][start.y];
         const endCell = this.gridCell[end.x][end.y];
 
-        /* Actual Dijkstra */
+        /* Start Dijkstra */
 
-        this.callbackBlock = newCallbackBlock || this.callbackBlock;
+        this.blockCallbackFn = newBlockCallbackFn || this.blockCallbackFn;
 
         const distances: Map<Cell<T>, number> = new Map();
         const open: MinBinaryHeap<Cell<T>> = new MinBinaryHeap((cell) =>

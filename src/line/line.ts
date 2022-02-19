@@ -1,4 +1,3 @@
-import { CallbackBlock } from '../helpers/callbacks';
 import { isPositionWithinGrid } from '../helpers/position';
 import { Position } from '../helpers/types';
 
@@ -7,21 +6,24 @@ export interface ResultLine {
     positions?: Position[];
 }
 
+/** Returns `true` if the given cell is a blocking one. */
+export type BlockCallbackFn<T> = (cell: T) => boolean;
+
 /**
  * A class used to get a line between two cells of a grid.
  */
 export abstract class Line<T> {
     protected grid: T[][];
-    protected callbackBlock: CallbackBlock<T>;
+    protected blockCallbackFn: BlockCallbackFn<T>;
 
     /**
      * @constructor
      * @param grid          - The original grid
-     * @param callbackBlock - A function to test if an element of the grid is a block
+     * @param blockCallbackFn - A function to test if an element of the grid is a block
      */
-    constructor(grid: T[][], callbackBlock: CallbackBlock<T>) {
+    constructor(grid: T[][], blockCallbackFn: BlockCallbackFn<T>) {
         this.grid = grid;
-        this.callbackBlock = callbackBlock;
+        this.blockCallbackFn = blockCallbackFn;
     }
 
     /**

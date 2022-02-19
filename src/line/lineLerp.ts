@@ -1,11 +1,10 @@
-import { CallbackBlock } from '../helpers/callbacks';
 import { getRoundedPosition } from '../helpers/position';
 import { Position } from '../helpers/types';
-import { Line, ResultLine } from './line';
+import { BlockCallbackFn, Line, ResultLine } from './line';
 
 export class LineLerp<T> extends Line<T> {
-    constructor(grid: T[][], callbackBlock: CallbackBlock<T>) {
-        super(grid, callbackBlock);
+    constructor(grid: T[][], blockCallbackFn: BlockCallbackFn<T>) {
+        super(grid, blockCallbackFn);
     }
 
     process(start: Position, end: Position) {
@@ -27,7 +26,7 @@ export class LineLerp<T> extends Line<T> {
 
             const position = getRoundedPosition(this.lerpPosition(start, end, t));
 
-            if (this.callbackBlock(this.grid[position.x][position.y])) {
+            if (this.blockCallbackFn(this.grid[position.x][position.y])) {
                 break;
             }
 

@@ -7,3 +7,4 @@ scripts
 babel.config.js
 jest.config.ts
 typedoc.json
+docs/
