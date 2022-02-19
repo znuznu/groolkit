@@ -6,4 +6,3 @@ import * as PositionHelpers from './helpers/position';
 import * as Types from './helpers/types';
 
 export { FOV, Line, Flood, Path, PositionHelpers, Types };
-export { default as Draw } from './draw/draw';
