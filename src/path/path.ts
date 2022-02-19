@@ -83,7 +83,7 @@ export abstract class Path<T> {
     }
 
     /**
-     * Find a path between a start {@linkcode Position} and an end {@linkcode Position}.
+     * Finds a path between a start {@linkcode Position} and an end {@linkcode Position}.
      *
      * Should be called after the {@link init} method.
      *

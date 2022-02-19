@@ -2,12 +2,30 @@ import { getRoundedPosition } from '../helpers/position';
 import { Position } from '../helpers/types';
 import { BlockCallbackFn, Line, ResultLine } from './line';
 
+/**
+ * Represents a line of sight finder between two cells in a two dimensional array
+ * using a simple linear interpolation.
+ *
+ * Inspired by: https://www.redblobgames.com/grids/line-drawing.html#interpolation
+ */
 export class LineLerp<T> extends Line<T> {
+    /**
+     * @constructor
+     * @param grid - The grid for which to compute the line.
+     * @param blockCallbackFn - A callback function used to determine if a cell is a blocking one.
+     */
     constructor(grid: T[][], blockCallbackFn: BlockCallbackFn<T>) {
         super(grid, blockCallbackFn);
     }
 
-    process(start: Position, end: Position) {
+    /**
+     * Retrieves a line between a start and an end {@linkcode Position}.
+     *
+     * @param start - A Position
+     * @param end - A Position
+     * @returns The line result.
+     */
+    process(start: Position, end: Position): ResultLine {
         const result = super.process(start, end);
         if (result) {
             return result;
@@ -34,17 +52,19 @@ export class LineLerp<T> extends Line<T> {
         }
 
         const isEmpty = !positions.length;
-        let isIncomplete = false;
 
         if (isEmpty) {
-            isIncomplete = true;
-        } else {
-            const lastPosition = positions[positions.length - 1];
-            isIncomplete = lastPosition.x !== end.x || lastPosition.y !== end.y;
+            return {
+                status: 'Incomplete',
+                positions: positions
+            };
         }
 
+        const lastPosition = positions[positions.length - 1];
+        const isIncomplete = lastPosition.x !== end.x || lastPosition.y !== end.y;
+
         return {
-            status: isEmpty || isIncomplete ? 'Incomplete' : 'Complete',
+            status: isIncomplete ? 'Incomplete' : 'Complete',
             positions: positions
         };
     }

@@ -21,7 +21,7 @@ export class AStar<T> extends Path<T> {
     }
 
     /**
-     * Find a path between a start {@linkcode Position} and an end {@linkcode Position} using the A Star algorithm.
+     * Finds a path between a start {@linkcode Position} and an end {@linkcode Position} using the A Star algorithm.
      *
      * Should be called after the {@link init} method.
      *

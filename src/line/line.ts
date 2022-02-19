@@ -10,16 +10,19 @@ export interface ResultLine {
 export type BlockCallbackFn<T> = (cell: T) => boolean;
 
 /**
- * A class used to get a line between two cells of a grid.
+ * Represents a line of sight finder between two cells in a two dimensional array.
  */
 export abstract class Line<T> {
+    /** The grid for which to compute the line. */
     protected grid: T[][];
+
+    /** The callback function used to determine if a cell is a blocking one. */
     protected blockCallbackFn: BlockCallbackFn<T>;
 
     /**
      * @constructor
-     * @param grid          - The original grid
-     * @param blockCallbackFn - A function to test if an element of the grid is a block
+     * @param grid - The grid for which to compute the line.
+     * @param blockCallbackFn - A callback function used to determine if a cell is a blocking one.
      */
     constructor(grid: T[][], blockCallbackFn: BlockCallbackFn<T>) {
         this.grid = grid;
@@ -27,10 +30,11 @@ export abstract class Line<T> {
     }
 
     /**
-     * Get a line between `start` and `end`.
+     * Retrieves a line between a start and an end {@linkcode Position}.
      *
-     * @param start - The position to start the line
-     * @param end   - The position to end the line
+     * @param start - A Position
+     * @param end - A Position
+     * @returns The line result.
      */
     process(start: Position, end: Position): ResultLine {
         const isStartWithinGrid = isPositionWithinGrid(this.grid, start);
