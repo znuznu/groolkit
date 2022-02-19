@@ -1,4 +1,3 @@
-import { CallbackFill } from '../helpers/callbacks';
 import { isPositionWithinGrid } from '../helpers/position';
 import { Position } from '../helpers/types';
 
@@ -12,13 +11,17 @@ export interface ResultFill {
     positions?: Position[];
 }
 
+/** True if `cell` is a target to fill. */
+export type FloodCallbackFn<T> = (cell: T) => boolean;
+
 /**
- * A class used to fill a part of a grid like the bucket tool of any raster graphics editor does.
+ * @class
+ * Represents a "flooder" than can fill a part of a grid like the bucket tool of any raster graphics editor does.
  */
-abstract class Fill<T> {
+export abstract class Flood<T> {
     protected grid: T[][];
     protected colorGrid: ColorCell[][];
-    protected callbackFill: CallbackFill<T>;
+    protected callbackFill: FloodCallbackFn<T>;
     protected width: number;
     protected height: number;
 
@@ -27,7 +30,7 @@ abstract class Fill<T> {
      * @param grid         - The original grid
      * @param callbackFill - A function to test if a cell of the grid is a target
      */
-    constructor(grid: T[][], callbackFill: CallbackFill<T>) {
+    constructor(grid: T[][], callbackFill: FloodCallbackFn<T>) {
         this.grid = grid;
         this.height = this.grid.length;
         this.width = this.grid[0].length;
@@ -61,5 +64,3 @@ abstract class Fill<T> {
         return isPositionWithinGrid(this.grid, position);
     }
 }
-
-export default Fill;

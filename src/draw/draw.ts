@@ -15,7 +15,7 @@ import OPACITY from './opacity';
 import { ResultPath } from '../path/path';
 import { ResultFov } from '../fov/fov';
 import { ResultLine } from '../line/line';
-import { ResultFill } from '../fill/fill';
+import { ResultFill } from '../flood/flood';
 import { Position } from '../helpers/types';
 
 interface DrawColors {

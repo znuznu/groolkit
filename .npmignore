@@ -4,6 +4,6 @@
 node_modules
 src
 scripts
-.travis.yml
 babel.config.js
 jest.config.ts
+typedoc.json

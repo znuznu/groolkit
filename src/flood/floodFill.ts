@@ -1,11 +1,10 @@
-import { CallbackFill } from '../helpers/callbacks';
 import { Position } from '../helpers/types';
-import Fill, { ColorCell, ResultFill } from './fill';
+import { Flood, ColorCell, ResultFill, FloodCallbackFn } from './flood';
 
 type Index = [-1, 0] | [1, 0] | [0, -1] | [0, 1];
 
-export class FloodFill<T> extends Fill<T> {
-    constructor(grid: T[][], callbackFill: CallbackFill<T>) {
+export class FloodFill<T> extends Flood<T> {
+    constructor(grid: T[][], callbackFill: FloodCallbackFn<T>) {
         super(grid, callbackFill);
     }
 

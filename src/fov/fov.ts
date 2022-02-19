@@ -1,6 +1,6 @@
-import { CallbackLight } from '../helpers/callbacks';
-import { isPositionWithinGrid } from '../helpers/position';
 import { Position } from '../helpers/types';
+
+export type CallbackLight<T> = (cell: T) => boolean;
 
 export interface Options {
     radius: number;

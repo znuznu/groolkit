@@ -1,11 +1,10 @@
-import { CallbackLight } from '../helpers/callbacks';
 import {
     isPositionWithinGrid,
     positionToString,
     stringToPosition
 } from '../helpers/position';
 import { Position } from '../helpers/types';
-import { FOV, Options, ResultFov } from './fov';
+import { CallbackLight, FOV, Options, ResultFov } from './fov';
 
 const OCTANTS = [
     [1, 0, 0, 1],
@@ -19,7 +18,9 @@ const OCTANTS = [
 ];
 
 /**
+ * @class
  * Recursive Shadow Casting based on Björn Bergström's algorithm.
+ *
  * You can find an idea of how it works here:
  * http://www.roguebasin.com/index.php?title=FOV_using_recursive_shadowcasting
  */

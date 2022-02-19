@@ -1,3 +1,4 @@
 import * as PositionHelpers from './position';
+import { Position } from './types';
 
-export default { PositionHelpers };
+export { PositionHelpers, Position };
