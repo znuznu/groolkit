@@ -1,4 +1,4 @@
-import RecursiveShadowCasting from './recursiveShadowCasting';
+import { RecursiveShadowCasting } from './recursiveShadowCasting';
 
 describe('FOV - Recursive Shadow Casting', () => {
     describe('default options', () => {

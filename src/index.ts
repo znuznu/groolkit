@@ -1,6 +1,8 @@
-export { default as FOV } from './fov/index';
-export { default as Line } from './line/index';
-export { default as Fill } from './fill/index';
-export { default as Path } from './path/index';
-export { default as Draw } from './draw/draw';
-export { default as PositionHelpers } from './helpers/position';
+import * as FOV from './fov/index';
+import * as Line from './line/index';
+import * as Flood from './flood/index';
+import * as Path from './path/index';
+import * as PositionHelpers from './helpers/position';
+import * as Types from './helpers/types';
+
+export { FOV, Line, Flood, Path, PositionHelpers, Types };

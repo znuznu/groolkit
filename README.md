@@ -7,8 +7,6 @@ A JavaScript library with a bunch of algorithms related to grids.
 
 __Note__: this is a WIP library and breaking changes might occur in the future.  
 
-You can see a demo [here](https://znuznu.github.io/gk-demo/).  
-
 ## __Installation__
 `npm i @znuznu/groolkit`
 
@@ -20,7 +18,7 @@ They are grouped by family:
     * Recursive shadow casting
 * Line:
     * Line interpolation
-* Fill:
+* Flood:
     * Flood fill
 * Pathfinder:
     * A* (4 or 8 directions)
@@ -40,14 +38,16 @@ const Groolkit = require('@znuznu/groolkit');
 ```
 
 ### What type of grid can I use ?
-Any type of two-dimensional arrays.  
+Any type of two-dimensional arrays. `Groolkit` doesn't mutate your grids.
+
+## __Examples__
 
 ### What is this callback thing ?
-The only thing required alongside the grid is a callback function in order to test the cell property of the grid. For example, `Groolkit` needs to know what cell in your array is a block in order to avoid it during a shortest path computation.  
+The only thing required alongside the grid is a callback function to checks the cell property of the grid. For example, `Groolkit` needs to know what makes a cell of your array a blocking one in order to avoid it during a shortest path computation.  
 
-`callbackBlock`: return true if the cell is a blocking one (a wall...)  
-`callbackLight`: return true if the light doesn't passes through  
-`callbackFill`: return true if the cell is a target to fill
+`blockCallbackFn`: return `true` if the cell is a blocking one (line of sight, shortest path, ...)  
+`lightCallbackFn`: return `true` if the cell doesn't let the light passes through (FOV, ...)
+`floodCallbackFn`: return `true` if the cell is a one to flood (flood, ...)
 
 ### What is this grid below ?
 
@@ -55,10 +55,10 @@ I assume that each `grid` below is of type `number` where elements with 0 are pa
 
 ### What is a Position ?
 
-A `Position` is an interface where `x` is the row and `y` the column.
+A `Position` is a type where `x` is the row index and `y` the column index.
 
 ```typescript
-interface Position {
+type Position = {
     x: number;
     y: number;
 }
@@ -85,7 +85,7 @@ if (result.status === 'Success') {
 Returns an object containing informations about the result of the computation:
 
 ```typescript
-interface ResultFov {
+interface FOVResult {
     status: 'Success' | 'Failed',
     // Each lighted tiles
     positions?: Position[]
@@ -96,8 +96,8 @@ interface ResultFov {
 Based on Björn Bergström's [algorithm](http://www.roguebasin.com/index.php?title=FOV_using_recursive_shadowcasting).  
 
 ```typescript
-constructor(grid: T[][], callbackLight: CallbackLight<T>, options: Partial<Options> = {});
-```
+constructor(grid: T[][], lightCallbackFn: CallbackLight<T>, options: Partial<Options> = {});
+floodCallbackFn```
 
 ```typescript
 interface Options {
@@ -112,7 +112,7 @@ let rcs = new Groolkit.FOV.RecursiveShadowCasting(grid, n => n !== 0);
 ```
 
 ### Line
-Line drawing algorithms. 
+Line of sight algorithms. 
 
 A `process()` method must be called on the object after his initialization.
 
@@ -129,7 +129,7 @@ let result = line.process(startPosition, endPosition);
 Returns an object containing informations about the result of the line computation:
 
 ```typescript
-interface ResultLine {
+interface LineResult {
     status: 'Complete' | 'Incomplete' | 'Failed';
     positions?: Position[];
 }
@@ -139,7 +139,7 @@ interface ResultLine {
 Draw the line using interpolation, quite efficient.
 
 ```typescript
-constructor(grid: T[][], callbackBlock: CallbackBlock<T>)
+constructor(grid: T[][], blockCallbackFn: CallbackBlock<T>)
 ```
 
 Example:
@@ -215,7 +215,7 @@ Returns an object containing informations about the result of the computation:
 
 ```typescript
 interface Result {
-    status: 'Found' | 'Unreachable' | 'Invalid' | 'Block';
+    status: 'Found' | 'Unreachable' | 'Failed' | 'Block';
     // Path positions
     positions?: Position[];
 }
@@ -228,7 +228,7 @@ A* [algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm) with 4 or 8 di
 _Note: Although the result is correct, the 8 directions doesn't always give you the one you can expect._
 
 ```typescript
-constructor(grid: T[][], topology: Topology, callbackBlock: CallbackBlock<T>);
+constructor(grid: T[][], topology: Topology, blockCallbackFn: CallbackBlock<T>);
 ```
 
 Example:
@@ -241,33 +241,10 @@ let astar = new Groolkit.Path.AStar(grid, { type: 4 }, n => n === 1);
 Dijkstra [algorithm](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) with 4 or 8 directions.
 
 ```typescript
-constructor(grid: T[][], topology: Topology, callbackBlock: CallbackBlock<T>);
+constructor(grid: T[][], topology: Topology, blockCallbackFn: CallbackBlock<T>);
 ```
 
 ```typescript
 // Just change { type: 8 } to use 8 directions 
 let dijkstra = new Groolkit.Path.Dijkstra(grid, { type: 4 }, n => n === 1);
 ```
-
-### Draw
-If you want to easily try the library and see what happens, a `Draw` object is provided. You juste need a canvas context and a grid.  
-
-```typescript
-constructor(context: CanvasRenderingContext2D, grid: T[][], callback: CallbackBlock<T>, sizeOptions?: Partial<CellSize>);
-```
-
-The CellSize is an interface used to set the size of a Cell on the canvas, in pixels. The default value is 16 x 16.  
-```typescript
-interface CellSize {
-    width: number;
-    height: number;
-}
-```
-
-Example: 
-```typescript
-let draw = new Groolkit.Draw(anyContext, anyGrid, anyCallbackBlock);
-draw.drawGrid();
-```
-
-Then, use `drawPath(result)`, `drawFov(result)`, `drawLine(result)` or `drawFill(result)` depending on the corresponding result and you're good to go. :)

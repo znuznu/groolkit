@@ -1,0 +1,172 @@
+<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>@znuznu/groolkit</title><meta name="description" content="Documentation for @znuznu/groolkit"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">@znuznu/groolkit</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>@znuznu/groolkit</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<a href="#groolkit" id="groolkit" style="color: inherit; text-decoration: none;">
+  <h1>groolkit</h1>
+</a>
+<p><a href="https://www.npmjs.com/package/@znuznu/groolkit"><img src="https://img.shields.io/npm/v/@znuznu/groolkit.svg" alt="npm version"></a>
+<a href="https://github.com/znuznu/groolkit/actions"><img src="https://github.com/znuznu/groolkit/workflows/CI/badge.svg" alt="CI Status"></a>
+<img src="https://img.shields.io/github/license/znuznu/groolkit" alt="License"></p>
+<p>A JavaScript library with a bunch of algorithms related to grids.  </p>
+<p><strong>Note</strong>: this is a WIP library and breaking changes might occur in the future.  </p>
+
+<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+  <h2><strong>Installation</strong></h2>
+</a>
+<p><code>npm i @znuznu/groolkit</code></p>
+
+<a href="#algorithms" id="algorithms" style="color: inherit; text-decoration: none;">
+  <h2><strong>Algorithms</strong></h2>
+</a>
+<p>Most of the provided algorithms could be used in a grid-based game (rogue-like for example).</p>
+<p>They are grouped by family:  </p>
+<ul>
+<li>FOV<ul>
+<li>Recursive shadow casting</li>
+</ul>
+</li>
+<li>Line:<ul>
+<li>Line interpolation</li>
+</ul>
+</li>
+<li>Flood:<ul>
+<li>Flood fill</li>
+</ul>
+</li>
+<li>Pathfinder:<ul>
+<li>A* (4 or 8 directions)</li>
+<li>Dijkstra (4 or 8 directions)</li>
+</ul>
+</li>
+</ul>
+
+<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+  <h2><strong>Usage</strong></h2>
+</a>
+<p>Just import the lib:  </p>
+<pre><code class="language-typescript"><span class="hl-0">import</span><span class="hl-1"> </span><span class="hl-2">*</span><span class="hl-1"> </span><span class="hl-0">as</span><span class="hl-1"> </span><span class="hl-3">Groolkit</span><span class="hl-1"> </span><span class="hl-0">from</span><span class="hl-1"> </span><span class="hl-4">&#39;@znuznu/groolkit&#39;</span><span class="hl-1">;</span>
+</code></pre>
+<p>or</p>
+<pre><code class="language-typescript"><span class="hl-2">const</span><span class="hl-1"> </span><span class="hl-5">Groolkit</span><span class="hl-1"> = </span><span class="hl-6">require</span><span class="hl-1">(</span><span class="hl-4">&#39;@znuznu/groolkit&#39;</span><span class="hl-1">);</span>
+</code></pre>
+
+<a href="#what-type-of-grid-can-i-use-" id="what-type-of-grid-can-i-use-" style="color: inherit; text-decoration: none;">
+  <h3>What type of grid can I use ?</h3>
+</a>
+<p>Any type of two-dimensional arrays. <code>Groolkit</code> doesn&#39;t mutate your grids.</p>
+
+<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+  <h2><strong>Examples</strong></h2>
+</a>
+
+<a href="#what-is-this-callback-thing-" id="what-is-this-callback-thing-" style="color: inherit; text-decoration: none;">
+  <h3>What is this callback thing ?</h3>
+</a>
+<p>The only thing required alongside the grid is a callback function to checks the cell property of the grid. For example, <code>Groolkit</code> needs to know what makes a cell of your array a blocking one in order to avoid it during a shortest path computation.  </p>
+<p><code>blockCallbackFn</code>: return <code>true</code> if the cell is a blocking one (line of sight, shortest path, ...)<br><code>lightCallbackFn</code>: return <code>true</code> if the cell doesn&#39;t let the light passes through (FOV, ...)
+<code>floodCallbackFn</code>: return <code>true</code> if the cell is a one to flood (flood, ...)</p>
+
+<a href="#what-is-this-grid-below-" id="what-is-this-grid-below-" style="color: inherit; text-decoration: none;">
+  <h3>What is this grid below ?</h3>
+</a>
+<p>I assume that each <code>grid</code> below is of type <code>number</code> where elements with 0 are passages and 1 are walls.</p>
+
+<a href="#what-is-a-position-" id="what-is-a-position-" style="color: inherit; text-decoration: none;">
+  <h3>What is a Position ?</h3>
+</a>
+<p>A <code>Position</code> is a type where <code>x</code> is the row index and <code>y</code> the column index.</p>
+<pre><code class="language-typescript"><span class="hl-2">type</span><span class="hl-1"> </span><span class="hl-7">Position</span><span class="hl-1"> = {</span><br/><span class="hl-1">    </span><span class="hl-3">x</span><span class="hl-1">: </span><span class="hl-7">number</span><span class="hl-1">;</span><br/><span class="hl-1">    </span><span class="hl-3">y</span><span class="hl-1">: </span><span class="hl-7">number</span><span class="hl-1">;</span><br/><span class="hl-1">}</span>
+</code></pre>
+
+<a href="#fov" id="fov" style="color: inherit; text-decoration: none;">
+  <h3>FOV</h3>
+</a>
+<p>FOV computation algorithms.  </p>
+<p>A <code>compute()</code> method must be called on the object after his initialization.</p>
+<pre><code class="language-typescript"><span class="hl-8">// Init the FOV object...</span><br/><span class="hl-2">let</span><span class="hl-1"> </span><span class="hl-3">fov</span><span class="hl-1"> = ...;</span><br/><br/><span class="hl-8">// ...compute the FOV at the given position...</span><br/><span class="hl-2">let</span><span class="hl-1"> </span><span class="hl-3">result</span><span class="hl-1"> = </span><span class="hl-3">fov</span><span class="hl-1">.</span><span class="hl-6">compute</span><span class="hl-1">(</span><span class="hl-3">position</span><span class="hl-1">);</span><br/><br/><span class="hl-0">if</span><span class="hl-1"> (</span><span class="hl-3">result</span><span class="hl-1">.</span><span class="hl-3">status</span><span class="hl-1"> === </span><span class="hl-4">&#39;Success&#39;</span><span class="hl-1">) {</span><br/><span class="hl-1">    </span><span class="hl-8">// ... and do your stuff :)</span><br/><span class="hl-1">    ...</span><br/><span class="hl-1">}</span>
+</code></pre>
+<p>Returns an object containing informations about the result of the computation:</p>
+<pre><code class="language-typescript"><span class="hl-2">interface</span><span class="hl-1"> </span><span class="hl-7">FOVResult</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-3">status</span><span class="hl-1">: </span><span class="hl-4">&#39;Success&#39;</span><span class="hl-1"> | </span><span class="hl-4">&#39;Failed&#39;</span><span class="hl-1">,</span><br/><span class="hl-1">    </span><span class="hl-8">// Each lighted tiles</span><br/><span class="hl-1">    </span><span class="hl-3">positions</span><span class="hl-1">?: </span><span class="hl-7">Position</span><span class="hl-1">[]</span><br/><span class="hl-1">}</span>
+</code></pre>
+
+<a href="#recursive-shadow-casting" id="recursive-shadow-casting" style="color: inherit; text-decoration: none;">
+  <h4>Recursive shadow casting</h4>
+</a>
+<p>Based on Björn Bergström&#39;s <a href="http://www.roguebasin.com/index.php?title=FOV_using_recursive_shadowcasting">algorithm</a>.  </p>
+<pre><code class="language-typescript"><span class="hl-6">constructor</span><span class="hl-1">(</span><span class="hl-3">grid</span><span class="hl-1">: </span><span class="hl-5">T</span><span class="hl-1">[][], </span><span class="hl-3">lightCallbackFn</span><span class="hl-1">: </span><span class="hl-3">CallbackLight</span><span class="hl-1">&lt;</span><span class="hl-5">T</span><span class="hl-1">&gt;, </span><span class="hl-3">options</span><span class="hl-1">: </span><span class="hl-3">Partial</span><span class="hl-1">&lt;</span><span class="hl-3">Options</span><span class="hl-1">&gt; = {});</span><br/><span class="hl-6">floodCallbackFn</span><span class="hl-4">```</span><br/><br/><span class="hl-4">```</span><span class="hl-3">typescript</span><br/><span class="hl-2">interface</span><span class="hl-1"> </span><span class="hl-7">Options</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-8">// Default is 6</span><br/><span class="hl-1">    </span><span class="hl-3">radius</span><span class="hl-1">: </span><span class="hl-7">number</span><span class="hl-1">;</span><br/><span class="hl-1">}</span>
+</code></pre>
+<p>Example:</p>
+<pre><code class="language-typescript"><span class="hl-2">let</span><span class="hl-1"> </span><span class="hl-3">rcs</span><span class="hl-1"> = </span><span class="hl-2">new</span><span class="hl-1"> </span><span class="hl-3">Groolkit</span><span class="hl-1">.</span><span class="hl-5">FOV</span><span class="hl-1">.</span><span class="hl-6">RecursiveShadowCasting</span><span class="hl-1">(</span><span class="hl-3">grid</span><span class="hl-1">, </span><span class="hl-3">n</span><span class="hl-1"> </span><span class="hl-2">=&gt;</span><span class="hl-1"> </span><span class="hl-3">n</span><span class="hl-1"> !== </span><span class="hl-9">0</span><span class="hl-1">);</span>
+</code></pre>
+
+<a href="#line" id="line" style="color: inherit; text-decoration: none;">
+  <h3>Line</h3>
+</a>
+<p>Line of sight algorithms. </p>
+<p>A <code>process()</code> method must be called on the object after his initialization.</p>
+<pre><code class="language-typescript"><span class="hl-8">// Init the Line object...</span><br/><span class="hl-2">let</span><span class="hl-1"> </span><span class="hl-3">line</span><span class="hl-1"> = ...;</span><br/><br/><span class="hl-8">// ...get the result...</span><br/><span class="hl-2">let</span><span class="hl-1"> </span><span class="hl-3">result</span><span class="hl-1"> = </span><span class="hl-3">line</span><span class="hl-1">.</span><span class="hl-6">process</span><span class="hl-1">(</span><span class="hl-3">startPosition</span><span class="hl-1">, </span><span class="hl-3">endPosition</span><span class="hl-1">);</span><br/><br/><span class="hl-8">// ...do funny things with the result</span>
+</code></pre>
+<p>Returns an object containing informations about the result of the line computation:</p>
+<pre><code class="language-typescript"><span class="hl-2">interface</span><span class="hl-1"> </span><span class="hl-7">LineResult</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-3">status</span><span class="hl-1">: </span><span class="hl-4">&#39;Complete&#39;</span><span class="hl-1"> | </span><span class="hl-4">&#39;Incomplete&#39;</span><span class="hl-1"> | </span><span class="hl-4">&#39;Failed&#39;</span><span class="hl-1">;</span><br/><span class="hl-1">    </span><span class="hl-3">positions</span><span class="hl-1">?: </span><span class="hl-7">Position</span><span class="hl-1">[];</span><br/><span class="hl-1">}</span>
+</code></pre>
+
+<a href="#line-interpolation" id="line-interpolation" style="color: inherit; text-decoration: none;">
+  <h4>Line interpolation</h4>
+</a>
+<p>Draw the line using interpolation, quite efficient.</p>
+<pre><code class="language-typescript"><span class="hl-6">constructor</span><span class="hl-1">(</span><span class="hl-3">grid</span><span class="hl-1">: </span><span class="hl-5">T</span><span class="hl-1">[][], </span><span class="hl-3">blockCallbackFn</span><span class="hl-1">: </span><span class="hl-3">CallbackBlock</span><span class="hl-1">&lt;</span><span class="hl-5">T</span><span class="hl-1">&gt;)</span>
+</code></pre>
+<p>Example:</p>
+<pre><code class="language-typescript"><span class="hl-2">let</span><span class="hl-1"> </span><span class="hl-3">lerp</span><span class="hl-1"> = </span><span class="hl-2">new</span><span class="hl-1"> </span><span class="hl-3">Groolkit</span><span class="hl-1">.</span><span class="hl-3">Line</span><span class="hl-1">.</span><span class="hl-6">LineLerp</span><span class="hl-1">(</span><span class="hl-3">grid</span><span class="hl-1">, </span><span class="hl-3">n</span><span class="hl-1"> </span><span class="hl-2">=&gt;</span><span class="hl-1"> </span><span class="hl-3">n</span><span class="hl-1"> === </span><span class="hl-9">1</span><span class="hl-1">);</span>
+</code></pre>
+
+<a href="#filling" id="filling" style="color: inherit; text-decoration: none;">
+  <h3>Filling</h3>
+</a>
+<p>Basically, fill an area of the grid like the bucket tool of any raster graphics editor does. </p>
+<p>A <code>process()</code> method must be called on the object after his initialization.  </p>
+<pre><code class="language-typescript"><span class="hl-8">// Init the Fill object...</span><br/><span class="hl-2">let</span><span class="hl-1"> </span><span class="hl-3">fill</span><span class="hl-1"> = ...;</span><br/><br/><span class="hl-8">// ...get the result...</span><br/><span class="hl-2">let</span><span class="hl-1"> </span><span class="hl-3">result</span><span class="hl-1"> = </span><span class="hl-3">fill</span><span class="hl-1">.</span><span class="hl-6">process</span><span class="hl-1">(</span><span class="hl-3">position</span><span class="hl-1">);</span><br/><br/><span class="hl-8">// ...do funny things with the result</span>
+</code></pre>
+<p>Returns an object containing informations about the result of the filling computation:</p>
+<pre><code class="language-typescript"><span class="hl-2">interface</span><span class="hl-1"> </span><span class="hl-7">ResultFill</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-3">status</span><span class="hl-1">: </span><span class="hl-4">&#39;Success&#39;</span><span class="hl-1"> | </span><span class="hl-4">&#39;Block&#39;</span><span class="hl-1"> | </span><span class="hl-4">&#39;Failed&#39;</span><span class="hl-1">;</span><br/><span class="hl-1">    </span><span class="hl-8">// Filled cells positions</span><br/><span class="hl-1">    </span><span class="hl-3">positions</span><span class="hl-1">?: </span><span class="hl-7">Position</span><span class="hl-1">[];</span><br/><span class="hl-1">}</span>
+</code></pre>
+
+<a href="#flood-fill" id="flood-fill" style="color: inherit; text-decoration: none;">
+  <h4>Flood fill</h4>
+</a>
+<p>Process line by line.</p>
+<pre><code class="language-typescript"><span class="hl-6">constructor</span><span class="hl-1">(</span><span class="hl-3">grid</span><span class="hl-1">: </span><span class="hl-5">T</span><span class="hl-1">[][], </span><span class="hl-3">callbackFill</span><span class="hl-1">: </span><span class="hl-3">CallbackFill</span><span class="hl-1">&lt;</span><span class="hl-5">T</span><span class="hl-1">&gt;);</span>
+</code></pre>
+<p>Example:</p>
+<pre><code class="language-typescript"><span class="hl-8">// The target is each array element with a value of 1</span><br/><span class="hl-2">let</span><span class="hl-1"> </span><span class="hl-3">flood</span><span class="hl-1"> = </span><span class="hl-2">new</span><span class="hl-1"> </span><span class="hl-3">Groolkit</span><span class="hl-1">.</span><span class="hl-3">Fill</span><span class="hl-1">.</span><span class="hl-6">FloodFill</span><span class="hl-1">(</span><span class="hl-3">grid</span><span class="hl-1">, </span><span class="hl-3">n</span><span class="hl-1"> </span><span class="hl-2">=&gt;</span><span class="hl-1"> </span><span class="hl-3">n</span><span class="hl-1"> === </span><span class="hl-9">1</span><span class="hl-1">);</span><br/><br/><span class="hl-8">// By default, the position is {0,0}</span><br/><span class="hl-3">flood</span><span class="hl-1">.</span><span class="hl-6">process</span><span class="hl-1">(</span><span class="hl-3">position</span><span class="hl-1">);</span>
+</code></pre>
+
+<a href="#pathfinder" id="pathfinder" style="color: inherit; text-decoration: none;">
+  <h3>Pathfinder</h3>
+</a>
+<p>Find a path between two given positions.</p>
+<p>A <code>search(startPosition, endPosition)</code> method must be called after the initialization of the <code>Path</code> object.</p>
+<pre><code class="language-typescript"><span class="hl-8">// Init the object...</span><br/><span class="hl-2">let</span><span class="hl-1"> </span><span class="hl-3">path</span><span class="hl-1"> = ...;</span><br/><br/><span class="hl-8">// ...then simply call</span><br/><span class="hl-2">let</span><span class="hl-1"> </span><span class="hl-3">result</span><span class="hl-1"> = </span><span class="hl-3">path</span><span class="hl-1">.</span><span class="hl-6">search</span><span class="hl-1">(</span><span class="hl-3">startPosition</span><span class="hl-1">, </span><span class="hl-3">endPosition</span><span class="hl-1">);</span><br/><br/><span class="hl-0">if</span><span class="hl-1"> (</span><span class="hl-3">result</span><span class="hl-1">.</span><span class="hl-3">status</span><span class="hl-1"> === </span><span class="hl-4">&#39;Found&#39;</span><span class="hl-1">) {</span><br/><span class="hl-1">    </span><span class="hl-8">// A path have been found</span><br/><span class="hl-1">    </span><span class="hl-2">let</span><span class="hl-1"> </span><span class="hl-3">data</span><span class="hl-1"> = </span><span class="hl-3">result</span><span class="hl-1">.</span><span class="hl-3">path</span><span class="hl-1">;</span><br/><br/><span class="hl-1">    </span><span class="hl-8">// Do something with the positions</span><br/><span class="hl-1">    ...</span><br/><span class="hl-1">}</span>
+</code></pre>
+<p>Returns an object containing informations about the result of the computation:</p>
+<pre><code class="language-typescript"><span class="hl-2">interface</span><span class="hl-1"> </span><span class="hl-7">Result</span><span class="hl-1"> {</span><br/><span class="hl-1">    </span><span class="hl-3">status</span><span class="hl-1">: </span><span class="hl-4">&#39;Found&#39;</span><span class="hl-1"> | </span><span class="hl-4">&#39;Unreachable&#39;</span><span class="hl-1"> | </span><span class="hl-4">&#39;Failed&#39;</span><span class="hl-1"> | </span><span class="hl-4">&#39;Block&#39;</span><span class="hl-1">;</span><br/><span class="hl-1">    </span><span class="hl-8">// Path positions</span><br/><span class="hl-1">    </span><span class="hl-3">positions</span><span class="hl-1">?: </span><span class="hl-7">Position</span><span class="hl-1">[];</span><br/><span class="hl-1">}</span>
+</code></pre>
+
+<a href="#a" id="a" style="color: inherit; text-decoration: none;">
+  <h4>A*</h4>
+</a>
+<p>A* <a href="https://en.wikipedia.org/wiki/A*_search_algorithm">algorithm</a> with 4 or 8 directions. The heuristic used is the Manhattan distance and the octile distance respectively.</p>
+<p><em>Note: Although the result is correct, the 8 directions doesn&#39;t always give you the one you can expect.</em></p>
+<pre><code class="language-typescript"><span class="hl-6">constructor</span><span class="hl-1">(</span><span class="hl-3">grid</span><span class="hl-1">: </span><span class="hl-5">T</span><span class="hl-1">[][], </span><span class="hl-3">topology</span><span class="hl-1">: </span><span class="hl-3">Topology</span><span class="hl-1">, </span><span class="hl-3">blockCallbackFn</span><span class="hl-1">: </span><span class="hl-3">CallbackBlock</span><span class="hl-1">&lt;</span><span class="hl-5">T</span><span class="hl-1">&gt;);</span>
+</code></pre>
+<p>Example:</p>
+<pre><code class="language-typescript"><span class="hl-8">// Just change { type: 8 } to use 8 directions </span><br/><span class="hl-2">let</span><span class="hl-1"> </span><span class="hl-3">astar</span><span class="hl-1"> = </span><span class="hl-2">new</span><span class="hl-1"> </span><span class="hl-3">Groolkit</span><span class="hl-1">.</span><span class="hl-3">Path</span><span class="hl-1">.</span><span class="hl-6">AStar</span><span class="hl-1">(</span><span class="hl-3">grid</span><span class="hl-1">, { </span><span class="hl-3">type:</span><span class="hl-1"> </span><span class="hl-9">4</span><span class="hl-1"> }, </span><span class="hl-3">n</span><span class="hl-1"> </span><span class="hl-2">=&gt;</span><span class="hl-1"> </span><span class="hl-3">n</span><span class="hl-1"> === </span><span class="hl-9">1</span><span class="hl-1">);</span>
+</code></pre>
+
+<a href="#dijkstra" id="dijkstra" style="color: inherit; text-decoration: none;">
+  <h4>Dijkstra</h4>
+</a>
+<p>Dijkstra <a href="https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm">algorithm</a> with 4 or 8 directions.</p>
+<pre><code class="language-typescript"><span class="hl-6">constructor</span><span class="hl-1">(</span><span class="hl-3">grid</span><span class="hl-1">: </span><span class="hl-5">T</span><span class="hl-1">[][], </span><span class="hl-3">topology</span><span class="hl-1">: </span><span class="hl-3">Topology</span><span class="hl-1">, </span><span class="hl-3">blockCallbackFn</span><span class="hl-1">: </span><span class="hl-3">CallbackBlock</span><span class="hl-1">&lt;</span><span class="hl-5">T</span><span class="hl-1">&gt;);</span>
+</code></pre>
+<pre><code class="language-typescript"><span class="hl-8">// Just change { type: 8 } to use 8 directions </span><br/><span class="hl-2">let</span><span class="hl-1"> </span><span class="hl-3">dijkstra</span><span class="hl-1"> = </span><span class="hl-2">new</span><span class="hl-1"> </span><span class="hl-3">Groolkit</span><span class="hl-1">.</span><span class="hl-3">Path</span><span class="hl-1">.</span><span class="hl-6">Dijkstra</span><span class="hl-1">(</span><span class="hl-3">grid</span><span class="hl-1">, { </span><span class="hl-3">type:</span><span class="hl-1"> </span><span class="hl-9">4</span><span class="hl-1"> }, </span><span class="hl-3">n</span><span class="hl-1"> </span><span class="hl-2">=&gt;</span><span class="hl-1"> </span><span class="hl-3">n</span><span class="hl-1"> === </span><span class="hl-9">1</span><span class="hl-1">);</span>
+</code></pre>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Exports</a></li><li class=" tsd-kind-namespace"><a href="modules/FOV.html">FOV</a></li><li class=" tsd-kind-namespace"><a href="modules/Flood.html">Flood</a></li><li class=" tsd-kind-namespace"><a href="modules/Line.html">Line</a></li><li class=" tsd-kind-namespace"><a href="modules/Path.html">Path</a></li><li class=" tsd-kind-namespace"><a href="modules/PositionHelpers.html">Position<wbr/>Helpers</a></li><li class=" tsd-kind-namespace"><a href="modules/Types.html">Types</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>

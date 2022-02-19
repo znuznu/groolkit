@@ -1,23 +1,42 @@
-import { CallbackBlock } from '../helpers/callbacks';
 import { D, D2 } from './constants';
-import Path, { ResultPath, Topology } from './path';
-import MinBinaryHeap from '../struct/minBinaryHeap';
-import Cell from './cell';
+import { BlockCallbackFn, Cell, Path, PathResult, Topology } from './path';
+import { MinBinaryHeap } from '../struct/minBinaryHeap';
 import { Position } from '../helpers/types';
 
 /**
- * Dijkstra pathfinding algorithm with 4 or 8 directions.
+ * Represents a shortest path finder using Dijkstra algorithm.
+ *
+ * It works for a 4 or 8 topology.
+ *
+ * @template T - Any type of data.
  */
-class Dijkstra<T> extends Path<T> {
-    constructor(grid: T[][], topology: Topology, callbackBlock: CallbackBlock<T>) {
-        super(grid, topology, callbackBlock);
+export class Dijkstra<T> extends Path<T> {
+    /**
+     * @constructor
+     * @param grid - The grid for which to compute the path finding.
+     * @param blockCallbackFn - A callback function used to determine if a cell is a blocking one.
+     * @param topology - The topology of the grid.
+     *
+     * @template T - Any type of data.
+     */
+    constructor(grid: T[][], topology: Topology, blockCallbackFn: BlockCallbackFn<T>) {
+        super(grid, topology, blockCallbackFn);
     }
 
+    /**
+     * Finds a path between a start {@linkcode Position} and an end {@linkcode Position} using Dijkstra algorithm.
+     *
+     * Should be called after the {@link init} method.
+     *
+     * @param start - The start Position.
+     * @param end - The end Position.
+     * @param newBlockCallbackFn - A block testing function, different from the constructor one.
+     */
     search(
         start: Position,
         end: Position,
-        newCallbackBlock?: CallbackBlock<T>
-    ): ResultPath {
+        newBlockCallbackFn?: BlockCallbackFn<T>
+    ): PathResult {
         const validPositions = this.isValidPath(start, end);
 
         if (validPositions) return validPositions;
@@ -25,9 +44,9 @@ class Dijkstra<T> extends Path<T> {
         const startCell = this.gridCell[start.x][start.y];
         const endCell = this.gridCell[end.x][end.y];
 
-        /* Actual Dijkstra */
+        /* Start Dijkstra */
 
-        this.callbackBlock = newCallbackBlock || this.callbackBlock;
+        this.blockCallbackFn = newBlockCallbackFn || this.blockCallbackFn;
 
         const distances: Map<Cell<T>, number> = new Map();
         const open: MinBinaryHeap<Cell<T>> = new MinBinaryHeap((cell) =>
@@ -79,7 +98,7 @@ class Dijkstra<T> extends Path<T> {
 
                 path.push({ x: cursor.position.x, y: cursor.position.y });
 
-                return { status: 'Found', positions: path.reverse() };
+                return { status: 'Success', positions: path.reverse() };
             }
 
             if (!current.neighbors) {
@@ -115,5 +134,3 @@ class Dijkstra<T> extends Path<T> {
         return { status: 'Unreachable' };
     }
 }
-
-export default Dijkstra;

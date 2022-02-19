@@ -1,36 +1,59 @@
-import { CallbackBlock } from '../helpers/callbacks';
 import { isPositionWithinGrid } from '../helpers/position';
 import { Position } from '../helpers/types';
 
-export interface ResultLine {
+/** The result of a line computation. */
+export interface LineResult {
+    /**
+     * The status of the computation.
+     *
+     * - `Complete` : no blocking cells were encountered between the start and the end {@linkcode Position}.
+     * - `Incomplete` : a blocking cell was encountered between the start and the end {@linkcode Position}.
+     * - `Failed` : the start or end {@linkcode Position} was outside the boundaries of the grid.
+     */
     status: 'Complete' | 'Incomplete' | 'Failed';
+    /**
+     * All the positions found (in the order of discovery).
+     *
+     * `undefined` if in a `Failed` status.
+     */
     positions?: Position[];
 }
 
+/** Returns `true` if the given cell is a blocking one. */
+export type BlockCallbackFn<T> = (cell: T) => boolean;
+
 /**
- * A class used to get a line between two cells of a grid.
+ * Represents a line of sight finder between two cells in a two dimensional array.
+ *
+ * @template T - Any type of data.
  */
-abstract class Line<T> {
+export abstract class Line<T> {
+    /** The grid for which to compute the line. */
     protected grid: T[][];
-    protected callbackBlock: CallbackBlock<T>;
+
+    /** The callback function used to determine if a cell is a blocking one. */
+    protected blockCallbackFn: BlockCallbackFn<T>;
 
     /**
      * @constructor
-     * @param grid          - The original grid
-     * @param callbackBlock - A function to test if an element of the grid is a block
+     * @param grid - The grid for which to compute the line.
+     * @param blockCallbackFn - A callback function used to determine if a cell is a blocking one.
+     *
+     * @template T - Any type of data.
      */
-    constructor(grid: T[][], callbackBlock: CallbackBlock<T>) {
+    constructor(grid: T[][], blockCallbackFn: BlockCallbackFn<T>) {
         this.grid = grid;
-        this.callbackBlock = callbackBlock;
+        this.blockCallbackFn = blockCallbackFn;
     }
 
     /**
-     * Get a line between `start` and `end`.
+     * Retrieves a line between a start and an end {@linkcode Position}.
      *
-     * @param start - The position to start the line
-     * @param end   - The position to end the line
+     * @param start - A Position
+     * @param end - A Position
+     * @returns The line result.
      */
-    process(start: Position, end: Position): ResultLine {
+    process(start: Position, end: Position): LineResult {
         const isStartWithinGrid = isPositionWithinGrid(this.grid, start);
         const isEndWithinGrid = isPositionWithinGrid(this.grid, end);
 
@@ -39,5 +62,3 @@ abstract class Line<T> {
         }
     }
 }
-
-export default Line;

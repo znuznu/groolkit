@@ -1,23 +1,43 @@
-import { CallbackBlock } from '../helpers/callbacks';
 import { D, D2 } from './constants';
-import Path, { ResultPath, Topology } from './path';
-import MinBinaryHeap from '../struct/minBinaryHeap';
-import Cell from './cell';
+import { BlockCallbackFn, Cell, Path, PathResult, Topology } from './path';
+import { MinBinaryHeap } from '../struct/minBinaryHeap';
 import { Position } from '../helpers/types';
 
 /**
- * A* algorithm with 4 or 8 directions.
+ * Represents a shortest path finder using the A Star algorithm.
+ *
+ * It works for a 4 or 8 topology. The heuristic used is the
+ * Manhattan distance and the octile distance respectively.
+ *
+ * @template T - Any type of data.
  */
-class AStar<T> extends Path<T> {
-    constructor(grid: T[][], topology: Topology, callbackBlock: CallbackBlock<T>) {
-        super(grid, topology, callbackBlock);
+export class AStar<T> extends Path<T> {
+    /**
+     * @constructor
+     * @param grid - The grid for which to compute the path finding.
+     * @param blockCallbackFn - A callback function used to determine if a cell is a blocking one.
+     * @param topology - The topology of the grid.
+     *
+     * @template T - Any type of data.
+     */
+    constructor(grid: T[][], topology: Topology, blockCallbackFn: BlockCallbackFn<T>) {
+        super(grid, topology, blockCallbackFn);
     }
 
+    /**
+     * Finds a path between a start {@linkcode Position} and an end {@linkcode Position} using the A Star algorithm.
+     *
+     * Should be called after the {@link init} method.
+     *
+     * @param start - The start Position.
+     * @param end - The end Position.
+     * @param newBlockCallbackFn - A block testing function, different from the constructor one.
+     */
     search(
         start: Position,
         end: Position,
-        newCallbackBlock?: CallbackBlock<T>
-    ): ResultPath {
+        newBlockCallbackFn?: BlockCallbackFn<T>
+    ): PathResult {
         const validPositions = this.isValidPath(start, end);
 
         if (validPositions) return validPositions;
@@ -25,9 +45,9 @@ class AStar<T> extends Path<T> {
         const startCell = this.gridCell[start.x][start.y];
         const endCell = this.gridCell[end.x][end.y];
 
-        /* Actual A* */
+        /* Starting A* */
 
-        this.callbackBlock = newCallbackBlock || this.callbackBlock;
+        this.blockCallbackFn = newBlockCallbackFn || this.blockCallbackFn;
 
         const gScore: Map<Cell<T>, number> = new Map();
         const fScore: Map<Cell<T>, number> = new Map();
@@ -60,7 +80,7 @@ class AStar<T> extends Path<T> {
 
                 path.push({ x: cursor.position.x, y: cursor.position.y });
 
-                return { status: 'Found', positions: path.reverse() };
+                return { status: 'Success', positions: path.reverse() };
             }
 
             if (!current.neighbors) {
@@ -107,12 +127,15 @@ class AStar<T> extends Path<T> {
     }
 
     /**
-     * The distance between two cells (heuristic).
+     * Retrieves the distance between two {@linkcode Cell}.
      *
-     * @param c1 - The first Cell
-     * @param c2 - The second Cell
+     * The heuristic used is the Manhattan or octile distance, for a 4 or 8 topology respectively.
+     *
+     * @param c1 - A Cell.
+     * @param c2 - A Cell.
+     * @returns The distance between the two Cell.
      */
-    protected distance(c1: Cell<T>, c2: Cell<T>): number | undefined {
+    private distance(c1: Cell<T>, c2: Cell<T>): number {
         const c1x = c1.position.x,
             c1y = c1.position.y;
         const c2x = c2.position.x,
@@ -121,15 +144,14 @@ class AStar<T> extends Path<T> {
         const dx = Math.abs(c1x - c2x);
         const dy = Math.abs(c1y - c2y);
 
-        switch (this.topology.type) {
-            case 4:
-                return D * (dx + dy);
-            case 8:
-                return D * (dx + dy) + (D2 - 2 * D) * Math.min(dx, dy);
-            default:
-                throw new Error('No such topology.');
+        if (this.topology.type === 4) {
+            return D * (dx + dy);
         }
+
+        if (this.topology.type === 8) {
+            return D * (dx + dy) + (D2 - 2 * D) * Math.min(dx, dy);
+        }
+
+        throw new Error('No such topology.');
     }
 }
-
-export default AStar;

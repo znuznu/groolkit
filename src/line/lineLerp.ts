@@ -1,14 +1,35 @@
-import { CallbackBlock } from '../helpers/callbacks';
 import { getRoundedPosition } from '../helpers/position';
 import { Position } from '../helpers/types';
-import Line, { ResultLine } from './line';
+import { BlockCallbackFn, Line, LineResult } from './line';
 
-class LineLerp<T> extends Line<T> {
-    constructor(grid: T[][], callbackBlock: CallbackBlock<T>) {
-        super(grid, callbackBlock);
+/**
+ * Represents a line of sight finder between two cells in a two dimensional array
+ * using a simple linear interpolation.
+ *
+ * Inspired by: https://www.redblobgames.com/grids/line-drawing.html#interpolation
+ *
+ * @template T - Any type of data.
+ */
+export class LineLerp<T> extends Line<T> {
+    /**
+     * @constructor
+     * @param grid - The grid for which to compute the line.
+     * @param blockCallbackFn - A callback function used to determine if a cell is a blocking one.
+     *
+     * @template T - Any type of data.
+     */
+    constructor(grid: T[][], blockCallbackFn: BlockCallbackFn<T>) {
+        super(grid, blockCallbackFn);
     }
 
-    process(start: Position, end: Position) {
+    /**
+     * Retrieves a line between a start and an end {@linkcode Position}.
+     *
+     * @param start - A Position
+     * @param end - A Position
+     * @returns The line result.
+     */
+    process(start: Position, end: Position): LineResult {
         const result = super.process(start, end);
         if (result) {
             return result;
@@ -17,7 +38,7 @@ class LineLerp<T> extends Line<T> {
         return this.getLine(start, end);
     }
 
-    private getLine(start: Position, end: Position): ResultLine {
+    private getLine(start: Position, end: Position): LineResult {
         const positions: Position[] = [];
 
         const steps = Math.max(Math.abs(end.x - start.x), Math.abs(end.y - start.y));
@@ -27,7 +48,7 @@ class LineLerp<T> extends Line<T> {
 
             const position = getRoundedPosition(this.lerpPosition(start, end, t));
 
-            if (this.callbackBlock(this.grid[position.x][position.y])) {
+            if (this.blockCallbackFn(this.grid[position.x][position.y])) {
                 break;
             }
 
@@ -35,17 +56,19 @@ class LineLerp<T> extends Line<T> {
         }
 
         const isEmpty = !positions.length;
-        let isIncomplete = false;
 
         if (isEmpty) {
-            isIncomplete = true;
-        } else {
-            const lastPosition = positions[positions.length - 1];
-            isIncomplete = lastPosition.x !== end.x || lastPosition.y !== end.y;
+            return {
+                status: 'Incomplete',
+                positions: positions
+            };
         }
 
+        const lastPosition = positions[positions.length - 1];
+        const isIncomplete = lastPosition.x !== end.x || lastPosition.y !== end.y;
+
         return {
-            status: isEmpty || isIncomplete ? 'Incomplete' : 'Complete',
+            status: isIncomplete ? 'Incomplete' : 'Complete',
             positions: positions
         };
     }
@@ -61,5 +84,3 @@ class LineLerp<T> extends Line<T> {
         };
     }
 }
-
-export default LineLerp;
