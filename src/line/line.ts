@@ -11,6 +11,8 @@ export type BlockCallbackFn<T> = (cell: T) => boolean;
 
 /**
  * Represents a line of sight finder between two cells in a two dimensional array.
+ *
+ * @template T - Any type of data.
  */
 export abstract class Line<T> {
     /** The grid for which to compute the line. */

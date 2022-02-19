@@ -8,6 +8,8 @@ export type ScoreCallback<T> = {
  *
  * Original code comes from the Eloquent JavaScript book
  * https://eloquentjavascript.net/1st_edition/appendix2.html
+ *
+ * @template T - Any type of data.
  */
 export class MinBinaryHeap<T> {
     data: T[];

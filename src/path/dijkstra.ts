@@ -7,6 +7,8 @@ import { Position } from '../helpers/types';
  * Represents a shortest path finder using Dijkstra algorithm.
  *
  * It works for a 4 or 8 topology.
+ *
+ * @template T - Any type of data.
  */
 export class Dijkstra<T> extends Path<T> {
     /**

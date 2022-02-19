@@ -7,6 +7,8 @@ import { BlockCallbackFn, Line, ResultLine } from './line';
  * using a simple linear interpolation.
  *
  * Inspired by: https://www.redblobgames.com/grids/line-drawing.html#interpolation
+ *
+ * @template T - Any type of data.
  */
 export class LineLerp<T> extends Line<T> {
     /**
