@@ -19,10 +19,15 @@ export interface LineResult {
     positions?: Position[];
 }
 
-/** Returns `true` if the given cell is a blocking one. */
+/**
+ * Returns `true` if the given cell is a blocking one.
+ *
+ * @template T - Any type of data.
+ */
 export type BlockCallbackFn<T> = (cell: T) => boolean;
 
 /**
+ * @abstract
  * Represents a line of sight finder between two cells in a two dimensional array.
  *
  * @template T - Any type of data.

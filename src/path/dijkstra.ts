@@ -10,7 +10,6 @@ import { Position } from '../helpers/types';
  *
  * It works for a 4 or 8 topology.
  *
- * @template T - Any type of data.
  *
  * ```typescript
  * const path = new Dijkstra(
@@ -42,6 +41,8 @@ import { Position } from '../helpers/types';
  *   ]
  * }
  * ```
+ *
+ * @template T - Any type of data.
  */
 export class Dijkstra<T> extends Path<T> {
     /**

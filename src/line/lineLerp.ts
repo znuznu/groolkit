@@ -8,7 +8,6 @@ import { BlockCallbackFn, Line, LineResult } from './line';
  *
  * Inspired by: https://www.redblobgames.com/grids/line-drawing.html#interpolation
  *
- * @template T - Any type of data.
  *
  * ```typescript
  * const line = new LineLerp(
@@ -29,6 +28,8 @@ import { BlockCallbackFn, Line, LineResult } from './line';
  *      positions: [ { x: 0, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 2 } ]
  *  }
  * ```
+ *
+ * @template T - Any type of data.
  */
 export class LineLerp<T> extends Line<T> {
     /**

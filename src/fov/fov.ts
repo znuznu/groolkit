@@ -27,7 +27,11 @@ export interface FOVResult {
     positions?: Position[];
 }
 
-/** Returns `true` if the given cell doesn't let the "light" passes through. */
+/**
+ * Returns `true` if the given cell doesn't let the "light" passes through.
+ *
+ * @template T - Any type of data.
+ */
 export type LightCallbackFn<T> = (cell: T) => boolean;
 
 /**

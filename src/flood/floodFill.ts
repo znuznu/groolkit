@@ -8,8 +8,6 @@ type Index = [-1, 0] | [1, 0] | [0, -1] | [0, 1];
  *
  * See: https://en.wikipedia.org/wiki/Flood_fill (Span Filling section)
  *
- * @template T - Any type of data.
- *
  * ```typescript
  * const grid = [
  *      [0, 0, 1],
@@ -35,6 +33,8 @@ type Index = [-1, 0] | [1, 0] | [0, -1] | [0, 1];
  *      ]
  *  }
  * ```
+ *
+ * @template T - Any type of data.
  */
 export class FloodFill<T> extends Flood<T> {
     /**

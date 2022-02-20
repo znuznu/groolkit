@@ -18,7 +18,6 @@ const OCTANTS = [
 ];
 
 /**
- * @class
  * Recursive Shadow Casting based on Björn Bergström's algorithm.
  *
  * You can find an idea of how it works here:
@@ -48,6 +47,8 @@ const OCTANTS = [
  *      ]
  *  }
  * ```
+ *
+ * @template T - Any type of data.
  */
 
 export class RecursiveShadowCasting<T> extends FOV<T> {

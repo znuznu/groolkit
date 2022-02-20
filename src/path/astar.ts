@@ -11,8 +11,6 @@ import { Position } from '../helpers/types';
  * It works for a 4 or 8 topology. The heuristic used is the
  * Manhattan distance and the octile distance respectively.
  *
- * @template T - Any type of data.
- *
  * ```typescript
  * const path = new AStar(
  *     [
@@ -43,6 +41,8 @@ import { Position } from '../helpers/types';
  *   ]
  * }
  * ```
+ *
+ * @template T - Any type of data.
  */
 export class AStar<T> extends Path<T> {
     /**

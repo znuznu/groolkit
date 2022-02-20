@@ -24,7 +24,11 @@ export interface FloodResult {
     positions?: Position[];
 }
 
-/** Returns `true` if the given cell is a target to flood. */
+/**
+ * Returns `true` if the given cell is a target to flood.
+ *
+ * @template T - Any type of data.
+ */
 export type FloodCallbackFn<T> = (cell: T) => boolean;
 
 /**

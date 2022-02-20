@@ -16,7 +16,11 @@ export interface Neighbor<T> {
     topology: Topology;
 }
 
-/** Returns `true` if the given cell is a blocking one. */
+/**
+ * Returns `true` if the given cell is a blocking one.
+ *
+ * @template T - Any type of data.
+ */
 export type BlockCallbackFn<T> = (cell: T) => boolean;
 
 /** Represents a Cell used to compute shortest path(s). */
