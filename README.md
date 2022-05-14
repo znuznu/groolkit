@@ -51,4 +51,8 @@ For example, `Groolkit` needs to know what makes a cell of your array a blocking
 
 ## __Documentation__
 
-See the full documentation with examples [here](https://znuznu.github.io/groolkit/).
+See the full documentation with examples [here](https://znuznu.github.io/groolkit/).  
+
+## __Playground__
+
+You can try Groolkit on the [playground](https://groolkit-playground.vercel.app/).
